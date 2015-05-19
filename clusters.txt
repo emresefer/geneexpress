@@ -1,0 +1,140 @@
+1
+DLK1
+2
+SFTP-C
+AGER
+ABCD1
+FSP1 (S100a4)
+EXT1
+rplp2
+ITGax (CD11c)
+SNAI1
+NME3
+VIM
+N-Cadherin(CDH2)
+integrin subunit alpha 8
+ipo8
+pgk1
+ADAMTSL2
+TTF-1
+Thy1
+Src
+ABCG2
+ywhaz
+Eln
+Claudin5
+LFNG (Lunatic Fringe) (PMID 19897741)
+EPHA7
+hprt
+Nol3
+CD68
+PDPn(Podoplanin)
+tfrc
+ABCA3
+Claudin 7
+MUC5Ac
+ERB
+TGFB1 
+GUCY1A2  sGC(soluble guanylate cyclase) (PMID 23934926)
+tbp
+TBX4
+actb
+NEG_F
+NEG_E
+NEG_A
+Akt
+POS_C
+POS_F
+POS_D
+POS_E
+3
+P4HA3
+Wif1
+FGF18 
+Col1a1
+Shisa3
+PRSS35
+IGF1
+Hist1h2ab
+Hist1h1b
+Tnc
+4
+CD38
+FOXF1
+FOXF2
+Chi3l3/Chi3l4
+Chi3l1
+PDGFRA (platelet-derived growth factor receptor alpha) (PMID 23748534) (Most important)
+Lrp2
+b2m
+PDGFRb
+RARA RARBRARG  Retinoic acid receptors alpha beta gamma
+Aqp5(Aquaporin)
+Vegf
+5
+Dnmt3a
+SFTP-D
+HIF1alpha
+NDST1
+ALDH1A1 (PMID 11751205)
+PRIM2
+GUSB
+E-Cadherin (CDH1)
+ITgam (CD11b)
+PHGDH
+Epcam
+FGFR2
+GATA-6
+Serpina3
+TCF12
+NFATC3
+Robo1
+Cdh11
+C/EBP
+BCL2A1
+polr2a
+GFPT1
+INMT
+SMAD3
+KRT5
+hmbs
+CTPS2
+LRAT
+ppia
+NME7
+P-63
+PRDX3
+Acta2
+PCYOX1
+NEG_B
+KLra4
+ubc
+FOXD1
+THTPA
+gapdh
+E2F8
+6
+PTGS2
+ATP1B1
+AMACR
+Sox9
+Ctnna2
+TST
+RAGE
+MMP7
+Kcnma1
+KRT18
+EPHA3
+kcne1L
+MMP-3
+Claudin 1
+Claudin 3
+MUC5Ab
+Igfbp3
+F13A1
+LOX
+ALDH1A2
+MCPt4
+HPGDS
+EGFR (Epidermal growth factor receptor) (PMID 22916088 22245996)
+MGAT4A
