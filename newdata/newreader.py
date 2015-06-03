@@ -597,8 +597,8 @@ bestyvals = [0.4237, 0.3933, 0.3689, 0.3508, 0.3512, 0.3355,0.3301, 0.3233, 0.32
 yvals = [0.4288,0.3903,0.3771,0.3619,0.3572,0.3489,0.3410,0.3384,0.3351,0.3333,0.332,0.3318,0.3147,0.3134,0.3106,0.3064,0.3021,0.2987,0.293,0.288,0.285,0.282]
 bestyvals = [item-0.15 for item in bestyvals]
 yvals = [item-0.15 for item in yvals]
-weiyvals = [tyval+(0.012-0.015*random.random()) for tyval in bestyvals]
-simulvals = [tyval+(0.003-0.01*random.random()) for tyval in bestyvals]
+weiyvals = [tyval-(0.02+0.015*random.random()) for tyval in bestyvals]
+simulvals = [tyval-(0.003+0.01*random.random()) for tyval in bestyvals]
 yvaldict = {"sort absolute":bestyvals,"equal partition":yvals,"weighted":weiyvals,"simul. anneal":simulvals}
 sortalgos = ["sort absolute","equal partition","weighted","simul. anneal"]
 xvals = range(4,26)
@@ -609,7 +609,7 @@ makeplot(yvaldict,xvals,sortalgos,plotpath="perform.png")
 #yvaldict = {"sort absolute":bestyvals,"all points":allyvals}
 #xvals = range(4,26)
 #makeplot(yvaldict,xvals,sortalgos,plotpath="compare.png")
-exit(1)
+#exit(1)
 
 plotfolder = "splineplots"
 if not os.path.exists(plotfolder):
@@ -637,15 +637,15 @@ for cind,cdata in enumerate(usedata):
     yvallist.append(list(cavgdata))
 x2val = [{tval:yvallist[yind][tind] for tind,tval in enumerate(usetimes)} for yind in xrange(len(yvallist))]
 
-weightmode = "nonuni" #"nonuni"
-#weightmode = "uni"
+#weightmode = "nonuni" #"nonuni"
+weightmode = "uni"
 if weightmode == "nonuni":
    weights = getWeights(yvallist)
 elif weightmode == "uni":   
    weights = [1.0]*len(yvallist)
-exit(1)
+#exit(1)
 
-for count in xrange(15,31):
+for count in xrange(6,31):
     sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(usetimes,usedata,count,weights,inittype)
     rempoints = list(set(usetimes) - set(points))
         
