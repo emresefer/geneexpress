@@ -184,91 +184,74 @@ def estQual(usespl,x2val,points,rempoints):
     sumval = sum([(scipy.interpolate.splev(rpoint,usespl._eval_args, der=0, ext=0)-x2val[rpoint])**2 for rpoint in rempoints])
     return sumval
 
-def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
+def runGreedy(times,usedata,count,weights,initmode="change"):
     """runs greedy method
     Args:
        times,usedata:
        count,weights:
     Returns:   
-    """       
-    def convertForm(curtimes):
+    """
+    def changeRange(knots,minval,maxval):
+        """change range
+        """
+        return [(maxval-minval)*tknot + minval for tknot in knots]
+    def convertForm(curtimes,usedata):
         """converts form
         Args:
-           curtimes:
+           curtimes,usedata:
         Returns:
            yvallist:   
         """        		
-        tyvallist = []
+        yvallist = []
         for cind,cdata in enumerate(usedata):
             calldata = []
             for tind,ttime in enumerate(curtimes):
                 calldata.extend(usedata[cind][ttime])
-            tyvallist.append(list(calldata))
+            yvallist.append(list(calldata))
             #assert len(calldata) == len(usetimes)
-        return tyvallist
+        return yvallist
 
-    if False:
-     globtimes = set()
-     for cind,cdata in enumerate(usedata):
+    globtimes = set()
+    for cind,cdata in enumerate(usedata):
         globtimes |= set(usedata[cind].keys())
-     for cind,cdata in enumerate(usedata):
+    for cind,cdata in enumerate(usedata):
         assert len(globtimes) == len(usedata[cind].keys())
-     usetimes = [ttime for tind,ttime in enumerate(times) for tind2 in xrange(len(usedata[0][ttime]))]
-     yvallist = convertForm(times) #??
-
-    #fixedpoints = [0.5, 2.5, 5.0, 10.0, 26.0]
-    #fixedpoints = [0.5,7.0,28.0]
-    fixedpoints = [0.5,28.0]
+    #usetimes = [ttime for tind,ttime in enumerate(times) for tind2 in xrange(len(usedata[0][ttime]))]
+    #yvallist = convertForm(times,usedata) #??
+    
     assert initmode in ["change","equal"] and times == sorted(times)
-    reglambda = 5.0 #1.0 #50.0 #1.0
     if initmode == "equal":
        points = initSelect(times,count)
     elif initmode == "change":
-       #avgyvallist = []
-       #for cind,cdata in enumerate(usedata):
-       #    cavgdata = [np.mean(list(usedata[cind][ttime])) for tind,ttime in enumerate(times)]
-       #    avgyvallist.append(list(cavgdata)) 
-       avgchange = {}
-       for tind in xrange(1,len(times)-1):
-           ysumval = 0.0
-           for tyval in yvallist:
-               ysumval += abs(tyval[tind] - tyval[tind-1]) + abs(tyval[tind+1] - tyval[tind])
-           avgchange[times[tind]] = ysumval
-       for fixedpoint in fixedpoints:
-           if avgchange.has_key(fixedpoint):
-              del avgchange[fixedpoint]  
-       points = [ttime[0] for ttime in sorted(avgchange.items(), key=lambda x: x[1], reverse=True)][0:count-2]
+       points = initSelectAvgchange(times,count,usedata)
     
-    points = fixedpoints + points
+    points = [times[0]] + points + [times[-1]]
     points = sorted(points)
-    #multipoints = [point for point in points for tind2 in xrange(len(usedata[0][point]))]
+    multipoints = [point for point in points for tind2 in xrange(len(usedata[0][point]))]
     rempoints = list(set(times) - set(points))
-    mapval = {tval:tind for tind,tval in enumerate(times)}
-    x2val = [{tval:yvallist[yind][tind] for tind,tval in enumerate(times)} for yind in xrange(len(yvallist))]
-    yvals = [[yvallist[yind][mapval[tpoint]] for tpoint in points] for yind in xrange(len(yvallist))]
-    #yvals = convertForm(points)
-        
+    multirempoints = [rpoint for rpoint in rempoints for tind2 in xrange(len(usedata[0][rpoint]))]
+    #mapval = {tval:tind for tind,tval in enumerate(times)}
+    #x2val = [{tval:yvallist[yind][tind] for tind,tval in enumerate(times)} for yind in xrange(len(yvallist))]
+    #yvals = [[yvallist[yind][mapval[tpoint]] for tpoint in points] for yind in xrange(len(yvallist))]
+    yvals = convertForm(points,usedata)
+    remyvals = convertForm(rempoints,usedata)
+         
     minval = 10000000.0
     tind = 0
     y2knots = []
-    outsplines = []    
     sumval = 0.0
     for yind,curyvals in enumerate(yvals):
-        spl = scipy.interpolate.UnivariateSpline(points, curyvals, s=reglambda, k=3)
-        if reglambda == 0.0:
-           for tpon in points:
-               assert abs(scipy.interpolate.splev(tpon,spl._eval_args, der=0, ext=0)-x2val[yind][tpon]) < 0.00001
-        outsplines.append(deepcopy(spl))
-        y2knots.append(list(spl.get_knots()))
-        tsumval = weights[yind]*estQual(spl,x2val[yind],points,rempoints)
-        sumval += tsumval
-            
+        cursumval,time2err,knots = runRFit(multipoints,curyvals,multirempoints,remyvals[yind],usedata[yind])
+        modknots = changeRange(knots,times[0],times[-1])
+        y2knots.append(list(modknots))
+        tsumval = weights[yind]*cursumval
+        sumval += tsumval            
     while True:
         print sumval
         minsol = None
         for addpoint in rempoints:
             for delpoint in points:
-                if delpoint in fixedpoints:
+                if delpoint in [times[0],times[-1]]:
                    continue 
                 newrempoints, newpoints = list(rempoints), list(points)
                 newrempoints.remove(addpoint)
@@ -276,37 +259,48 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
                 newpoints.remove(delpoint)
                 newpoints.append(addpoint)
                 newpoints = sorted(newpoints) 
-                
-                tempoutsplines = []
+
+                newmultipoints = [point for point in newpoints for tind2 in xrange(len(usedata[0][point]))]
+                newmultirempoints = [rpoint for rpoint in newrempoints for tind2 in xrange(len(usedata[0][rpoint]))]
+                newyvals = convertForm(newpoints,usedata)
+                newremyvals = convertForm(newrempoints,usedata) 
                 globsumval = 0.0
-                for yind,curyvals in enumerate(yvals):
-                    inyvals = [x2val[yind][rpoint] for rpoint in newpoints]
-                    inspl = scipy.interpolate.UnivariateSpline(newpoints, inyvals, s=reglambda, k=3)
+                cury2knots = []
+                for yind,curyvals in enumerate(newyvals):
+                    cursumval,time2err,knots = runRFit(newmultipoints,curyvals,newmultirempoints,newremyvals[yind],usedata[yind])
+                    modknots = changeRange(knots,times[0],times[-1])
+                    cury2knots.append(list(modknots))
+                    tsumval = weights[yind]*cursumval
+                    globsumval += tsumval
+                print addpoint,delpoint,globsumval    
+                if globsumval < sumval:
+                   sumval = globsumval
+                   minsol = (addpoint,delpoint)
+                   y2knots = deepcopy(cury2knots)
+                   
+                    #inyvals = [x2val[yind][rpoint] for rpoint in newpoints]
+                    #inspl = scipy.interpolate.UnivariateSpline(newpoints, inyvals, s=reglambda, k=3)
                     
                     #spl2 = scipy.interpolate.InterpolatedUnivariateSpline(sortednewpoints, sortedinyvals,k=3)
                     #for tpon in newpoints:
                     #    assert abs(spl2.__call__(tpon)-x2val[yind][tpon]) < 0.00001
                     #    #assert abs(scipy.interpolate.splev(tpon,spl2._eval_args, der=0, ext=0)-x2val[yind][tpon]) < 0.00001
-                    if reglambda == 0.0:
-                       for tpon in newpoints:
-                           assert abs(scipy.interpolate.splev(tpon,inspl._eval_args, der=0, ext=0)-x2val[yind][tpon])<0.00001
-                    tempoutsplines.append(deepcopy(inspl))
-                    tsumval = weights[yind]*estQual(inspl,x2val[yind],newpoints,newrempoints)
-                    globsumval += tsumval
-                if globsumval < sumval:
-                   sumval = globsumval
-                   minsol = (addpoint,delpoint)
-                   outsplines = list(tempoutsplines)
+
+                    #if reglambda == 0.0:
+                    #   for tpon in newpoints:
+                    #       assert abs(scipy.interpolate.splev(tpon,inspl._eval_args, der=0, ext=0)-x2val[yind][tpon])<0.00001
+                    #tempoutsplines.append(deepcopy(inspl))
+                    #tsumval = weights[yind]*estQual(inspl,x2val[yind],newpoints,newrempoints)
+                    #globsumval += tsumval
                     
         if minsol == None:
            break
-        
         rempoints.remove(minsol[0])
         rempoints.append(minsol[1])
         points.remove(minsol[1])
         points.append(minsol[0])
         points = sorted(points)
-        yvals = [[yvallist[yind][mapval[tpoint]] for tpoint in points] for yind in xrange(len(yvallist))]
+        #yvals = [[yvallist[yind][mapval[tpoint]] for tpoint in points] for yind in xrange(len(yvallist))]
     assert points == sorted(points)    
     tsumval = 0.0
     for yind,curyvals in enumerate(yvals):
@@ -344,6 +338,23 @@ def initSelect(sorttimes,count):
            curind += 1
     return points
 
+def initSelectAvgchange(times,count,usedata):
+    """init select based on avg change
+    Args:
+       times,count,usedata:
+    """        
+    avgyvallist = []
+    for cind,cdata in enumerate(usedata):
+        cavgdata = [np.mean(list(usedata[cind][ttime])) for tind,ttime in enumerate(times)]
+        avgyvallist.append(list(cavgdata)) 
+    avgchange = {}
+    for tind in xrange(1,len(times)-1):
+        ysumval = 0.0
+        for tyval in avgyvallist:
+            ysumval += abs(tyval[tind] - tyval[tind-1]) + abs(tyval[tind+1] - tyval[tind])
+        avgchange[times[tind]] = ysumval
+    points = [ttime[0] for ttime in sorted(avgchange.items(), key=lambda x: x[1], reverse=True)][0:count-2]
+    return points
 
 
 def plotGeneral(outdict,xlabel,ylabel,plotpath):
@@ -583,7 +594,85 @@ def makeplot(yvaldict,xvals,sortalgos,plotpath="avgplot.png"):
     plt.subplots_adjust(left=0.16, right=0.97, top=0.97, bottom=0.13)    
     plt.savefig(plotpath, dpi=DPI)
 
-      
+    
+def runRFit(xvals,yvals,rempoints,remvals,time2vals):
+    """runs r fit
+    """
+    scriptfname = "spline.R"
+    outfname = "out.txt"
+    time2err = {}
+    import time
+    start = time.time()  
+    with open(scriptfname,"w") as outfile:
+        outfile.write("options(warn=-1)\n")
+        outfile.write("x=c({0})\n".format(",".join([str(item) for item in xvals])))
+        outfile.write("y=c({0})\n".format(",".join([str(item) for item in yvals])))
+        outfile.write("rempoints=c({0})\n".format(",".join([str(item) for item in rempoints])))
+        outfile.write("remvals=c({0})\n".format(",".join([str(item) for item in remvals])))
+        outlist = [ "\"{0}\" = c(".format(ttime)+",".join([str(item) for item in yvals])+")" for ttime,yvals in time2vals.items()]
+        outfile.write("l <- list({0})\n".format(",".join(outlist)))
+        outfile.write("spl <- smooth.spline(x,y,cv=TRUE)\n")    
+        outfile.write("sumval = 0.0\n")
+        outfile.write("for(ind in seq_along(rempoints)){\n")
+        outfile.write("   sumval = sumval + (predict(spl,rempoints[ind])$y - remvals[ind])**2;}\n")
+        outfile.write("outerr <- list()\n")
+        outfile.write("for(item in names(l)){\n")
+        outfile.write("varsum = 0.0\n")
+        outfile.write("for(item2 in l[[item]]){\n")  
+        outfile.write("   varsum = varsum + (item2-predict(spl,as.numeric(item))$y)**2 }\n")
+        outfile.write("outerr[[item]] = varsum }\n")
+        #outfile.write("   outerr[[item]] = var(l[[item]]);}")       
+        outfile.write("fileConn<-file(\"{0}\",\"w\")\n".format(outfname))
+        outfile.write("write(format(sumval), fileConn)\n")
+        outfile.write("write(\"error\",fileConn, append=TRUE)\n")
+        outfile.write("write(sapply(names(l),function(x) paste(x,paste(outerr[[x]],collapse=" "))), fileConn, append=TRUE)\n")
+        outfile.write("write(\"knots\",fileConn, append=TRUE)\n")
+        outfile.write("write(format(spl$fit$knot),fileConn, append=TRUE)\n")
+        outfile.write("close(fileConn)\n")
+    end = time.time()
+    print end-start
+    start = time.time()    
+    code = "Rscript {0}".format(scriptfname)
+    os.system(code)
+    end = time.time()
+    print end-start
+    exit(1)
+    count = 0
+    sumval = None
+    knots = set()
+    with open(outfname,"r") as infile:
+        for line in infile:
+            line = line.rstrip()
+            if count == 0:
+               sumval = float(line)
+               count += 1
+               continue
+            else:
+               if line == "error":
+                  usemode = "error"
+                  continue
+               elif line == "knots":
+                  usemode = "knots"
+                  continue
+               else:
+                  if usemode == "error": 
+                     time,vari = line.split()
+                     time2err[float(time)] = float(vari)
+                  elif usemode == "knots":
+                     knots.add(float(line))    
+    os.system("rm -rf {0}".format(scriptfname))          
+    os.system("rm -rf {0}".format(outfname))
+    return sumval,time2err,knots
+
+#shift data
+def shiftData(usedata):
+    """shifts data
+    """
+    for cind,cdata in enumerate(usedata):
+        meanval = np.mean(usedata[cind][usetimes[0]])
+        usedata[cind] = {ttime: [item-meanval for item in usedata[cind][ttime]]  for ttime in usetimes}
+    return usedata
+
 #equal
 #[0.5, 1.0, 1.5, 2.5, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 13.5, 21.0, 23.0, 28.0]
 #out:  15 556.427353401 0.163558892828
@@ -625,28 +714,17 @@ usetimes = times[1:]
 usedata = deepcopy(data)
 for dpart in usedata:
     del dpart[times[0]]
-    #del dpart[times[-2]]
-    #del dpart[times[-1]]
-    
-yvallist = []
-for cind,cdata in enumerate(usedata):
-    cavgdata = []
-    for tind,ttime in enumerate(usetimes):
-        avgval = np.mean(list(usedata[cind][ttime]))
-        cavgdata.append(avgval)
-    cavgdatashift = [item-cavgdata[0] for item in cavgdata]        
-    yvallist.append(list(cavgdatashift))
-x2val = [{tval:yvallist[yind][tind] for tind,tval in enumerate(usetimes)} for yind in xrange(len(yvallist))]
 
-weightmode = "nonuni" #"nonuni"
+shiftData(usedata)
+weightmode = "nonuni"
 weightmode = "uni"
 if weightmode == "nonuni":
-   weights = getWeights(yvallist)
+   weights = getWeights(usedata)
 elif weightmode == "uni":   
-   weights = [1.0]*len(yvallist)
+   weights = [1.0]*len(usedata)
 
 for count in xrange(15,31):
-    sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(usetimes,usedata,yvallist,count,weights,inittype)
+    sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(usetimes,usedata,count,weights,inittype)
     rempoints = list(set(usetimes) - set(points))
         
     print "selected points are: "       
@@ -678,9 +756,7 @@ for count in xrange(15,31):
     print "knot len distribution"
     print knotlens
     
-    if True:
-     print "plotting starts"
-     print len(yvals)
+    if True: 
      for gind,youts in enumerate(yvals):
         foundlambda, foundknots,foundspl = None, None, None
         mindifval = 1000.0
