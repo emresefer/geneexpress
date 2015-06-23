@@ -121,20 +121,31 @@ def estPath(values):
     plt.savefid("larspath.png")
 
 
-values = {}
-usevals = [1,3,5,6,8,13,4,3.2]
-values["x"] = np.array([usevals[tind:tind+3] for tind in xrange(len(usevals)-2)])
-values["y"] = np.array([-3,4,9,-2,13,-4])
-times = [0.5,1.0,1.5,2,3,4,5,6,6.5]
-ydata = [2.0*random.uniform(-1,1) for elem in times]
-pointnum = 3
-runGaussTwoStep(times,ydata,pointnum)
-exit(1)
+#values = {}
+#usevals = [1,3,5,6,8,13,4,3.2]
+#values["x"] = np.array([usevals[tind:tind+3] for tind in xrange(len(usevals)-2)])
+#values["y"] = np.array([-3,4,9,-2,13,-4])
+#times = [0.5,1.0,1.5,2,3,4,5,6,6.5]
+#ydata = [2.0*random.uniform(-1,1) for elem in times]
+#pointnum = 3
+#runGaussTwoStep(times,ydata,pointnum)
+#exit(1)
 
-stdlist = [1.0] * len(times)
+#stdlist = [1.0] * len(times)
 #runGauss(values)
-estCoefs(times,ydata,stdlist)
-exit(1)
+#estCoefs(times,ydata,stdlist)
+#cexit(1)
+
+def writeDataFile(fpath,times,gene2time):
+    """writes data file
+    Args:
+       fpath:
+       times,gene2time:
+    """
+    with open(fpath,"w") as outfile:
+        outfile.write(",".join([str(time) for time in times])+"\n")
+        for tgene in gene2time.keys(): 
+            outfile.write(tgene+","+",".join([str(tval) for tval in gene2time[tgene]])+"\n")
 
 fname = "42 time points LCM nanostring log notmalized.xlsx"
 workbook = xlrd.open_workbook(fname)
@@ -145,12 +156,101 @@ num_cells = worksheet.ncols - 1
 labels = [worksheet.cell_value(0, tind) for tind in xrange(2,num_cells-1)]
 print labels
 print len(labels)
+setlabels = set(labels)
+print len(setlabels)
+multis = []
+for label in setlabels:
+    curcount = 0
+    for tlabel in labels:
+        if label == tlabel:
+           curcount += 1
+    if curcount > 1:
+       multis.append(label)
+multi2ind = {}
+for toplabel in multis:
+    indset = set()
+    for tind,tlabel in enumerate(labels):
+        if toplabel == tlabel:
+           indset.add(tind)
+    assert len(indset) > 1       
+    multi2ind[toplabel] = indset
+curr_row = 0
+gene2time = {}
+varsum = 0.0
+varcount = 0
+while curr_row < num_rows:
+    curr_row += 1
+    genevals = [worksheet.cell_value(curr_row,tind) for tind in xrange(2,num_cells-1)]
+    logvals = [math.log(tval,2.0) for tval in genevals]
+    for mkey in multi2ind.keys():
+        cvals = [logvals[sind] for sind in multi2ind[mkey]]
+        varsum += np.std(cvals)**2
+        varcount += 1
+    #gene = str(worksheet.cell_value(curr_row,0))
+    #gene2time[gene] = list(genevals)
+print varsum
+print varcount
+print varsum/varcount
+#exit(1)
+                
+fname = "42 time points LCM nanostring log notmalized.xlsx"
+workbook = xlrd.open_workbook(fname)
+print workbook.sheet_names()
+worksheet = workbook.sheet_by_name('Sheet2')
+num_rows = worksheet.nrows - 1
+num_cells = worksheet.ncols
+labels = [worksheet.cell_value(0, tind) for tind in xrange(2,num_cells)]
+similars, seens = [], []
+for tind,tlabel in enumerate(labels):
+    curval = float(tlabel.replace("-a","").replace("P",""))
+    if curval not in seens:
+       seens.append(curval)
+    else:
+       similars.append(tind) 
+times = sorted(list(set([float(label.replace("-a","").replace("P","")) for label in labels])))
 curr_row = 0
 gene2time = {}
 while curr_row < num_rows:
     curr_row += 1
-    genevals = [worksheet.cell_value(curr_row,tind) for tind in xrange(2,num_cells-1)]
+    genevals = [worksheet.cell_value(curr_row,tind) for tind in xrange(2,num_cells) if tind-2 not in similars]
     gene = str(worksheet.cell_value(curr_row,0))
     gene2time[gene] = list(genevals)
-print gene2time.keys()
+fpath = "input.data"    
+writeDataFile(fpath,times,gene2time)
+exit(1)
+    
+worksheet = workbook.sheet_by_name('Sheet1')
+num_rows = worksheet.nrows - 1
+num_cells = worksheet.ncols - 1
+labels = [worksheet.cell_value(0, tind) for tind in xrange(1,num_cells+1)]
+curr_row = 0
+tgene2time = {}
+while curr_row < num_rows:
+    curr_row += 1
+    genevals = [worksheet.cell_value(curr_row,tind) for tind in xrange(1,num_cells+1)]
+    gene = str(worksheet.cell_value(curr_row,0))
+    tgene2time[gene] = list(genevals)        
+print len(tgene2time.values()[0])
+exit(1)
+
+print gene2time.values()[2]
+print labels
+labels = [float(tlabel.replace("P","")) if tlabel.find("-a")==-1 else float(tlabel.replace("P","").replace("-a",""))-0.25 for tlabel in labels]
+times = [float(tlabel) for tlabel in labels]
+for gene in gene2time.keys():
+    print len(gene2time[gene])
+fpath = "input.data"    
+writeDataFile(fpath,times,gene2time)
+exit(1)
+
+minval,maxval = 1000000, -1000000
+for gene in gene2time.keys():
+    for tval in gene2time[gene]:
+        if tval < minval:
+           minval = tval
+        if tval > maxval:
+           maxval = tval
+print minval
+print maxval
 print len(gene2time.keys())    
+

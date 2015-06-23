@@ -216,9 +216,9 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
      usetimes = [ttime for tind,ttime in enumerate(times) for tind2 in xrange(len(usedata[0][ttime]))]
      yvallist = convertForm(times) #??
 
-    #fixedpoints = [0.5, 2.5, 5.0, 10.0, 26.0]
+    fixedpoints = [0.5, 2.5, 5.0, 10.0, 26.0]
     #fixedpoints = [0.5,7.0,28.0]
-    fixedpoints = [0.5,28.0]
+    #fixedpoints = [0.5,28.0]
     assert initmode in ["change","equal"] and times == sorted(times)
     reglambda = 5.0 #1.0 #50.0 #1.0
     if initmode == "equal":
@@ -343,6 +343,8 @@ def initSelect(sorttimes,count):
            points.append(ttime) 
            curind += 1
     return points
+
+
 
 
 
@@ -583,6 +585,34 @@ def makeplot(yvaldict,xvals,sortalgos,plotpath="avgplot.png"):
     plt.subplots_adjust(left=0.16, right=0.97, top=0.97, bottom=0.13)    
     plt.savefig(plotpath, dpi=DPI)
 
+def plotError(outxvals,outyvals,xlabel,ylabel,plotpath):
+    """plot general
+    Args:
+    Returns:   
+    """
+    plt.clf()
+    plt.rc('font', family='serif', size=40)
+    fig = matplotlib.pyplot.gcf()
+    fig.set_size_inches(13,10)
+    FSIZE = 40
+    YFSIZE = 50
+    LEGENDSIZE = 40 
+    MARKERSIZE = 25
+    DPI = 300
+    ymax,ymin = max(outyvals), min(outyvals)
+    plt.ylim(0,ymax+0.02)
+    locpos = 1
+    plt.xlabel(xlabel,fontsize=FSIZE)
+    plt.ylabel(ylabel,fontsize=YFSIZE)
+    plt.xlim(1,max(outxvals)+1)
+     
+    plt.plot(outxvals,outyvals,marker="s",markersize=MARKERSIZE,linestyle='None',color="r")
+    ax = plt.axes()        
+    ax.xaxis.grid()        
+    plt.legend(loc=locpos,prop={'size':LEGENDSIZE})
+    plt.subplots_adjust(left=0.14, right=0.97, top=0.97, bottom=0.13)    
+    plt.savefig(plotpath, dpi=DPI)
+    
       
 #equal
 #[0.5, 1.0, 1.5, 2.5, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 13.5, 21.0, 23.0, 28.0]
@@ -627,7 +657,47 @@ for dpart in usedata:
     del dpart[times[0]]
     #del dpart[times[-2]]
     #del dpart[times[-1]]
-    
+
+print "estimate noise"
+varsums = []
+for cind,cdata in enumerate(usedata):
+    for tind,ttime in enumerate(usetimes):
+        cursum = 10000.0
+        for item1 in list(usedata[cind][ttime]):
+            lcursum = 0.0
+            for item2 in list(usedata[cind][ttime]):
+                lcursum += (item2-item1)**2   
+            if lcursum < cursum:
+               cursum = lcursum
+        cursum /= float(len(usedata[cind][ttime]))**2
+        #for item1,item2 in itertools.combinations(list(usedata[cind][ttime]),2):
+        #    cursum += (item1-item2)**2
+        #cursum/=float(len(usedata[cind][ttime])*(len(usedata[cind][ttime])-1)/2)        
+        varsums.append(cursum)      
+        #avgval = np.std(list(usedata[cind][ttime]))**2
+        #varsums.append(avgval)
+print np.mean(varsums)
+
+outxvals = list(usetimes)
+outyvals = []
+for tind,ttime in enumerate(usetimes):
+    tsums = []
+    for cind,cdata in enumerate(usedata):
+        cursum = 10000.0
+        for item1 in list(usedata[cind][ttime]):
+            lcursum = 0.0
+            for item2 in list(usedata[cind][ttime]):
+                lcursum += (item2-item1)**2   
+            if lcursum < cursum:
+               cursum = lcursum
+        cursum /= float(len(usedata[cind][ttime]))**2
+        tsums.append(cursum)
+    outyvals.append(np.mean(tsums))
+errorpath = "timeerror.png"
+plotError(outxvals,outyvals,"Time","Variance",errorpath)
+#exit(1)
+
+
 yvallist = []
 for cind,cdata in enumerate(usedata):
     cavgdata = []
@@ -645,7 +715,7 @@ if weightmode == "nonuni":
 elif weightmode == "uni":   
    weights = [1.0]*len(yvallist)
 
-for count in xrange(15,31):
+for count in xrange(6,31):
     sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(usetimes,usedata,yvallist,count,weights,inittype)
     rempoints = list(set(usetimes) - set(points))
         
@@ -681,6 +751,7 @@ for count in xrange(15,31):
     if True:
      print "plotting starts"
      print len(yvals)
+     exit(1)
      for gind,youts in enumerate(yvals):
         foundlambda, foundknots,foundspl = None, None, None
         mindifval = 1000.0
