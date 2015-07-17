@@ -1119,6 +1119,21 @@ yvaldict = {"sort absolute":bestyvals}
 sortalgos = ["sort absolute"]
 xvals = range(4,26)
 makeplot(yvaldict,xvals,sortalgos,plotpath="perform.png")
+fnames = []
+for fname in os.listdir("splineplots"):
+    if fname.find("DS_St")!=-1:
+       continue 
+    fnames.append(fname)
+print len(fnames)
+random.shuffle(fnames)
+import shutil
+for find,fname in enumerate(fnames):
+    newfname = "{0}.png".format(gene2ind[find])
+    shutil.move("splineplots/{0}".format(fname),"splineplots/{0}".format(newfname))
+    #code = "cp -r splineplots/{0} splineplots/{1}".format(fname,newfname)
+    #os.system(code)
+    print newfname
+    #exit(1)
 exit(1)
 
 inittype = "change"

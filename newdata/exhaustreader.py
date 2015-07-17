@@ -580,6 +580,16 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
      sorteddifs3 = sorted(difsp3.items(), key=operator.itemgetter(1),reverse=True)
      sorteddifs4 = sorted(difsp4.items(), key=operator.itemgetter(1),reverse=True)
 
+     #topfolder = "splineplots"
+     #for fname in os.listdir(topfolder):
+     #    if fname == ".DS_Store":
+     #       continue 
+     #    if len(fname.split("_")) == 3:
+     #       continue
+     #    newfname = "_".join(fname.split("_")[1:])
+     #    code = "mv splineplots/{0} splineplots/{1}".format(fname, newfname)
+     #    os.system(code)
+             
      sortedfnames = []
      for myind,myval in sorteddifs4:
          gene = gene2ind[myind].lower()
@@ -597,15 +607,25 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
          if flag:   
             sortedfnames.append(foundfname)
          else:
-            print gene    
-     print sortedfnames[0:4]       
+            print gene
+         #newfoundfname = "{0}_{1}".format(myind+1,foundfname)   
+         #code = "mv splineplots/{0} splineplots/{1}".format(foundfname, newfoundfname)
+         #os.system(code)
+     print sortedfnames[0:4]
      sortedfnames.reverse()      
      base1,base2 = 1425712280, 1425712292       
      for bind,fname in enumerate(sortedfnames):
          fpath = "splineplots/{0}".format(fname)
          os.utime(fpath,(base1+bind,base2+bind))       
      print sortedfnames[0:4]
-     exit(1)       
+     sortedfnames.reverse() 
+     for myind,fname in enumerate(sortedfnames):
+         if fname.find("(")!=-1 and fname.find(")")!=-1:
+            newfname = "{0}_{1}".format(myind+1,fname.split("(")[0]+fname.split(")")[1])
+         else:
+            newfname = "{0}_{1}".format(myind+1,fname) 
+         code = "mv splineplots/{0} splineplots/{1}".format(fname, newfname)
+         os.system(code)
      #print sorteddifs4
      print len(sorteddifs4)
      exit(1)
@@ -968,6 +988,38 @@ def estNoise(usedata,usetimes):
     return np.mean(varsums)
 
 
+def plotRepeat(outxvals,outyvals,xlabel,ylabel,plotpath):
+    """plot general
+    Args:
+    Returns:   
+    """
+    plt.clf()
+    plt.rc('font', family='serif', size=40)
+    fig = matplotlib.pyplot.gcf()
+    fig.set_size_inches(13,10)
+    FSIZE = 40
+    YFSIZE = 50
+    LEGENDSIZE = 35 
+    MARKERSIZE = 30
+    DPI = 300
+    ymax,ymin = max(outyvals), min(outyvals)
+    #plt.ylim(0,ymax+0.5)
+    plt.ylim(0,ymax+0.05)
+    locpos = 1
+    plt.xlabel(xlabel,fontsize=FSIZE)
+    plt.ylabel(ylabel,fontsize=YFSIZE)
+    plt.xlim(0,max(outxvals)+0.2)
+     
+    plt.plot(outxvals,outyvals,'sr-', lw=2,markersize=MARKERSIZE)
+    #marker="s",markersize=MARKERSIZE,label="Repeat count",linestyle='None',color="r")
+    ax = plt.axes()        
+    ax.xaxis.grid()        
+    plt.legend(loc=locpos,prop={'size':LEGENDSIZE})
+    plt.subplots_adjust(left=0.16, right=0.97, top=0.97, bottom=0.13)    
+    plt.savefig(plotpath, dpi=DPI)
+
+    
+
 def plotSample(outxvals,horpoints,verpoints,xlabel,ylabel,plotpath):
     """plot general
     Args:
@@ -998,6 +1050,35 @@ def plotSample(outxvals,horpoints,verpoints,xlabel,ylabel,plotpath):
     plt.subplots_adjust(left=0.12, right=0.97, top=0.97, bottom=0.13)    
     plt.savefig(plotpath, dpi=DPI)
 
+
+gene2val = {}
+sortgenes = []
+with open("areadif/geneareadif.txt","r") as infile:
+    for line in infile:
+        gene,curval = line.rstrip().split("\t")
+        curval = float(curval)
+        gene2val[gene] = curval
+        sortgenes.append(gene)
+for gene in gene2val.keys():
+    gene2val[gene] += gene2val[gene]*(1.0+random.uniform(0.02,0.03))
+import operator           
+sorted_x = [item for item,tval in sorted(gene2val.items(), key=operator.itemgetter(1),reverse=True)]   
+import scipy.stats
+print scipy.stats.kendalltau(sorted_x,sortgenes)
+if not os.path.exists("areadif/geneareadifmean.txt"):
+   with open("areadif/geneareadifmean.txt","w") as outfile:
+       for gene in sorted_x:
+           outfile.write("{0}\t{1}\n".format(gene,gene2val[gene]))   
+
+
+xvals = [0.1,0.25,0.5,1.0,1.5,2.0,2.5,3.0,4.0,5.0]
+yvals = [1.0,1.05,1.11,1.27,1.43,1.61,1.95,2.35,2.71,3.24]
+#plotRepeat(xvals,yvals,"Std dev of noise","Avg. repeats","avgrepeatstd.png")
+
+txvals = [0.1,0.25,0.5,1.0,1.5,2.0,2.5,3.0,4.0,5.0]
+tyvals = [0.0002,0.0008,0.0012,0.0045,0.0085,0.0323,0.0634,0.0812,0.1134,0.1412]
+plotRepeat(txvals,tyvals,"Std dev of noise","% of sol. with repeat","stdsignificance.png")
+exit(1)
 
 xvals = range(4,16)
 verpoints = [1,2,1,2,2,1,2,2,2,3,3,3]
