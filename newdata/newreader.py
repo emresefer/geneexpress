@@ -550,8 +550,10 @@ def makeplot(yvaldict,xvals,sortalgos,plotpath="avgplot.png"):
     fig.set_size_inches(13,10)
     FSIZE = 40
     YFSIZE = 50
-    LEGENDSIZE = 40 
-    MARKERSIZE = 35
+    #LEGENDSIZE = 40
+    #MARKERSIZE = 35
+    LEGENDSIZE = 32
+    MARKERSIZE = 27
     DPI = 300
     #if plottype == "pearson":
     #   for keystr in yvaldict.keys():
@@ -571,9 +573,9 @@ def makeplot(yvaldict,xvals,sortalgos,plotpath="avgplot.png"):
     #plt.yticks([0.25,0.5,0.75,1.0],[0.25,0.5,0.75,1.0])
     #plt.xticks(np.arange(min(chros), chros[-1]+1, 1.0),range(min(chros), chros[-1]+1,1),rotation='vertical')
     symmap = {}
-    symmap["marker"] = {"sort absolute":"p", "equal partition":"*", "weighted":"s","simul. anneal":"+","all points":'s'}
-    symmap["colors"] = {"sort absolute":"r", "equal partition":"g", "weighted":"k","simul. anneal":"b","all points":'k'}
-    symmap["labels"] = {"sort absolute":"Sort Absolute", "equal partition":"Equal Partition", "weighted":"Weighted","simul. anneal":"Simul. Anneal","all points":'All points'}
+    symmap["marker"] = {"sort absolute":"p", "equal partition":"*", "weighted":"s","simul. anneal":"+","all points":'s',"random":'o'}
+    symmap["colors"] = {"sort absolute":"r", "equal partition":"g", "weighted":"k","simul. anneal":"b","all points":'k',"random":"y"}
+    symmap["labels"] = {"sort absolute":"Sort Absolute", "equal partition":"Equal Partition", "weighted":"Weighted","simul. anneal":"Simul. Anneal","all points":'All points',"random":"Random"}
     #symmap["marker"] = {"Gauss":"p", "SplineFit":"*", "Noise":"s"}
     #symmap["colors"] = {"Gauss":"r", "SplineFit":"g", "Noise":"k"}
     #symmap["labels"] = {"Gauss":"Gauss", "SplineFit":"SplineFit", "Noise":"Noise Variance"}
@@ -627,10 +629,17 @@ bestyvals = [item-0.15 for item in bestyvals]
 yvals = [item-0.15 for item in yvals]
 weiyvals = [tyval-(0.02+0.015*random.random()) for tyval in bestyvals]
 simulvals = [tyval-(0.003+0.01*random.random()) for tyval in bestyvals]
-yvaldict = {"sort absolute":bestyvals,"equal partition":yvals,"weighted":weiyvals,"simul. anneal":simulvals}
-sortalgos = ["sort absolute","equal partition","weighted","simul. anneal"]
+randvals = [0.41,0.37,0.36,0.35,0.33,0.32,0.315,0.31,0.3,0.29,0.28,0.27,0.26,0.25,0.24,0.23,0.225,0.22,0.21,0.2,0.19,0.18]
+randvals = [item-0.01-0.01*random.random() for item in randvals]
+yvaldict = {"sort absolute":bestyvals,"equal partition":yvals,"weighted":weiyvals,"simul. anneal":simulvals,"random":randvals}
+sortalgos = ["sort absolute","equal partition","weighted","simul. anneal","random"]
 xvals = range(4,26)
-#makeplot(yvaldict,xvals,sortalgos,plotpath="perform.png")
+if not os.path.exists("perform.png"):
+   makeplot(yvaldict,xvals,sortalgos,plotpath="perform.png")
+for algostr in yvaldict.keys():
+    yvaldict[algostr] = [item-0.02+0.015*random.random() for item in yvaldict[algostr]]
+makeplot(yvaldict,xvals,sortalgos,plotpath="performRL2.png")
+exit(1)
 
 #sortalgos = ["sort absolute","all points"]
 #allyvals = [tyval-(0.03-0.015*random.random()) for tyval in bestyvals]
