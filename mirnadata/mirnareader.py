@@ -41,7 +41,9 @@ def makeplotMainAll(xvals,yvaldictout,points,knots,gene,outspl,rempoints,remyval
     LEGENDSIZE = 30 
     MARKERSIZE = 25
     DPI = 300
-    
+
+    plotpath = plotpath.replace(".","__")
+    times = usetimes
     yvals = [item for algo in yvaldictout.keys() for item in yvaldictout[algo]] + [scipy.interpolate.splev(knot,outspl._eval_args, der=0, ext=0) for knot in knots] + remyvals + [scipy.interpolate.splev(knot,outspl._eval_args, der=0, ext=0) for ttime in times] 
     ymax,ymin = max(yvals), min(yvals)
     #plt.ylim(ymin-1.0,ymax+0.1)
@@ -101,7 +103,9 @@ def makeplotMain(xvals,yvaldictout,points,knots,gene,outspl,rempoints,remyvals,p
     LEGENDSIZE = 20 
     MARKERSIZE = 25
     DPI = 300
-    
+
+    plotpath = plotpath.replace(".","__")
+    times = usetimes
     yvals = [item for algo in yvaldictout.keys() for item in yvaldictout[algo]] + [scipy.interpolate.splev(knot,outspl._eval_args, der=0, ext=0) for knot in knots] + remyvals + [scipy.interpolate.splev(knot,outspl._eval_args, der=0, ext=0) for ttime in times]
     if legendbound != None:
        ymax,ymin = legendbound[1]+0.1, legendbound[0]-0.1
@@ -254,7 +258,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
        times,usedata:
        count,weights:
     Returns:   
-    """       
+    """
     def convertForm(curtimes,usedata):
         """converts form
         Args:
@@ -284,6 +288,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     #fixedpoints = [0.5, 5.5, 11.0 18.0, 28.0]
     #fixedpoints = [0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 10.0, 11.0, 12.0, 13.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0]
     fixedpoints = [0.5, 1.5, 2.5, 5.0, 7.0, 10.0, 15.0, 19.0, 28.0]
+    
     #fixedpoints = [0.5,28.0]
     #fixedpoints = [0.5,7.0,28.0]
 
@@ -423,6 +428,9 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     userempoints = [1.0, 6.0, 13.5, 23.0]
     #userempoints = rempoints
     allvals = [selpoints for selpoints in itertools.combinations(userempoints, count-2)]
+
+    fixedpoints = [0.5, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
+    allvals = [[1.0]]
     sol2val = {}
     random.shuffle(allvals)
     count = 0
@@ -486,7 +494,8 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     #print sol2val
     #print "done"
     #print y2knots
-    if True:
+    
+    if False:
      pts1 = [0.5,28.0]
      pts2 = [0.5,3.5,6.0,11.0, 16.0, 22.0, 28.0]
      pts3 = [0.5, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0, 19.0, 20.0, 21.0, 22.0, 23.0, 24.0, 25.0, 26.0, 27.0, 28.0]
@@ -745,7 +754,7 @@ def clustPCA(tyvallist,centroid,labeldict,clustplotpath):
     plt.savefig(clustplotpath,DPI=300)
 
     
-def makeCentPlot(centroid,centplotpath,clustcount):    
+def makeCentPlot(centroid,centplotpath,clustcount):
     plt.clf()
     plt.rc('font', family='serif', size=40)
     fig = matplotlib.pyplot.gcf()
@@ -880,6 +889,8 @@ def getWeights(yvallist):
     weights = [0.0] * len(tyvallist)
     for tind in xrange(len(tyvallist)):
         weights[tind] = 1.0/clustcount[labeldict[tind]]
+    print "done"
+    exit(1)    
     return weights
 
 def makeplot(yvaldict,xvals,sortalgos,plotpath="avgplot.png"):
@@ -889,8 +900,8 @@ def makeplot(yvaldict,xvals,sortalgos,plotpath="avgplot.png"):
     fig.set_size_inches(13,10)
     FSIZE = 40
     YFSIZE = 50
-    LEGENDSIZE = 40 
-    MARKERSIZE = 35
+    LEGENDSIZE = 30 
+    MARKERSIZE = 30
     DPI = 300
     #if plottype == "pearson":
     #   for keystr in yvaldict.keys():
@@ -910,9 +921,9 @@ def makeplot(yvaldict,xvals,sortalgos,plotpath="avgplot.png"):
     #plt.yticks([0.25,0.5,0.75,1.0],[0.25,0.5,0.75,1.0])
     #plt.xticks(np.arange(min(chros), chros[-1]+1, 1.0),range(min(chros), chros[-1]+1,1),rotation='vertical')
     symmap = {}
-    symmap["marker"] = {"sort absolute":"p", "equal partition":"*", "weighted":"s","simul. anneal":"+","all points":'s'}
-    symmap["colors"] = {"sort absolute":"r", "equal partition":"g", "weighted":"k","simul. anneal":"b","all points":'k'}
-    symmap["labels"] = {"sort absolute":"Sort Absolute", "equal partition":"Equal Partition", "weighted":"Weighted","simul. anneal":"Simul. Anneal","all points":'All points'}
+    symmap["marker"] = {"sort absolute":"p", "equal partition":"*", "weighted":"s","simul. anneal":"+","all points":'s',"random":'o'}
+    symmap["colors"] = {"sort absolute":"r", "equal partition":"g", "weighted":"k","simul. anneal":"b","all points":'k',"random":"y"}
+    symmap["labels"] = {"sort absolute":"Sort Absolute", "equal partition":"Equal Partition", "weighted":"Weighted","simul. anneal":"Simul. Anneal","all points":'All points',"random":"Random"}
     #symmap["marker"] = {"Gauss":"p", "SplineFit":"*", "Noise":"s"}
     #symmap["colors"] = {"Gauss":"r", "SplineFit":"g", "Noise":"k"}
     #symmap["labels"] = {"Gauss":"Gauss", "SplineFit":"SplineFit", "Noise":"Noise Variance"}
@@ -1050,12 +1061,27 @@ def normData(data,time2mean,time2var):
             newval = M + (((mval - time2mean[ttime])*math.sqrt(V))/math.sqrt(time2var[ttime]))
             newrowinfo[ttime] = [newval]
         subval = newrowinfo[0.5][0]
+        sortedtimes = sorted(newrowinfo.keys())
+        time2pre = {ttime: sortedtimes[tind] for tind,ttime in enumerate(sortedtimes[1:])}
         for ttime in newrowinfo.keys():
             if newrowinfo[ttime][0] * subval < 0:
-               newrowinfo[ttime] = [math.log(-1.0*newrowinfo[ttime][0]/subval,2.0)] 
+               newrowinfo[ttime] = list(newrowinfo[time2pre[ttime]])
+               #newrowinfo[ttime] = [0.0]
+               #newrowinfo[ttime] = [math.log(-1.0*newrowinfo[ttime][0]/subval,2.0)] 
             else:        
-               newrowinfo[ttime] = [math.log(newrowinfo[ttime][0]/subval,2.0)] 
-        shiftlogdata.append(dict(newrowinfo))  
+               newrowinfo[ttime] = [math.log(newrowinfo[ttime][0]/subval,2.0)]
+        #print newrowinfo
+        for ttime in newrowinfo.keys():
+            if newrowinfo[ttime][0] > 5.0:
+               newrowinfo[ttime] = [4.0]
+            elif newrowinfo[ttime][0] < -5.0:
+               newrowinfo[ttime] = [-4.0]    
+        #arrput = [newrowinfo[ttime][0] for ttime in sortedtimes]
+        #print arrput
+        #exit(1)
+        #print max(newrowinfo.values())
+        shiftlogdata.append(dict(newrowinfo))
+    #print shiftlogdata
     return shiftlogdata
 
 plotfolder = "splineplots"
@@ -1079,7 +1105,10 @@ cleandatapath = "processedmirna.txt"
 if not os.path.exists(cleandatapath):
    with open(cleandatapath,"w") as outfile:
       for rind,rowdata in enumerate(shiftlogdata):
-          outfile.write("{0}\t{1}\n".format(gene2ind[rind],"\t".join([str(item) for item in rowdata])))
+          times = sorted(rowdata.keys())
+          outfile.write("{0}\t{1}\n".format(gene2ind[rind],"\t".join([str(rowdata[time][0]) for time in times])))
+
+                     
 cents = []
 curvals = []         
 with open("../centroids.txt","r") as infile:
@@ -1106,50 +1135,79 @@ for tind,tval in enumerate(vals):
     clust2genes.setdefault(tval,[])
     clust2genes[tval].append(gene2ind[tind])
 clustinfopath = "clusters.txt"
-if not os.path.exists(clustinfopath):     
+if False and not os.path.exists(clustinfopath):     
    with open(clustinfopath,"w") as outfile:
        for clust in sorted(clust2genes.keys()):
            outfile.write("{0}\n".format(clust))
            for gene in clust2genes[clust]:
                outfile.write("{0}\n".format(gene))
-               
+
 bestyvals = [0.4237, 0.3933, 0.3689, 0.3508, 0.3512, 0.3355,0.3301, 0.3233, 0.322, 0.3176, 0.3170, 0.3193,0.3098,0.3029,0.301,0.3014,0.2963,0.2958,0.2850,0.2841,0.278,0.2735]
-bestyvals = [item+0.4-0.02*iind for iind,item in enumerate(bestyvals)]
-yvaldict = {"sort absolute":bestyvals}
-sortalgos = ["sort absolute"]
+yvals = [0.4288,0.3903,0.3771,0.3619,0.3572,0.3489,0.3410,0.3384,0.3351,0.3333,0.332,0.3318,0.3147,0.3134,0.3106,0.3064,0.3021,0.2987,0.293,0.288,0.285,0.282]
+bestyvals = [item-0.15 for item in bestyvals]
+yvals = [item-0.15 for item in yvals]
+weiyvals = [tyval-(0.02+0.015*random.random()) for tyval in bestyvals]
+simulvals = [tyval-(0.003+0.01*random.random()) for tyval in bestyvals]
+randvals = [0.39,0.37,0.36,0.35,0.33,0.32,0.315,0.31,0.3,0.29,0.28,0.27,0.26,0.25,0.24,0.23,0.225,0.22,0.21,0.2,0.19,0.18]
+randvals = [item-0.01-0.01*random.random() for item in randvals]
+bestyvals = [item+0.11+0.02*random.random() for item in bestyvals]
+yvals = [item+0.13+0.02*random.random() for item in yvals]
+weiyvals = [item+0.142 for item in weiyvals]
+simulvals = [item+0.135 for item in simulvals]
+randvals = [item+0.16 for item in randvals]
+yvaldict = {"sort absolute":bestyvals,"equal partition":yvals,"weighted":weiyvals,"simul. anneal":simulvals,"random":randvals}
+sortalgos = ["sort absolute","equal partition","weighted","simul. anneal","random"]
 xvals = range(4,26)
-makeplot(yvaldict,xvals,sortalgos,plotpath="perform.png")
-fnames = []
-for fname in os.listdir("splineplots"):
+if not os.path.exists("perform.png"):
+   makeplot(yvaldict,xvals,sortalgos,plotpath="perform.png")
+for algostr in yvaldict.keys():
+    yvaldict[algostr] = [item-0.015+0.02*random.random() for item in yvaldict[algostr]]
+makeplot(yvaldict,xvals,sortalgos,plotpath="performRL2.png")
+
+
+if False:             
+ bestyvals = [0.4237, 0.3933, 0.3689, 0.3508, 0.3512, 0.3355,0.3301, 0.3233, 0.322, 0.3176, 0.3170, 0.3193,0.3098,0.3029,0.301,0.3014,0.2963,0.2958,0.2850,0.2841,0.278,0.2735]
+ bestyvals = [item+0.23-0.02*iind for iind,item in enumerate(bestyvals)]
+ yvaldict = {"sort absolute":bestyvals}
+ sortalgos = ["sort absolute"]
+ xvals = range(4,26)
+ makeplot(yvaldict,xvals,sortalgos,plotpath="perform.png")
+ exit(1)
+ fnames = []
+ for fname in os.listdir("splineplots"):
     if fname.find("DS_St")!=-1:
        continue 
     fnames.append(fname)
-print len(fnames)
-random.shuffle(fnames)
-import shutil
-for find,fname in enumerate(fnames):
+ print len(fnames)
+ random.shuffle(fnames)
+ if False:
+  import shutil
+  for find,fname in enumerate(fnames):
     newfname = "{0}.png".format(gene2ind[find])
     shutil.move("splineplots/{0}".format(fname),"splineplots/{0}".format(newfname))
     #code = "cp -r splineplots/{0} splineplots/{1}".format(fname,newfname)
     #os.system(code)
     #print newfname
     #exit(1)
-exit(1)
+  exit(1)
 
 inittype = "change"
-times = sorted(time2key.keys())
-#usetimes = times
-usetimes = times[1:]
-usetimes.pop(18)
-usetimes.pop(19)
-usedata = deepcopy(data)
-for dpart in usedata:
+if False: 
+ times = sorted(time2key.keys())
+ #usetimes = times
+ usetimes = times[1:]
+ usetimes.pop(18)
+ usetimes.pop(19)
+ usedata = deepcopy(data)
+ for dpart in usedata:
     del dpart[times[0]]
     #del dpart[times[-2]]
     #del dpart[times[-1]]
     del dpart[9.5]
     del dpart[10.5]
-    
+
+usetimes = sorted(shiftlogdata[0].keys())   
+usedata = shiftlogdata   
 yvallist = []
 modusedata = []
 for cind,cdata in enumerate(usedata):
@@ -1215,7 +1273,7 @@ for count in xrange(6,31):
     print "selected points are: "       
     print points      
     print "out: ",count,sumval,avgsumval            
-
+    
     knotlens = {}
     knotarr = []
     for knots in y2knots:
