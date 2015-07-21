@@ -288,12 +288,15 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     #fixedpoints = [0.5, 5.5, 11.0 18.0, 28.0]
     #fixedpoints = [0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 10.0, 11.0, 12.0, 13.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0]
     fixedpoints = [0.5, 1.5, 2.5, 5.0, 7.0, 10.0, 15.0, 19.0, 28.0]
+
+    fixedpoints = [0.5, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
     
     #fixedpoints = [0.5,28.0]
     #fixedpoints = [0.5,7.0,28.0]
 
+    reglambda = 75.0
     if False:
-       reglambda = 5.0 #1.0 #50.0 #1.0
+       reglambda = 75.0 #1.0 #50.0 #1.0
        avgyvallist = []
        for cind,cdata in enumerate(usedata):
            cavgdata = [np.median(list(usedata[cind][ttime])) for tind,ttime in enumerate(times)]
@@ -381,14 +384,19 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
          yvals = [[yvallist[yind][mapval[tpoint]] for tpoint in points] for yind in xrange(len(yvallist))]
        assert points == sorted(points)
        print points
-
+       
        #points = [0.5, 1.0, 3.0, 5.0, 7.0, 7.5, 8.5, 10.0, 11.0, 13.5, 19.0, 22.0, 28.0]
-       points = [0.5,1.0, 3.0, 5.0, 7.0, 7.5, 8.5, 10.0, 11.0, 14.0, 19.0, 22.0,28.0]
+       #points = [0.5,1.0, 3.0, 5.0, 7.0, 7.5, 8.5, 10.0, 11.0, 14.0, 19.0, 22.0,28.0]
+       points = [0.5, 1.0, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
        rempoints = list(set(times) - set(points))
        tsumval = 0.0
+       y2knots = []
+       outsplines = []
        for yind,curyvals in enumerate(yvals):
          inyvals = [x2val[yind][rpoint] for rpoint in points]
          tinspl = scipy.interpolate.UnivariateSpline(points, inyvals, s=reglambda, k=3)
+         outsplines.append(deepcopy(tinspl))
+         y2knots.append(list(tinspl.get_knots()))
          locsumval = weights[yind]*estQual(tinspl,x2valblock[yind],points,rempoints)
          tsumval += locsumval
        print tsumval
@@ -396,7 +404,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
        print tsumval/float(len(yvallist)*(len(times)-count))
        #exit(1)
     
-       assert abs(tsumval-sumval) < 0.0001     
+       #assert abs(tsumval-sumval) < 0.0001     
        avgsum=0.0
        for yind in xrange(len(y2knots)):
          avgsum += len(y2knots[yind])
@@ -429,6 +437,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     #userempoints = rempoints
     allvals = [selpoints for selpoints in itertools.combinations(userempoints, count-2)]
 
+    reglambda = 10.0
     fixedpoints = [0.5, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
     allvals = [[1.0]]
     sol2val = {}
@@ -1271,7 +1280,8 @@ for count in xrange(6,31):
     rempoints = list(set(usetimes) - set(points))
         
     print "selected points are: "       
-    print points      
+    print points
+    
     print "out: ",count,sumval,avgsumval            
     
     knotlens = {}
@@ -1347,6 +1357,7 @@ for count in xrange(6,31):
         triyvals = [yvallist[gind][mapval[trixval]] for trixval in trixvals]
         makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,trixvals,triyvals)
         #makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,(min(collects),max(collects)))
+           
         allplotpath = "{0}/{1}_{2}_all".format(plotfolder,gene.replace("/",","),len(points))
         if os.path.exists(allplotpath):
            continue 
