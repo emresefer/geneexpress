@@ -1132,7 +1132,7 @@ for find,fname in enumerate(fnames):
     shutil.move("splineplots/{0}".format(fname),"splineplots/{0}".format(newfname))
     #code = "cp -r splineplots/{0} splineplots/{1}".format(fname,newfname)
     #os.system(code)
-    print newfname
+    #print newfname
     #exit(1)
 exit(1)
 
