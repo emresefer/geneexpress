@@ -93,7 +93,7 @@ def makeplotMain(xvals,yvaldictout,points,knots,gene,outspl,rempoints,remyvals,p
        rempoints,remyvals:
        plotpath:
     Returns:
-    """        
+    """
     plt.clf()
     plt.rc('font', family='serif', size=35)
     fig = matplotlib.pyplot.gcf()
@@ -112,7 +112,7 @@ def makeplotMain(xvals,yvaldictout,points,knots,gene,outspl,rempoints,remyvals,p
        plt.ylim(ymin,ymax)
     else:       
        ymax,ymin = max(yvals), min(yvals)
-       plt.ylim(ymin-0.5,ymax+0.1)
+       plt.ylim(ymin-0.5,ymax+0.25)
     plt.xlim(0.0,max(xvals)+0.5)
     locpos = 4
     xlabel = "Time"
@@ -131,8 +131,8 @@ def makeplotMain(xvals,yvaldictout,points,knots,gene,outspl,rempoints,remyvals,p
     plt.plot(knots,knotvals,marker=symmap["marker"]["Knots"],markersize=MARKERSIZE,linestyle='None',color=symmap["colors"]["Knots"],label=symmap["labels"]["Knots"])
     plt.plot(usetimes,outspl(usetimes),symmap["colors"]["spline"],lw=3,label=symmap["labels"]["spline"])
     plt.plot(rempoints,remyvals,marker='o',markersize=MARKERSIZE,linestyle='None',color='b',label='Rem. points')
-    plt.plot([0.5,7.0],triyvals[0:2],lw=3,color='y',label='Linear fit')
-    plt.plot([7.0,28.0],triyvals[1:],lw=3,color='y',label='Linear fit')
+    #plt.plot([0.5,7.0],triyvals[0:2],lw=3,color='y',label='Linear fit')
+    #plt.plot([7.0,28.0],triyvals[1:],lw=3,color='y',label='Linear fit')
      
     ax = plt.axes()        
     ax.xaxis.grid()  
@@ -283,20 +283,21 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
         assert len(globtimes) == len(usedata[cind].keys())
      usetimes = [ttime for tind,ttime in enumerate(times) for tind2 in xrange(len(usedata[0][ttime]))]
      yvallist = convertForm(times) #??
-
+        
     #fixedpoints = [0.5, 2.5, 5.0, 10.0, 26.0]
     #fixedpoints = [0.5, 5.5, 11.0 18.0, 28.0]
     #fixedpoints = [0.5, 1.5, 2.5, 3.5, 4.5, 5.5, 6.5, 7.5, 8.5, 10.0, 11.0, 12.0, 13.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0]
     fixedpoints = [0.5, 1.5, 2.5, 5.0, 7.0, 10.0, 15.0, 19.0, 28.0]
 
-    fixedpoints = [0.5, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
-    
+    #fixedpoints = [0.5, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
+
+    fixedpoints = [0.5, 1.0, 1.5, 3.0, 4.0, 7.0, 7.5, 9.0, 9.5, 12.5, 15.0, 21.0, 28.0]
     #fixedpoints = [0.5,28.0]
     #fixedpoints = [0.5,7.0,28.0]
 
-    reglambda = 75.0
-    if False:
-       reglambda = 75.0 #1.0 #50.0 #1.0
+    reglambda = 30.0
+    if True:
+       reglambda = 30.0 #1.0 #50.0 #1.0
        avgyvallist = []
        for cind,cdata in enumerate(usedata):
            cavgdata = [np.median(list(usedata[cind][ttime])) for tind,ttime in enumerate(times)]
@@ -311,7 +312,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
            if avgchange.has_key(fixedpoint):
               del avgchange[fixedpoint]  
        points = [ttime[0] for ttime in sorted(avgchange.items(), key=lambda x: x[1], reverse=True)][0:count-2]
-       
+
        points = fixedpoints + points
        points = sorted(points)
        #multipoints = [point for point in points for tind2 in xrange(len(usedata[0][point]))]
@@ -387,8 +388,10 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
        
        #points = [0.5, 1.0, 3.0, 5.0, 7.0, 7.5, 8.5, 10.0, 11.0, 13.5, 19.0, 22.0, 28.0]
        #points = [0.5,1.0, 3.0, 5.0, 7.0, 7.5, 8.5, 10.0, 11.0, 14.0, 19.0, 22.0,28.0]
-       points = [0.5, 1.0, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
+       #points = [0.5, 1.0, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
+       points = [0.5, 1.0, 1.5, 3.0, 4.0, 7.0, 7.5, 9.0, 9.5, 12.5, 15.0, 21.0, 28.0]
        rempoints = list(set(times) - set(points))
+       yvals = [[yvallist[yind][mapval[tpoint]] for tpoint in points] for yind in xrange(len(yvallist))]
        tsumval = 0.0
        y2knots = []
        outsplines = []
@@ -403,7 +406,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
        print sumval/float(len(yvallist)*(len(times)-count))
        print tsumval/float(len(yvallist)*(len(times)-count))
        #exit(1)
-    
+
        #assert abs(tsumval-sumval) < 0.0001     
        avgsum=0.0
        for yind in xrange(len(y2knots)):
@@ -419,7 +422,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     x2val = [{tval:yvallist[yind][tind] for tind,tval in enumerate(times)} for yind in xrange(len(yvallist))]
     x2valblock = [{tval:list(usedata[yind][tval]) for tind,tval in enumerate(times)} for yind in xrange(len(yvallist))]
     yvals = [[yvallist[yind][mapval[tpoint]] for tpoint in fixedpoints] for yind in xrange(len(yvallist))]
-    reglambda = 7.5 #1.0 #50.0 #1.0
+    reglambda = 75.0 #1.0 #50.0 #1.0
     #1.0 -> 805
     y2knots = []
     outsplines = []
@@ -437,7 +440,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     #userempoints = rempoints
     allvals = [selpoints for selpoints in itertools.combinations(userempoints, count-2)]
 
-    reglambda = 10.0
+    reglambda = 50.0
     fixedpoints = [0.5, 1.5, 2.5, 3.0, 4.5, 6.0, 7.5, 8.5, 9.5, 10.0, 12.5, 18.0, 24.0, 28.0]
     allvals = [[1.0]]
     sol2val = {}
@@ -1278,7 +1281,7 @@ elif weightmode == "uni":
 for count in xrange(6,31):
     sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(usetimes,modusedata,yvallist,count,weights,inittype)
     rempoints = list(set(usetimes) - set(points))
-        
+     
     print "selected points are: "       
     print points
     
@@ -1349,17 +1352,21 @@ for count in xrange(6,31):
         remyvals = [x2val[gind][rpoint] for rpoint in rempoints]
         gene = gene2ind[gind]
         plotpath = "{0}/{1}/{2}_{3}".format(plotfolder,weightmode,gene.replace("/",","),len(points))
-        print plotpath   
-        if os.path.exists(plotpath):
+        print plotpath
+        if os.path.exists(plotpath+".png"):
+           print "not writing" 
            continue
 
         trixvals = [0.5,7.0,28.0]
         triyvals = [yvallist[gind][mapval[trixval]] for trixval in trixvals]
+
+        if len(y2knots[gind]) > 4:
+           continue 
         makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,trixvals,triyvals)
         #makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,(min(collects),max(collects)))
            
         allplotpath = "{0}/{1}_{2}_all".format(plotfolder,gene.replace("/",","),len(points))
-        if os.path.exists(allplotpath):
+        if os.path.exists(allplotpath+".png"):
            continue 
         if foundlambda != None:
            makeplotMainAll(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,allplotpath,foundknots,foundspl,usetimes,trixvals,triyvals)
