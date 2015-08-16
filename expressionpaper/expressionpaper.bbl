@@ -1,9 +1,51 @@
 \begin{thebibliography}{1}
 
+\bibitem{bar2003}
+Ziv Bar-Joseph, Georg~K Gerber, David~K Gifford, Tommi~S Jaakkola, and Itamar
+  Simon.
+\newblock Continuous representations of time-series gene expression data.
+\newblock {\em Journal of Computational Biology}, 10(3-4):341--356, 2003.
+
 \bibitem{bar2012}
 Ziv Bar-Joseph, Anthony Gitter, and Itamar Simon.
 \newblock Studying and modelling dynamic biological processes using time-series
   gene expression data.
 \newblock {\em Nature Reviews Genetics}, 13(8):552--564, 2012.
+
+\bibitem{deboor}
+Carl De~Boor.
+\newblock A practical guide to splines.
+\newblock {\em Mathematics of Computation}, 1978.
+
+\bibitem{lizotte2002}
+Daniel~J Lizotte, Omid Madani, and Russell Greiner.
+\newblock Budgeted learning of nailve-bayes classifiers.
+\newblock In {\em Proceedings of the Nineteenth conference on Uncertainty in
+  Artificial Intelligence}, pages 378--385. Morgan Kaufmann Publishers Inc.,
+  2002.
+
+\bibitem{combinatorial}
+Christos~H Papadimitriou and Kenneth Steiglitz.
+\newblock {\em Combinatorial optimization: algorithms and complexity}.
+\newblock Courier Corporation, 1998.
+
+\bibitem{singh2005}
+Rohit Singh, Nathan Palmer, David Gifford, Bonnie Berger, and Ziv Bar-Joseph.
+\newblock Active learning for sampling in time-series experiments with
+  application to gene expression analysis.
+\newblock In {\em Proceedings of the 22nd international conference on Machine
+  learning}, pages 832--839. ACM, 2005.
+
+\bibitem{spellman1998}
+Paul~T Spellman, Gavin Sherlock, Michael~Q Zhang, Vishwanath~R Iyer, Kirk
+  Anders, Michael~B Eisen, Patrick~O Brown, David Botstein, and Bruce Futcher.
+\newblock Comprehensive identification of cell cycle--regulated genes of the
+  yeast saccharomyces cerevisiae by microarray hybridization.
+\newblock {\em Molecular biology of the cell}, 9(12):3273--3297, 1998.
+
+\bibitem{wahba1990}
+Grace Wahba.
+\newblock {\em Spline models for observational data}, volume~59.
+\newblock Siam, 1990.
 
 \end{thebibliography}

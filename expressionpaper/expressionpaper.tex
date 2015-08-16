@@ -16,12 +16,12 @@
 \section{Methods}
 
 In this paper, we propose an efficient framework to identify subset of time points
-jointly over gene expression time-series data for multiple genes. Our
+jointly over gene expression time-series data for multiple genes~\cite{spellman1998}. Our
 proposed solution is different than the existing sampling based approaches since
 the existing methods focus mostly on selecting subset of important time
 points only over single gene. In addition, several other methods are
 based on active learning which is not always valid for biological gene
-expression data due to the nature of the experiments. For instance, multiple genes can be sampled simultaneously
+expression data due to the nature of the experiments~\cite{singh2005}. For instance, multiple genes can be sampled simultaneously
 once the time point is fixed which may not be modeled perfectly by
 active learning based approaches. In general, our proposed solution is important since:
 %
@@ -32,7 +32,7 @@ active learning based approaches. In general, our proposed solution is important
   distributed time points which is not guaranteed to be the optimal. 
 \vspace{0.05cm}
 \item Efficient methods can greatly decrease experiment cost without
-  trading off accuracy of the expression values. 
+  trading off accuracy of the expression values~\cite{lizotte2002}.
 \end{itemize}
 %
 More formally, let $G$ be the set of genes which expression we are interested in
@@ -48,7 +48,8 @@ maximum number of time points we can sample~(we simply
 assume that sampling each time point has same cost). We are interested
 in selecting $k$ number of time points which minimizes the prediction error
 of the rest of the unselected time points where we predict
-expression values of unsampled time points by smoothing splines. In
+expression values of unsampled time points by smoothing
+splines~\cite{deboor, bar2003, wahba1990}. In
 our problem, $t_{1}$ and $t_{T}$ define the first and end points, so
 they will always be a part of solution. It can be defined
 formally as in Problem~\ref{prob:prob1}:
@@ -71,7 +72,7 @@ and remove one point until there is no improvement in the error
 of the remaining time points. In each iteration, we select the
 point pair with the minimum error among all $(k-2)(T-k)$ point
 pairs as our solution, and keep iterating until there is no
-improvement. Figure~\ref{fig:algo} summarizes the iterative approach. 
+improvement. Figure~\ref{fig:algo} summarizes this combinatorial iterative approach~\cite{combinatorial}.
 
 \begin{figure}
 \centering
