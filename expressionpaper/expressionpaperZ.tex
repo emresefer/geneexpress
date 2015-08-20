@@ -142,12 +142,10 @@ the number of time points is finite.
 \label{fig:algo}
 \end{figure}
 
-\item Third key step of our approach is fitting smoothing spline to
-  gene independently for selected subset of time points. Smoothing
+\item Third key step of our approach is fitting smoothing spline to gene independently for selected subset of time points. Smoothing
   splines are capable of modeling arbitrary nonlinear shapes as well
-  as not having the problem such as Runge's phenomenon seen in other
-  fitting methods such as polynomial regression. Smoothing splines
-  perform quite well in preventing overfitting~\cite{wahba1990}. Let
+  they do not have the problems seen in other polynomial fitting
+  methods such as Runge's phenomenon. Smoothing splines perform quite well in preventing overfitting~\cite{wahba1990}. Let
   $R = \{(t, y_{t}),\, t \in C\}$, and $\mu$ be the spline we are interested in fitting, smoothing spline
   can be found by the following optimization problem which minimizes
   regularized squared error:
