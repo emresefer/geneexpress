@@ -1,0 +1,52 @@
+\begin{thebibliography}{1}
+
+\bibitem{bar2003}
+Ziv Bar-Joseph, Georg~K Gerber, David~K Gifford, Tommi~S Jaakkola, and Itamar
+  Simon.
+\newblock Continuous representations of time-series gene expression data.
+\newblock {\em Journal of Computational Biology}, 10(3-4):341--356, 2003.
+
+\bibitem{bar2012}
+Ziv Bar-Joseph, Anthony Gitter, and Itamar Simon.
+\newblock Studying and modelling dynamic biological processes using time-series
+  gene expression data.
+\newblock {\em Nature Reviews Genetics}, 13(8):552--564, 2012.
+
+\bibitem{bishop2006}
+Christopher~M Bishop.
+\newblock {\em Pattern recognition and machine learning}.
+\newblock springer, 2006.
+
+\bibitem{deboor}
+Carl De~Boor.
+\newblock A practical guide to splines.
+\newblock {\em Mathematics of Computation}, 1978.
+
+\bibitem{kmeans}
+John~A Hartigan.
+\newblock {\em Clustering algorithms}.
+\newblock John Wiley \& Sons, Inc., 1975.
+
+\bibitem{mixture}
+Geoffrey McLachlan and David Peel.
+\newblock {\em Finite mixture models}.
+\newblock John Wiley \& Sons, 2004.
+
+\bibitem{bic}
+Gideon Schwarz et~al.
+\newblock Estimating the dimension of a model.
+\newblock {\em The annals of statistics}, 6(2):461--464, 1978.
+
+\bibitem{singh2005}
+Rohit Singh, Nathan Palmer, David Gifford, Bonnie Berger, and Ziv Bar-Joseph.
+\newblock Active learning for sampling in time-series experiments with
+  application to gene expression analysis.
+\newblock In {\em Proceedings of the 22nd international conference on Machine
+  learning}, pages 832--839. ACM, 2005.
+
+\bibitem{wahba1990}
+Grace Wahba.
+\newblock {\em Spline models for observational data}, volume~59.
+\newblock Siam, 1990.
+
+\end{thebibliography}
