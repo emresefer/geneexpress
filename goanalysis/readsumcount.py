@@ -34,7 +34,48 @@ def readClusters():
                clust2mir[cid].append(line)
     return clust2mir
 
+def getTops():
+    """
+    """
+    resfolder = "results"
+    outfolder = "sortedresults"
+    resdict = {}
+    smalllist = []
+    if not os.path.exists(outfolder):
+       os.makedirs(outfolder) 
+    for fname in os.listdir(resfolder):
+        if fname.find("Store")!=-1:
+           continue 
+        fpath = "{0}/{1}".format(resfolder,fname)
+        outfpath = "{0}/{1}".format(outfolder,fname)
+        if os.path.exists(outfpath):
+           continue 
+        with open(fpath,"r") as infile:
+            with open(outfpath,"w") as outfile:
+               for line in infile:
+                   line = line.rstrip()
+                   if line.startswith("#") or line.startswith("OVER") or line.startswith("N"):
+                      outfile.write(line+"\n")
+                      continue
+                   splitted = line.split("\t")
+                   pval = splitted[4]
+                   if pval.find("<")!=-1:
+                      smalllist.append(line) 
+                   else:
+                      pval = float(pval)
+                      resdict.setdefault(pval,[])
+                      resdict[pval].append(line)
+        with open(outfpath,"a") as outfile:
+            for item in smalllist:
+                outfile.write(item+"\n")
+            for keystr in sorted(resdict.keys()):
+                for item in resdict[keystr]:
+                    outfile.write(item+"\n")
+                    
 
+getTops()
+exit(1)
+                
 datamirs = readMiRNAs()
 print len(datamirs)
 clust2mir = readClusters()
@@ -81,6 +122,8 @@ for clustid,curmirs in clust2mir.items():
            outfile.write("{0}\n".format(curgene))      
           
 
+
+           
 
 
 
