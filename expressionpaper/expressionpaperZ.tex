@@ -3,6 +3,11 @@
 \usepackage{graphicx}
 \usepackage{multirow}
 \usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{pifont}
+
+\algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
 
 \newtheorem{problem}{Problem}
 
@@ -77,7 +82,8 @@ satisfied. In contrast to the existing methods, we also select knots when fittin
 \subsection{Iterative process to select points}\label{sec:mainalgo}
 
 Because of the highly combinatorial nature of the time points, selection problem we rely on a greedy iterative process to select
-the optimal points as shown in Figure ~\ref{fig:algo}.
+the optimal points as shown in Algorithm~\ref{alg:algo}.
+%Figure ~\ref{fig:algo}.
 
 There are three key steps in this algorithm which we discuss in
 detail below.
@@ -135,12 +141,36 @@ the process and output $C_n$ as the optimal solution. Note that this
 greedy process is guaranteed to converge to a (local) minima since
 the number of time points is finite.
 
-\begin{figure}
-\centering
-\includegraphics[scale=0.4]{algo.png}
-\caption{Summary of our Method}
-\label{fig:algo}
-\end{figure}
+% \begin{figure}
+% \centering
+% \includegraphics[scale=0.4]{algo.png}
+% \caption{Summary of our Method}
+% \label{fig:algo}
+% \end{figure}
+
+\begin{algorithm}
+\caption{Iterative $k$-point selection}
+\label{alg:algo}
+\begin{algorithmic}[1]
+\Procedure{Iterative\textendash Selection}{}
+\State $C_{0} = $ select initial $k$ time points by absolute value sorting
+\State $e_{0} = $ error of remaining points by fitting splines to $C_{0}$
+\State $i=0$
+\Do 
+\For{each pair $(a, b) \in (T - C_{i}) \times C_{i}$}
+\State $C^{*} = C_{i} \cup \{ a \} \setminus \{b\}$ 
+\State $e^{*} = $ estimate error by fitting smoothing spline to $C^{*}$
+\If{$e^{*} < e_{i}$}
+\State $C_{i+1} = C^{*}$ 
+\State $e_{i+1} = e^{*}$
+\EndIf
+\State $i = i+1$
+\EndFor
+\doWhile{$e_{i+1} < e_{i}$}
+\State Output $C_{i+1}$ and $e_{i+1}$
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
 
 \item Third key step of our approach is fitting smoothing spline to gene independently for selected subset of time points. Smoothing
   splines are capable of modeling arbitrary nonlinear shapes as well
