@@ -1,0 +1,60 @@
+# species: Mus musculus
+# support: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+# associations retrieved on: 2015-08-25 09:10:36-04
+# gofunc built on: 2014-08-29 20:00:45.229015-04
+# gene associations file: ftp://ftp.geneontology.org/pub/go/gene-associations/gene_association.mgi.gz
+#   revision: 06/05/2014 $
+#   downloaded on: 2014-06-23 12:15:18-04
+# GO DAG files from: http://archive.geneontology.org/latest-full/go_201404-termdb-tables.tar.gz
+#   downloaded on: 2014-04-28 17:00:50-04
+# translation required: yes
+# translation info:
+#   authority: ensembl
+#     synergizer db built on: 2014-02-26 11:38:08.723614-05
+#     synergizer db built from: Ensembl Genes 74 / Ensembl Metazoa Genes 21 / Ensembl Plants Genes 21
+#   namespace: mgi_symbol
+#   coverage: 100.0%
+# size of "genespace": 22607
+# number of attributes: 17970
+# NOTE: the last record consists of all the entities in the
+# "genespace" that are not associated with any attribute (for
+# the requested support).
+# Original number of entities in query: 1644
+# Number of entities in query: 1644
+# Total number of entities: 22844
+# Original total number of entities: 22607
+# Entities not in default gene space: 237
+# Total number of attributes: 17970
+# Translation required: yes
+# Translation coverage: 0.999722
+# Mode: unordered
+# Number of simulations: 1000
+# Adjusted P-value cutoff: 0.05
+# Over/under: over
+# Evidence codes: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+OVERREPRESENTED ATTRIBUTES
+N	X	LOD	P	P_adj	attrib ID	attrib name
+45	285	0.394313709793547	5.21419375664479e-07	0.001	GO:0032940	secretion by cell
+53	369	0.345997506905206	1.12339526768089e-06	0.004	GO:0046903	secretion
+108	872	0.275926203445375	1.84727199352899e-08	<0.001	GO:0015031	protein transport
+112	935	0.259239337560746	6.06967378909018e-08	<0.001	GO:0045184	establishment of protein localization
+154	1388	0.224407351616151	3.43898997346986e-08	<0.001	GO:0071702	organic substance transport
+111	1012	0.214110696880309	5.2068443966745e-06	0.023	GO:0005794	Golgi apparatus
+117	1087	0.205067724528885	7.02724945979637e-06	0.028	GO:0051649	establishment of localization in cell
+976	11641	0.159244767420491	7.41029797208577e-13	<0.001	GO:0044424	intracellular part
+276	2895	0.156312700802042	3.11384803352146e-07	0.001	GO:0006810	transport
+689	7808	0.154503004272463	7.99527625840973e-12	<0.001	GO:0044763	single-organism cellular process
+621	6967	0.152677039697818	3.78703245923441e-11	<0.001	GO:0005515	protein binding
+208	2175	0.151944009754197	9.31273945000208e-06	0.032	GO:0010646	regulation of cell communication
+216	2263	0.151601891560687	6.96489396973459e-06	0.028	GO:0031982	vesicle
+207	2170	0.150527974919541	1.15296578280498e-05	0.049	GO:0023051	regulation of signaling
+220	2312	0.150307270231317	6.96807612244516e-06	0.028	GO:0048856	anatomical structure development
+281	2983	0.150194068193648	6.7454778926329e-07	0.002	GO:0051234	establishment of localization
+875	10364	0.147416718859059	2.07427563719118e-11	<0.001	GO:0043226	organelle
+817	9707	0.136069265068795	6.11999765610246e-10	<0.001	GO:0043229	intracellular organelle
+308	3382	0.133825663264207	3.5609531074339e-06	0.015	GO:0048522	positive regulation of cellular process
+947	11579	0.130412967048137	3.15191407024822e-09	<0.001	GO:0005488	binding
+809	9682	0.129050456423967	4.20364819365748e-09	<0.001	GO:0043227	membrane-bounded organelle
+340	3794	0.127400549208072	4.1973301539766e-06	0.016	GO:0048518	positive regulation of biological process
+483	5568	0.120287390125845	8.43352754247925e-07	0.002	GO:0005737	cytoplasm
+733	8836	0.114159215851919	2.29716504096001e-07	0.001	GO:0043231	intracellular membrane-bounded organelle

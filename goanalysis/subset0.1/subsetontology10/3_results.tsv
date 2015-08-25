@@ -1,0 +1,47 @@
+# species: Mus musculus
+# support: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+# associations retrieved on: 2015-08-25 09:08:51-04
+# gofunc built on: 2014-08-29 20:00:45.229015-04
+# gene associations file: ftp://ftp.geneontology.org/pub/go/gene-associations/gene_association.mgi.gz
+#   revision: 06/05/2014 $
+#   downloaded on: 2014-06-23 12:15:18-04
+# GO DAG files from: http://archive.geneontology.org/latest-full/go_201404-termdb-tables.tar.gz
+#   downloaded on: 2014-04-28 17:00:50-04
+# translation required: yes
+# translation info:
+#   authority: ensembl
+#     synergizer db built on: 2014-02-26 11:38:08.723614-05
+#     synergizer db built from: Ensembl Genes 74 / Ensembl Metazoa Genes 21 / Ensembl Plants Genes 21
+#   namespace: mgi_symbol
+#   coverage: 100.0%
+# size of "genespace": 22607
+# number of attributes: 17970
+# NOTE: the last record consists of all the entities in the
+# "genespace" that are not associated with any attribute (for
+# the requested support).
+# Original number of entities in query: 1381
+# Number of entities in query: 1381
+# Total number of entities: 22817
+# Original total number of entities: 22607
+# Entities not in default gene space: 210
+# Total number of attributes: 17970
+# Translation required: yes
+# Translation coverage: 0.999722
+# Mode: unordered
+# Number of simulations: 1000
+# Adjusted P-value cutoff: 0.05
+# Over/under: over
+# Evidence codes: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+OVERREPRESENTED ATTRIBUTES
+N	X	LOD	P	P_adj	attrib ID	attrib name
+42	311	0.396557011027018	9.22280338844397e-07	0.003	GO:0006520	cellular amino acid metabolic process
+114	1198	0.229245725735064	9.14162935305679e-07	0.003	GO:0005856	cytoskeleton
+578	7808	0.150636247403379	7.0018944992088e-10	<0.001	GO:0044763	single-organism cellular process
+302	3923	0.139412258309052	2.32211826316356e-06	0.004	GO:0032502	developmental process
+289	3794	0.132093771515471	9.74988465494251e-06	0.023	GO:0048518	positive regulation of biological process
+283	3724	0.13016914599151	1.49275117181838e-05	0.043	GO:0044767	single-organism developmental process
+413	5568	0.12979951119823	8.71073562526556e-07	0.003	GO:0005737	cytoplasm
+507	6967	0.128820432786482	2.36572164655414e-07	<0.001	GO:0005515	protein binding
+711	10364	0.112365627462664	1.82781100665167e-06	0.004	GO:0043226	organelle
+786	11641	0.109714365735211	3.35962257917634e-06	0.009	GO:0044424	intracellular part
+664	9707	0.103530508060074	1.06982620433974e-05	0.024	GO:0043229	intracellular organelle
