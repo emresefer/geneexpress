@@ -1,0 +1,84 @@
+# species: Mus musculus
+# support: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+# associations retrieved on: 2015-08-25 09:01:36-04
+# gofunc built on: 2014-08-29 20:00:45.229015-04
+# gene associations file: ftp://ftp.geneontology.org/pub/go/gene-associations/gene_association.mgi.gz
+#   revision: 06/05/2014 $
+#   downloaded on: 2014-06-23 12:15:18-04
+# GO DAG files from: http://archive.geneontology.org/latest-full/go_201404-termdb-tables.tar.gz
+#   downloaded on: 2014-04-28 17:00:50-04
+# translation required: yes
+# translation info:
+#   authority: ensembl
+#     synergizer db built on: 2014-02-26 11:38:08.723614-05
+#     synergizer db built from: Ensembl Genes 74 / Ensembl Metazoa Genes 21 / Ensembl Plants Genes 21
+#   namespace: mgi_symbol
+#   coverage: 100.0%
+# size of "genespace": 22607
+# number of attributes: 17970
+# NOTE: the last record consists of all the entities in the
+# "genespace" that are not associated with any attribute (for
+# the requested support).
+# Original number of entities in query: 484
+# Number of entities in query: 484
+# Total number of entities: 22662
+# Original total number of entities: 22607
+# Entities not in default gene space: 55
+# Total number of attributes: 17970
+# Translation required: yes
+# Translation coverage: 0.999722
+# Mode: unordered
+# Number of simulations: 1000
+# Adjusted P-value cutoff: 0.05
+# Over/under: over
+# Evidence codes: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+OVERREPRESENTED ATTRIBUTES
+N	X	LOD	P	P_adj	attrib ID	attrib name
+236	7808	0.26381163303953	4.14536474023418e-11	<0.001	GO:0044763	single-organism cellular process
+296	6967	0.224013596576557	4.7375760703508e-11	<0.001	GO:0005515	protein binding
+440	11579	0.213480701687578	1.77546532554575e-10	<0.001	GO:0005488	binding
+436	11641	0.197736342554334	3.03849516961773e-09	<0.001	GO:0044424	intracellular part
+237	5568	0.202582546023558	1.53577214586026e-08	<0.001	GO:0005737	cytoplasm
+392	10364	0.182860413383512	2.60057641375967e-08	<0.001	GO:0043226	organelle
+369	9707	0.176452150777787	7.37701529576065e-08	<0.001	GO:0043229	intracellular organelle
+36	442	0.463594273751468	1.46965720502247e-07	<0.001	GO:0048471	perinuclear region of cytoplasm
+304	11641	0.207682164803771	1.92649687344544e-07	<0.001	GO:0044424	intracellular part
+365	9682	0.16824503843619	2.73765890663944e-07	<0.001	GO:0043227	membrane-bounded organelle
+318	6967	0.16097111776713	3.63718434254784e-07	0.003	GO:0005515	protein binding
+238	5568	0.177929250207433	4.28131719972229e-07	<0.001	GO:0005737	cytoplasm
+336	8836	0.163526855586301	6.51740381021452e-07	<0.001	GO:0043231	intracellular membrane-bounded organelle
+302	7808	0.163618860094036	9.38732448954944e-07	0.001	GO:0044763	single-organism cellular process
+488	11641	0.148647498238229	1.05781588159953e-06	0.007	GO:0044424	intracellular part
+72	1892	0.293469146745764	1.10131476743204e-06	0.002	GO:0009966	regulation of signal transduction
+327	7808	0.155402549996942	1.1484648068859e-06	0.003	GO:0044763	single-organism cellular process
+19	172	0.608410517736101	1.71412570620088e-06	0.002	GO:0030135	coated vesicle
+52	850	0.330839766218313	2.52235160556839e-06	0.002	GO:0031410	cytoplasmic vesicle
+169	5814	0.196832726936747	3.05940297128921e-06	0.007	GO:0044444	cytoplasmic part
+78	2170	0.268047909247102	3.26548046573654e-06	0.007	GO:0023051	regulation of signaling
+17	148	0.627764927777655	3.49912497979752e-06	0.003	GO:0030136	clathrin-coated vesicle
+78	2175	0.266903286892605	3.55714319327109e-06	0.007	GO:0010646	regulation of cell communication
+343	7808	0.141721606302633	4.5265435862089e-06	0.014	GO:0044763	single-organism cellular process
+58	1012	0.301151140646953	5.00480069394195e-06	0.007	GO:0005794	Golgi apparatus
+280	6967	0.151500576081517	5.52504220486398e-06	0.016	GO:0005515	protein binding
+434	11641	0.145812883564319	5.53905372742247e-06	0.016	GO:0044424	intracellular part
+122	3923	0.213159514392406	6.18960457644442e-06	0.014	GO:0032502	developmental process
+308	7808	0.147010828858659	6.62574327199886e-06	0.017	GO:0044763	single-organism cellular process
+194	6967	0.182636132112476	6.62801672849812e-06	0.014	GO:0005515	protein binding
+277	10740	0.17532873613177	7.27128964326395e-06	0.017	GO:0044699	single-organism process
+58	1027	0.294069492130021	7.77814837580938e-06	0.011	GO:0097458	neuron part
+22	353	0.505988996314886	8.36262060691305e-06	0.018	GO:0006873	cellular ion homeostasis
+116	3724	0.211385320558774	1.06169968641807e-05	0.029	GO:0044767	single-organism developmental process
+107	3382	0.215756126149928	1.34338750480141e-05	0.032	GO:0048522	positive regulation of cellular process
+24	420	0.465800980884155	1.40443856839008e-05	0.037	GO:0055080	cation homeostasis
+97	2048	0.218430465352899	1.50188638159112e-05	0.033	GO:0065008	regulation of biological quality
+160	3794	0.174444157906989	1.54635761704461e-05	0.033	GO:0048518	positive regulation of biological process
+14	168	0.642785948557439	1.59541905678565e-05	0.038	GO:0042110	T cell activation
+21	341	0.500181043543693	1.59922318596652e-05	0.038	GO:0030003	cellular cation homeostasis
+36	543	0.365181915100648	1.68810120719937e-05	0.035	GO:0016023	cytoplasmic membrane-bounded vesicle
+25	456	0.446683204176164	1.87785201547662e-05	0.041	GO:0050801	ion homeostasis
+289	7808	0.143336697125289	1.8782978835593e-05	0.048	GO:0044763	single-organism cellular process
+22	372	0.481406651836036	1.88916337663274e-05	0.041	GO:0055065	metal ion homeostasis
+200	4976	0.157788169478565	2.03373762601684e-05	0.042	GO:0019222	regulation of metabolic process
+172	4165	0.165986334791873	2.23068949623898e-05	0.043	GO:0080090	regulation of primary metabolic process
+252	9707	0.164760520405083	2.24942094000576e-05	0.047	GO:0043229	intracellular organelle
+130	2983	0.184365040266764	2.70975913980551e-05	0.049	GO:0051234	establishment of localization

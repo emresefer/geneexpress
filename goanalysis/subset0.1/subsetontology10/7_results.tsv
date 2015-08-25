@@ -1,0 +1,70 @@
+# species: Mus musculus
+# support: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+# associations retrieved on: 2015-08-25 09:31:05-04
+# gofunc built on: 2014-08-29 20:00:45.229015-04
+# gene associations file: ftp://ftp.geneontology.org/pub/go/gene-associations/gene_association.mgi.gz
+#   revision: 06/05/2014 $
+#   downloaded on: 2014-06-23 12:15:18-04
+# GO DAG files from: http://archive.geneontology.org/latest-full/go_201404-termdb-tables.tar.gz
+#   downloaded on: 2014-04-28 17:00:50-04
+# translation required: yes
+# translation info:
+#   authority: ensembl
+#     synergizer db built on: 2014-02-26 11:38:08.723614-05
+#     synergizer db built from: Ensembl Genes 74 / Ensembl Metazoa Genes 21 / Ensembl Plants Genes 21
+#   namespace: mgi_symbol
+#   coverage: 100.0%
+# size of "genespace": 22607
+# number of attributes: 17970
+# NOTE: the last record consists of all the entities in the
+# "genespace" that are not associated with any attribute (for
+# the requested support).
+# Original number of entities in query: 1494
+# Number of entities in query: 1494
+# Total number of entities: 22814
+# Original total number of entities: 22607
+# Entities not in default gene space: 207
+# Total number of attributes: 17970
+# Translation required: yes
+# Translation coverage: 0.999722
+# Mode: unordered
+# Number of simulations: 1000
+# Adjusted P-value cutoff: 0.05
+# Over/under: over
+# Evidence codes: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+OVERREPRESENTED ATTRIBUTES
+N	X	LOD	P	P_adj	attrib ID	attrib name
+69	621	0.263090431439033	1.1834947690363e-05	0.04	GO:0017111	nucleoside-triphosphatase activity
+72	659	0.254950481630434	1.36646968402086e-05	0.045	GO:0016462	pyrophosphatase activity
+72	659	0.254950481630434	1.36646968402086e-05	0.045	GO:0016818	hydrolase activity, acting on acid anhydrides, in phosphorus-containing anhydrides
+72	662	0.25267560654557	1.59234821379826e-05	0.047	GO:0016817	hydrolase activity, acting on acid anhydrides
+129	1241	0.236212122974597	9.72196773304987e-08	<0.001	GO:0009653	anatomical structure morphogenesis
+128	1327	0.197953592331035	5.6352488803764e-06	0.017	GO:0006357	regulation of transcription from RNA polymerase II promoter
+129	1347	0.194402601208899	7.36746470507499e-06	0.027	GO:0031328	positive regulation of cellular biosynthetic process
+222	2432	0.179453754988896	1.23664809052317e-07	<0.001	GO:0048583	regulation of response to stimulus
+813	10364	0.167578130320232	3.64811546638122e-13	<0.001	GO:0043226	organelle
+187	2084	0.166705279881528	4.25811305379599e-06	0.012	GO:0097367	carbohydrate derivative binding
+767	9707	0.16462176346878	9.49090760942089e-13	<0.001	GO:0043229	intracellular organelle
+765	9682	0.164221031779763	1.07937000886845e-12	<0.001	GO:0043227	membrane-bounded organelle
+216	2454	0.159435340661201	2.67593780399309e-06	0.01	GO:0043168	anion binding
+702	8836	0.157445733306292	1.14323424076505e-11	<0.001	GO:0043231	intracellular membrane-bounded organelle
+886	11641	0.155677607120136	1.8555168415615e-11	<0.001	GO:0044424	intracellular part
+623	7808	0.148423247581494	3.05415411826162e-10	<0.001	GO:0044763	single-organism cellular process
+476	5814	0.146327337684537	6.2112416159492e-09	<0.001	GO:0044444	cytoplasmic part
+561	6967	0.14622330630028	1.28692031716929e-09	<0.001	GO:0005515	protein binding
+313	3724	0.143941904904815	7.11708873976331e-07	0.005	GO:0044767	single-organism developmental process
+261	3100	0.139827882987056	6.79370301000975e-06	0.027	GO:0031326	regulation of cellular biosynthetic process
+264	3141	0.13917206609146	6.75965389405289e-06	0.022	GO:0009889	regulation of biosynthetic process
+324	3923	0.135101584275716	2.15938337445644e-06	0.01	GO:0032502	developmental process
+282	3411	0.131730259757603	1.11860035200042e-05	0.038	GO:0071840	cellular component organization or biogenesis
+862	11579	0.130054322431766	1.52974313357892e-08	<0.001	GO:0005488	binding
+340	4165	0.129961331297238	3.27022756511979e-06	0.011	GO:0080090	regulation of primary metabolic process
+300	3667	0.127499843892706	1.26653173045771e-05	0.04	GO:0034641	cellular nitrogen compound metabolic process
+324	4001	0.123875343492603	1.21149490590965e-05	0.04	GO:0006807	nitrogen compound metabolic process
+411	5149	0.123550044902036	2.14032564785277e-06	0.01	GO:0003824	catalytic activity
+548	7029	0.122799756377094	3.1100693443059e-07	<0.001	GO:0071704	organic substance metabolic process
+598	7746	0.121745404995031	2.29585596595176e-07	<0.001	GO:0008152	metabolic process
+441	5568	0.121731224545197	1.75223449590699e-06	0.006	GO:0005737	cytoplasm
+515	6585	0.121283848454254	6.38073896748167e-07	0.004	GO:0044237	cellular metabolic process
+529	6791	0.120147660740622	6.70773042605406e-07	0.005	GO:0044238	primary metabolic process
+346	4325	0.118830390620919	1.61123412989882e-05	0.048	GO:0031323	regulation of cellular metabolic process
