@@ -1,0 +1,64 @@
+# species: Mus musculus
+# support: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+# associations retrieved on: 2015-08-25 09:08:36-04
+# gofunc built on: 2014-08-29 20:00:45.229015-04
+# gene associations file: ftp://ftp.geneontology.org/pub/go/gene-associations/gene_association.mgi.gz
+#   revision: 06/05/2014 $
+#   downloaded on: 2014-06-23 12:15:18-04
+# GO DAG files from: http://archive.geneontology.org/latest-full/go_201404-termdb-tables.tar.gz
+#   downloaded on: 2014-04-28 17:00:50-04
+# translation required: yes
+# translation info:
+#   authority: ensembl
+#     synergizer db built on: 2014-02-26 11:38:08.723614-05
+#     synergizer db built from: Ensembl Genes 74 / Ensembl Metazoa Genes 21 / Ensembl Plants Genes 21
+#   namespace: mgi_symbol
+#   coverage: 100.0%
+# size of "genespace": 22607
+# number of attributes: 17970
+# NOTE: the last record consists of all the entities in the
+# "genespace" that are not associated with any attribute (for
+# the requested support).
+# Original number of entities in query: 1465
+# Number of entities in query: 1465
+# Total number of entities: 22841
+# Original total number of entities: 22607
+# Entities not in default gene space: 234
+# Total number of attributes: 17970
+# Translation required: yes
+# Translation coverage: 0.999722
+# Mode: unordered
+# Number of simulations: 1000
+# Adjusted P-value cutoff: 0.05
+# Over/under: over
+# Evidence codes: EXP, IMP, ISS, ISM, TAS, IEA, IDA, IGI, ISO, IGC, NAS, IPI, IEP, ISA, RCA, IC
+OVERREPRESENTED ATTRIBUTES
+N	X	LOD	P	P_adj	attrib ID	attrib name
+636	7808	0.142161482997269	9.83972384239199e-10	<0.001	GO:0044763	single-organism cellular process
+600	7808	0.134724911245112	1.42172072931449e-08	<0.001	GO:0044763	single-organism cellular process
+613	7746	0.118815181003142	3.09511407639579e-07	<0.001	GO:0008152	metabolic process
+545	6791	0.121079128580601	3.93823261095207e-07	<0.001	GO:0044238	primary metabolic process
+561	7029	0.119057775398886	4.95693862179815e-07	<0.001	GO:0071704	organic substance metabolic process
+198	2108	0.176487481822796	6.89661643395559e-07	<0.001	GO:0044765	single-organism transport
+283	3382	0.150377065707908	7.04644963861305e-07	0.003	GO:0048522	positive regulation of cellular process
+348	4325	0.134881830688233	1.25014954803865e-06	0.007	GO:0031323	regulation of cellular metabolic process
+526	6585	0.116024005840505	1.37161979954838e-06	0.001	GO:0044237	cellular metabolic process
+309	3794	0.13789668195307	2.16944946115362e-06	0.009	GO:0048518	positive regulation of biological process
+167	1758	0.179247044172677	2.93221165654414e-06	0.003	GO:0006464	cellular protein modification process
+167	1758	0.179247044172677	2.93221165654414e-06	0.003	GO:0036211	protein modification process
+256	2924	0.144567499284607	4.04654689270622e-06	0.006	GO:0019538	protein metabolic process
+320	3794	0.129688748359995	5.31953568924856e-06	0.008	GO:0048518	positive regulation of biological process
+253	2895	0.143301844732423	5.35046162066906e-06	0.008	GO:0006810	transport
+169	1894	0.172877923502909	5.42576497603611e-06	0.017	GO:0010604	positive regulation of macromolecule metabolic process
+68	579	0.276805946160104	5.55936405747324e-06	0.009	GO:0051338	regulation of transferase activity
+259	2983	0.140306325675834	6.6026954907857e-06	0.014	GO:0051234	establishment of localization
+331	4165	0.12606177561504	7.67625490229894e-06	0.021	GO:0080090	regulation of primary metabolic process
+374	4788	0.120036421502829	8.06059661847331e-06	0.021	GO:0044260	cellular macromolecule metabolic process
+161	1713	0.173143376464892	8.18499608996436e-06	0.022	GO:0032879	regulation of localization
+172	1855	0.167167015775532	8.65531092906176e-06	0.025	GO:0043412	macromolecule modification
+65	553	0.276933301906472	8.66094784518941e-06	0.025	GO:0043549	regulation of kinase activity
+46	348	0.33458766624111	9.39917315874188e-06	0.027	GO:0051241	negative regulation of multicellular organismal process
+184	2125	0.158736082915592	1.25250623937311e-05	0.029	GO:0009893	positive regulation of metabolic process
+173	1982	0.161845682408615	1.49436692449882e-05	0.032	GO:0031325	positive regulation of cellular metabolic process
+45	344	0.329245876345648	1.52721317339885e-05	0.036	GO:0033674	positive regulation of kinase activity
+195	2178	0.150977935754576	1.84037047105754e-05	0.048	GO:0044267	cellular protein metabolic process
