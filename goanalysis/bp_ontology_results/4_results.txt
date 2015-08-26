@@ -1,0 +1,72 @@
+
+
+
+
+
+Analysis Type:	PANTHER Overrepresentation Test (release 20150430)
+Annotation Version and Release Date:	GO Ontology database  Released 2015-08-06
+Analyzed List:	upload_1 (Mus musculus)
+Reference List:	Mus musculus (all genes in database)
+Bonferroni correction:	true
+GO biological process complete	Mus musculus - REFLIST (22320)	upload_1 (625)	upload_1 (expected)	upload_1 (over/under)	upload_1 (fold Enrichment)	upload_1 (P-value)
+Unclassified	1652	9	46.26	-	 < 0.2	0.00E00
+cellular process	13249	468	371.00	+	1.26	2.08E-12
+single-organism process	12188	436	341.29	+	1.28	4.93E-11
+positive regulation of biological process	4910	219	137.49	+	1.59	4.94E-10
+single-organism cellular process	10788	393	302.08	+	1.30	1.39E-09
+biological regulation	10699	389	299.59	+	1.30	3.49E-09
+sensory perception of smell	1107	1	31.00	-	 < 0.2	3.88E-09
+sensory perception of chemical stimulus	1230	3	34.44	-	 < 0.2	2.66E-08
+detection of chemical stimulus involved in sensory perception	1128	2	31.59	-	 < 0.2	3.65E-08
+biological_process	20668	616	578.74	+	1.06	6.10E-08
+regulation of biological process	10256	371	287.19	+	1.29	8.94E-08
+multicellular organismal development	4036	179	113.02	+	1.58	5.41E-07
+cellular component organization	4121	180	115.40	+	1.56	1.62E-06
+detection of chemical stimulus	1154	4	32.31	-	 < 0.2	1.81E-06
+regulation of metabolic process	5686	230	159.22	+	1.44	2.01E-06
+positive regulation of cellular process	4363	187	122.17	+	1.53	2.85E-06
+localization	4100	178	114.81	+	1.55	3.48E-06
+developmental process	4693	197	131.41	+	1.50	4.33E-06
+cellular component organization or biogenesis	4260	182	119.29	+	1.53	7.20E-06
+single-organism developmental process	4666	195	130.66	+	1.49	8.09E-06
+anatomical structure development	4183	179	117.13	+	1.53	9.42E-06
+regulation of cellular process	9809	347	274.67	+	1.26	3.09E-05
+detection of stimulus involved in sensory perception	1186	6	33.21	-	 < 0.2	3.40E-05
+system development	3499	154	97.98	+	1.57	3.45E-05
+regulation of biological quality	2643	124	74.01	+	1.68	5.06E-05
+metabolic process	7858	287	220.04	+	1.30	1.68E-04
+establishment of localization	3295	144	92.27	+	1.56	2.06E-04
+positive regulation of molecular function	1327	73	37.16	+	1.96	3.24E-04
+single-organism localization	2664	121	74.60	+	1.62	4.86E-04
+transport	3170	138	88.77	+	1.55	5.60E-04
+positive regulation of hydrolase activity	560	40	15.68	+	2.55	9.11E-04
+positive regulation of metabolic process	3172	137	88.82	+	1.54	1.00E-03
+organic substance metabolic process	7367	268	206.29	+	1.30	1.23E-03
+regulation of multicellular organismal process	2428	111	67.99	+	1.63	1.41E-03
+cellular localization	1757	87	49.20	+	1.77	1.50E-03
+cellular macromolecule metabolic process	5282	204	147.91	+	1.38	1.64E-03
+establishment of localization in cell	1386	73	38.81	+	1.88	1.71E-03
+single-organism transport	2467	112	69.08	+	1.62	1.73E-03
+positive regulation of catalytic activity	1058	60	29.63	+	2.03	2.12E-03
+macromolecule metabolic process	5892	222	164.99	+	1.35	2.39E-03
+regulation of catalytic activity	1780	87	49.84	+	1.75	2.58E-03
+primary metabolic process	7079	257	198.22	+	1.30	3.47E-03
+organ development	2532	113	70.90	+	1.59	3.53E-03
+cellular developmental process	3284	138	91.96	+	1.50	4.24E-03
+regulation of anatomical structure morphogenesis	860	51	24.08	+	2.12	4.88E-03
+regulation of molecular function	2260	103	63.28	+	1.63	4.93E-03
+cell differentiation	3118	132	87.31	+	1.51	5.46E-03
+negative regulation of biological process	4133	165	115.73	+	1.43	5.79E-03
+cellular metabolic process	6833	248	191.34	+	1.30	6.91E-03
+regulation of macromolecule metabolic process	4893	188	137.01	+	1.37	9.33E-03
+regulation of neuron differentiation	554	37	15.51	+	2.39	1.29E-02
+regulation of gene expression	3476	142	97.33	+	1.46	1.34E-02
+regulation of neuron projection development	400	30	11.20	+	2.68	1.34E-02
+regulation of cellular metabolic process	5062	192	141.75	+	1.35	1.62E-02
+lung morphogenesis	51	10	1.43	+	 > 5	1.88E-02
+regulation of response to stimulus	2991	125	83.75	+	1.49	2.23E-02
+negative regulation of cellular process	3811	151	106.71	+	1.41	3.16E-02
+sensory perception	1571	18	43.99	-	.41	3.19E-02
+response to external stimulus	1372	68	38.42	+	1.77	3.58E-02
+generation of neurons	1291	65	36.15	+	1.80	3.59E-02
+regulation of multicellular organismal development	1623	77	45.45	+	1.69	3.86E-02

@@ -1,0 +1,60 @@
+
+
+
+
+
+Analysis Type:	PANTHER Overrepresentation Test (release 20150430)
+Annotation Version and Release Date:	GO Ontology database  Released 2015-08-06
+Analyzed List:	upload_1 (Mus musculus)
+Reference List:	Mus musculus (all genes in database)
+Bonferroni correction:	true
+GO biological process complete	Mus musculus - REFLIST (22320)	upload_1 (664)	upload_1 (expected)	upload_1 (over/under)	upload_1 (fold Enrichment)	upload_1 (P-value)
+regulation of protein modification process	1489	78	44.30	+	1.76	8.67E-03
+regulation of phosphate metabolic process	1495	76	44.47	+	1.71	3.51E-02
+regulation of phosphorus metabolic process	1500	76	44.62	+	1.70	3.94E-02
+anatomical structure morphogenesis	2004	97	59.62	+	1.63	1.22E-02
+regulation of localization	2246	106	66.82	+	1.59	1.17E-02
+regulation of response to stimulus	2991	139	88.98	+	1.56	4.39E-04
+regulation of protein metabolic process	2305	106	68.57	+	1.55	3.69E-02
+system development	3499	156	104.09	+	1.50	7.56E-04
+anatomical structure development	4183	183	124.44	+	1.47	1.42E-04
+cell differentiation	3118	136	92.76	+	1.47	2.09E-02
+multicellular organismal development	4036	176	120.07	+	1.47	3.81E-04
+localization	4100	178	121.97	+	1.46	4.21E-04
+heterocycle metabolic process	3526	152	104.90	+	1.45	8.73E-03
+cellular developmental process	3284	141	97.70	+	1.44	3.00E-02
+single-organism metabolic process	3453	148	102.72	+	1.44	1.75E-02
+nitrogen compound metabolic process	4189	179	124.62	+	1.44	1.15E-03
+cellular aromatic compound metabolic process	3559	152	105.88	+	1.44	1.49E-02
+nucleobase-containing compound metabolic process	3388	144	100.79	+	1.43	3.93E-02
+developmental process	4693	199	139.61	+	1.43	2.83E-04
+organic cyclic compound metabolic process	3751	158	111.59	+	1.42	1.94E-02
+cellular nitrogen compound metabolic process	3900	164	116.02	+	1.41	1.28E-02
+single-organism developmental process	4666	195	138.81	+	1.40	1.23E-03
+cellular component organization or biogenesis	4260	177	126.73	+	1.40	8.92E-03
+positive regulation of cellular process	4363	181	129.80	+	1.39	7.04E-03
+macromolecule metabolic process	5892	244	175.28	+	1.39	2.36E-05
+cellular metabolic process	6833	282	203.28	+	1.39	5.62E-07
+regulation of macromolecule metabolic process	4893	201	145.56	+	1.38	2.56E-03
+regulation of primary metabolic process	4897	201	145.68	+	1.38	2.71E-03
+metabolic process	7858	322	233.77	+	1.38	1.09E-08
+cellular macromolecule metabolic process	5282	216	157.13	+	1.37	9.92E-04
+organic substance metabolic process	7367	301	219.16	+	1.37	2.09E-07
+regulation of cellular metabolic process	5062	206	150.59	+	1.37	3.35E-03
+regulation of metabolic process	5686	229	169.15	+	1.35	1.13E-03
+positive regulation of biological process	4910	197	146.07	+	1.35	1.85E-02
+primary metabolic process	7079	284	210.59	+	1.35	1.10E-05
+cellular process	13249	482	394.15	+	1.22	5.80E-09
+single-organism process	12188	432	362.58	+	1.19	2.14E-04
+biological regulation	10699	377	318.29	+	1.18	2.26E-02
+single-organism cellular process	10788	378	320.93	+	1.18	4.11E-02
+biological_process	20668	652	614.85	+	1.06	6.04E-07
+neurological system process	1876	24	55.81	-	.43	4.30E-03
+G-protein coupled receptor signaling pathway	1870	17	55.63	-	.31	2.86E-06
+Unclassified	1652	12	49.15	-	.24	0.00E00
+sensory perception	1571	11	46.74	-	.24	1.02E-06
+detection of stimulus	1279	5	38.05	-	 < 0.2	7.14E-08
+detection of chemical stimulus	1154	2	34.33	-	 < 0.2	2.52E-09
+sensory perception of chemical stimulus	1230	2	36.59	-	 < 0.2	2.64E-10
+sensory perception of smell	1107	1	32.93	-	 < 0.2	5.67E-10
+detection of stimulus involved in sensory perception	1186	1	35.28	-	 < 0.2	5.10E-11

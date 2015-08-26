@@ -1,0 +1,26 @@
+
+
+
+
+
+Analysis Type:	PANTHER Overrepresentation Test (release 20150430)
+Annotation Version and Release Date:	GO Ontology database  Released 2015-08-06
+Analyzed List:	upload_1 (Mus musculus)
+Reference List:	Mus musculus (all genes in database)
+Bonferroni correction:	true
+GO biological process complete	Mus musculus - REFLIST (22320)	upload_1 (596)	upload_1 (expected)	upload_1 (over/under)	upload_1 (fold Enrichment)	upload_1 (P-value)
+positive regulation of biological process	4910	188	131.11	+	1.43	3.31E-04
+positive regulation of cellular process	4363	167	116.50	+	1.43	2.89E-03
+cellular metabolic process	6833	242	182.46	+	1.33	1.12E-03
+metabolic process	7858	276	209.83	+	1.32	1.18E-04
+organic substance metabolic process	7367	250	196.72	+	1.27	2.35E-02
+single-organism cellular process	10788	359	288.07	+	1.25	2.69E-05
+cellular process	13249	440	353.78	+	1.24	7.68E-10
+single-organism process	12188	393	325.45	+	1.21	9.00E-05
+biological_process	20668	586	551.89	+	1.06	1.80E-06
+neurological system process	1876	19	50.09	-	.38	1.38E-03
+sensory perception	1571	13	41.95	-	.31	6.03E-04
+Unclassified	1652	10	44.11	-	.23	0.00E00
+sensory perception of smell	1107	2	29.56	-	 < 0.2	2.60E-07
+sensory perception of chemical stimulus	1230	2	32.84	-	 < 0.2	1.01E-08
+detection of stimulus	1279	2	34.15	-	 < 0.2	2.73E-09

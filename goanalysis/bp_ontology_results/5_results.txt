@@ -1,0 +1,58 @@
+
+
+
+
+
+Analysis Type:	PANTHER Overrepresentation Test (release 20150430)
+Annotation Version and Release Date:	GO Ontology database  Released 2015-08-06
+Analyzed List:	upload_1 (Mus musculus)
+Reference List:	Mus musculus (all genes in database)
+Bonferroni correction:	true
+GO biological process complete	Mus musculus - REFLIST (22320)	upload_1 (711)	upload_1 (expected)	upload_1 (over/under)	upload_1 (fold Enrichment)	upload_1 (P-value)
+positive regulation of cellular protein metabolic process	1196	68	38.10	+	1.78	3.01E-02
+positive regulation of protein metabolic process	1294	72	41.22	+	1.75	3.23E-02
+tissue development	1461	79	46.54	+	1.70	3.03E-02
+regulation of cell differentiation	1520	81	48.42	+	1.67	3.86E-02
+regulation of transcription from RNA polymerase II promoter	1679	89	53.48	+	1.66	1.56E-02
+macromolecule localization	1728	91	55.05	+	1.65	1.54E-02
+regulation of cellular protein metabolic process	2137	111	68.07	+	1.63	1.89E-03
+regulation of developmental process	2145	111	68.33	+	1.62	2.27E-03
+organ development	2532	131	80.66	+	1.62	1.52E-04
+regulation of signal transduction	2150	110	68.49	+	1.61	4.47E-03
+regulation of signaling	2486	125	79.19	+	1.58	1.63E-03
+regulation of cell communication	2620	131	83.46	+	1.57	1.06E-03
+regulation of protein metabolic process	2305	115	73.43	+	1.57	8.04E-03
+positive regulation of macromolecule metabolic process	2537	125	80.82	+	1.55	4.71E-03
+positive regulation of cellular metabolic process	2700	129	86.01	+	1.50	1.47E-02
+single-organism localization	2664	126	84.86	+	1.48	3.27E-02
+positive regulation of metabolic process	3172	150	101.04	+	1.48	3.08E-03
+transport	3170	149	100.98	+	1.48	4.84E-03
+regulation of gene expression	3476	163	110.73	+	1.47	1.38E-03
+system development	3499	164	111.46	+	1.47	1.29E-03
+positive regulation of cellular process	4363	204	138.98	+	1.47	2.23E-05
+establishment of localization	3295	154	104.96	+	1.47	4.13E-03
+positive regulation of biological process	4910	228	156.41	+	1.46	2.74E-06
+anatomical structure development	4183	192	133.25	+	1.44	3.34E-04
+regulation of macromolecule metabolic process	4893	222	155.87	+	1.42	4.23E-05
+localization	4100	184	130.60	+	1.41	3.45E-03
+regulation of primary metabolic process	4897	218	155.99	+	1.40	3.07E-04
+regulation of cellular metabolic process	5062	225	161.25	+	1.40	1.84E-04
+multicellular organismal development	4036	179	128.57	+	1.39	1.14E-02
+developmental process	4693	208	149.49	+	1.39	1.06E-03
+regulation of metabolic process	5686	250	181.13	+	1.38	4.74E-05
+single-organism developmental process	4666	205	148.63	+	1.38	2.62E-03
+metabolic process	7858	315	250.32	+	1.26	2.58E-03
+regulation of cellular process	9809	381	312.46	+	1.22	1.15E-03
+single-organism process	12188	471	388.25	+	1.21	1.35E-06
+cellular process	13249	510	422.04	+	1.21	3.27E-08
+single-organism cellular process	10788	410	343.65	+	1.19	2.81E-03
+biological regulation	10699	406	340.81	+	1.19	4.42E-03
+regulation of biological process	10256	389	326.70	+	1.19	1.29E-02
+biological_process	20668	691	658.38	+	1.05	7.99E-04
+G-protein coupled receptor signaling pathway	1870	26	59.57	-	.44	2.56E-03
+Unclassified	1652	20	52.62	-	.38	0.00E00
+detection of stimulus	1279	12	40.74	-	.29	4.95E-04
+detection of stimulus involved in sensory perception	1186	8	37.78	-	.21	1.95E-05
+detection of chemical stimulus	1154	4	36.76	-	 < 0.2	3.12E-08
+sensory perception of chemical stimulus	1230	3	39.18	-	 < 0.2	2.97E-10
+detection of chemical stimulus involved in sensory perception	1128	2	35.93	-	 < 0.2	5.42E-10
