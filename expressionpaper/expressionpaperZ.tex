@@ -1,11 +1,38 @@
 \documentclass[10pt]{article}
+
 \usepackage{blindtext}
-\usepackage{graphicx}
-\usepackage{multirow}
+\usepackage{etex}
+\usepackage{makeidx}  % allows for indexgeneration
+\usepackage{mathtools} %
+\usepackage{booktabs} %
+\usepackage{verbatim} %
+\usepackage{graphicx} 
 \usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsthm}
+\usepackage{xspace}
+\usepackage{natbib}
+\usepackage{pifont}%
+\usepackage{tikz}
+\usepackage{relsize}
+\usepackage{multirow}
+\usepackage{textcomp}
+\usepackage{comment}
+\usepackage{url}
+\usepackage{float}
+%\usepackage{algorithmic} 
 \usepackage{algorithm}
 \usepackage{algpseudocode}
-\usepackage{pifont}
+%\usepackage[vlined]{algorithm2e} 
+\usepackage{subfig}
+\usepackage{framed}
+\usepackage{empheq}
+
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+\newcommand{\vectornorm}[1]{\left|\left|#1\right|\right|}
+\newcommand{\argmin}{\operatornamewithlimits{argmin}}
+\newcommand{\argmax}{\operatornamewithlimits{argmax}}
 
 \algdef{SE}[DOWHILE]{Do}{doWhile}{\algorithmicdo}[1]{\algorithmicwhile\ #1}%
 
@@ -41,8 +68,7 @@ points $T$.
 
 To constrain the set of points we select we assume that we have a
 predefined budget $k$ for the maximum number of time points we can
-sample in the complete experiment (i.e. for profiling all genes,
-miRNAs, epigenetic marks etc. using high throughput seq
+sample in the complete experiment (i.e. for profiling all genes, miRNAs, epigenetic marks etc. using high throughput seq
 experiments). We are interested in selecting $k$ time points from
 $T$ which, when using only the data collected at these $k$ points,
 minimizes the prediction error for the expression values of the
@@ -192,8 +218,7 @@ out cross validation in our experiments. $\lambda$ also affects the number of kn
 
 \subsection{Individual vs. Cluster based Evaluation}\label{sec:clusteval}
 
-In section~\ref{sec:mainalgo}, we assume that error of each
-gene has same contribution to the overall error. However, this assumption ignores the
+In section~\ref{sec:mainalgo}, we assume that error of each gene has same contribution to the overall error. However, this assumption ignores the
 fact that expression of genes are correlated with the expression of other genes. To take the
 correlation between genes into account, we have also performed cluster
 based evaluation of genes where we analyzed the error by weighting each gene in terms of inverse of the numbers of
@@ -205,9 +230,130 @@ determine the optimal number of clusters~\cite{bic}.
 
 \section{Results}
 
+\subsection{Datasets and Implementation}
+
+We have used mRNA and miRNA expression datasets as well as histone
+methylation dataset over Mus Musculus in our analysis. mRNA dataset is obtained via
+NanoString including the expression of $134$ selected genes that are
+effective in lung development. On the other hand, larger miRNA dataset
+profiles the expression of $599$ microRNAs. Both mRNA and
+miRNA datasets are composed of $42$ time points between the first and
+$28$'th days in mouse development. mRNA dataset has between $3$ and $5$ repeats for each time point whereas miRNA dataset has between $3$ and $4$ repeats for each time point.
+
+We implemented our method in Python. Our method, analysis code and
+detailed results are available on~\url{https://github.com/emresefer/geneexpress}.
+
+\subsection{Subset of important time points across multiple genes}\label{sec:findsubset}
+
+%identified points
+We identified the subset of important time points across multiple
+genes over mRNA dataset. Fixing initial~($0.5$'th day), last~($28$'th
+day), and close-mid point~($7$'th day) in advance, we identified total of $13$ points as $0.5$, $1.0$, $1.5$, $2.5$, $4$,
+$5$, $7$, $10$, $13.5$, $15$, $19$, $23$, $28$ out of $42$ points we
+tested for via our method. We find that best informed guess is to
+initialize using points that are sorted by increasing absolute
+differences. We also find top $10$ solutions lead to errors that are
+very similar to the ones we used~(See Supplementary Figure $1$).
+%(+ additional anchor points of E16.5 and E18.5 for other analyses)
+
+%performance comparison
+We analyze the performance of our method with different initial
+heuristics. We find significant performance improvement over randomly selected points
+as in Figure~\ref{fig:errplots} in terms of mean squared error. Sorting initial points by absolute
+values performs better than other methods in almost all selected
+number of points. Our method performs as good as noise by increasing
+number of selected points which is the limiting factor in our method's
+performance. Overall, we can approximate expression values of each
+gene quite accurately by using $10$ points out of $42$ points, almost
+as good as noise of the data. 
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.2]{{../newdata/perform}.png}
+\caption{Performance of our method by increasing number of selected points}
+\label{fig:errplots}
+\end{figure}
+
+Figure~\ref{fig:centplots} shows the predicted expression curves by our
+method over $13$ points~(in addition to the initial and last time
+points) over genes with different expression curves. Selected points can
+accurately approximate different gene expression profiles.
+
+\begin{figure}
+\begin{minipage}{1.0\textwidth}
+\subfloat[PDGFRA]{\includegraphics[scale=0.12]{{../newdata/PDGFRA_15_all}.png}}
+\hfill
+\subfloat[ELN]{\includegraphics[scale=0.12]{{../newdata/splineplots15/Eln_15_all}.png}}
+\hfill
+\subfloat[INMT]{\includegraphics[scale=0.12]{{../newdata/splineplots15/INMT_15_all}.png}}
+\hfill
+\end{minipage}
+\caption{Expression profiles over several genes a) PDGFRA, b) ELN, c) INMT}
+\label{fig:centplots}
+\end{figure}
+
+\subsection{Identified time points are predictive for miRNA}\label{sec:mirnaexp}
+
+We show that the time points identified over mRNA dataset can reconstruct the expression profiles for miRNA dataset quite accurately
+as in Figure~\ref{fig:mirnaerrplots}. Error decreases by increasing
+number of selected points similar to mRNA dataset. Identified points
+perform significantly better than the random set of points of same
+size. Using the $13$ selected mRNA points leads to an average error of $0.3312$ whereas optimal points for microRNA lead to relatively similar error ($0.3042$) indicating that mRNAs can serve as a general proxy for selecting time points.
+
+%Identified time points are effective across multiple experiments.
+%The effectiveness of identified time points across experiments show the importance of xxx and yyy.
+%We also analyze the similarity of miRNA optimal points to mRNA optimal
+%points as in Figure~\ref{xxx}.
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.2]{{../mirnadata/perform}.png}
+\caption{Performance analysis over miRNA dataset}
+\label{fig:mirnaerrplots}
+\end{figure}
+
+\subsection{Detailed Analysis of miRNA Dataset}\label{sec:mirna}
+
+Detailed analysis of miRNA dataset shows clustered expression profiles
+of miRNAs as in Figure~\ref{fig:clustmirna}. We identified $8$ stable
+clusters by k-means~\cite{kmeans} where number of clusters is selected by
+Bayesian Information Criteria~\cite{bic}. We find clusters to change more frequently
+than mRNA data since miRNA is noisier than mRNA data. Identified clusters are also
+enriched for several Gene Ontology biological processes~\cite{go}. 
+
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.2]{{../mirnadata/centplot}.png}
+\caption{$8$ stable clusters}
+\label{fig:clustmirna}
+\end{figure}
+
+We also predict the expression profiles of several miRNAs by fitting
+spline over time points identified over mRNA dataset as in
+Figure~\ref{fig:mirnaplots_spec}. Spline-based reconstruction performs
+better than linear reconstruction similar to mRNA dataset. Accurate
+prediction of expression profiles of different miRNAs show the importance of our method in reconstructing the
+expression profiles. Among these miRNAs, mmu-miR-100 targets Fgfr3 and Igf1r, mmu-miR-136 targets Tgfb2. Similarly, mmu-miR-152 targets Meox2, Robo1, Fbn1, Nfya. Lastly, mmu-miR-219 targets PDGFRA, Eya2, Esr1,2, Efnb2 and Robo1 which are associated 
+with BPD in preterm infants.
+
+\begin{figure}[h]
+\centering
+\begin{minipage}{1.0\textwidth}
+\subfloat[mmu-miR-100]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-100_13}.png}}
+\hfill
+\subfloat[mmu-miR-136]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-136_13}.png}}
+\\
+\centering
+\hfill
+\subfloat[mmu-miR-152]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-152_13}.png}}
+\hfill
+\subfloat[mmu-miR-219]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-219_13}.png}}
+\end{minipage}
+\caption{Predicted expression profiles of different miRNAs}
+\label{fig:mirnaplots_spec}
+\end{figure}
 
 \bibliographystyle{plain}
 \bibliography{expressbib}
-
 
 \end{document}

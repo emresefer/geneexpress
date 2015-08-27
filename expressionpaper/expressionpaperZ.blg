@@ -3,44 +3,44 @@ Capacity: max_strings=35307, hash_size=35307, hash_prime=30011
 The top-level auxiliary file: expressionpaperZ.aux
 The style file: plain.bst
 Database file #1: expressbib.bib
-You've used 9 entries,
+You've used 10 entries,
             2118 wiz_defined-function locations,
-            555 strings with 5259 characters,
-and the built_in function-call counts, 2811 in all, are:
-= -- 271
-> -- 128
+            562 strings with 5549 characters,
+and the built_in function-call counts, 3404 in all, are:
+= -- 322
+> -- 186
 < -- 2
-+ -- 52
-- -- 42
-* -- 182
-:= -- 478
-add.period$ -- 28
-call.type$ -- 9
-change.case$ -- 43
++ -- 75
+- -- 64
+* -- 242
+:= -- 587
+add.period$ -- 31
+call.type$ -- 10
+change.case$ -- 56
 chr.to.int$ -- 0
-cite$ -- 9
-duplicate$ -- 114
-empty$ -- 228
-format.name$ -- 42
-if$ -- 585
+cite$ -- 10
+duplicate$ -- 125
+empty$ -- 253
+format.name$ -- 64
+if$ -- 694
 int.to.chr$ -- 0
-int.to.str$ -- 9
-missing$ -- 13
-newline$ -- 48
-num.names$ -- 18
-pop$ -- 59
+int.to.str$ -- 10
+missing$ -- 14
+newline$ -- 53
+num.names$ -- 20
+pop$ -- 70
 preamble$ -- 1
-purify$ -- 38
+purify$ -- 50
 quote$ -- 0
-skip$ -- 74
+skip$ -- 81
 stack$ -- 0
-substring$ -- 153
-swap$ -- 20
+substring$ -- 177
+swap$ -- 21
 text.length$ -- 2
 text.prefix$ -- 0
 top$ -- 0
-type$ -- 28
+type$ -- 32
 warning$ -- 0
-while$ -- 27
-width$ -- 10
-write$ -- 98
+while$ -- 31
+width$ -- 12
+write$ -- 109
