@@ -349,8 +349,8 @@ points in terms of mean squared error. Sorting initial points by absolute values
 the performance highlighting the importance of initialization when
 searching large combinatorial spaces. As the number of
 points used by the method increases, it leads to results that are very close to the error represented by
-noise in the data~($xxx$) even when only using half the points. Relative order of the methods do not change if we also use
-additional anchor points E16.5 and E18.5 in our analysis~(Supplementary Figure~\ref{fig:xxx}).
+noise in the data~($0.098$) even when only using half the points. Relative order of the methods do not change if we also use
+additional anchor points E16.5 and E18.5 in our analysis~(Supplementary Figure~\ref{fig:sup1}).
 %Overall, prediction error becomes almost as good as the noise of the data~($xxx$) if we use
 %carefully selected $10$ points out of $40$ points. 
 
@@ -460,12 +460,14 @@ Detailed analysis of miRNA dataset shows clustered expression profiles
 of miRNAs as in Figure~\ref{fig:clustmirna}. We identified $8$ stable miRNA
 clusters by k-means algorithm~\cite{kmeans} where number of clusters is selected by
 Bayesian Information Criteria~\cite{bic}. We find clusters to change more frequently
-than mRNA data as miRNA is noisier than mRNA data. After mapping each miRNA to
-corresponding genes by TargetScan~\cite{agarwal2015}, we run gene-enrichment analysis
-by FuncAssociate~\cite{berriz2003}. We find clusters to be enriched
+than mRNA data as miRNA is noisier than mRNA data~(See Supplementary
+Figure~\ref{fig:sup2} for mRNA clusters). After mapping each miRNA to
+corresponding genes by TargetScan~\cite{agarwal2015}, we run
+gene-enrichment analysis by FuncAssociate~\cite{berriz2003}. We find clusters to be enriched
 for several Gene Ontology biological processes~\cite{go}. For
-instance, cluster $4$ is enriched for single-organism cellular process, positive regulation of biological
-process, regulation of metabolic process, etc~(See Supplementary Results for details).
+instance, cluster $4$ is enriched for single-organism cellular
+process, positive regulation of biological process, regulation of
+metabolic process, etc~(See Supplementary Results for details).
 
 \begin{figure}
 \centering
@@ -474,15 +476,11 @@ process, regulation of metabolic process, etc~(See Supplementary Results for det
 \label{fig:clustmirna}
 \end{figure}
 
-
 \subsection{Identified Time Points Over Temporal Methylation Data}
 
-We have identified time points over methylation data. We checked
-whether these points agree with previous ones.
-
-%Using optimal $8$ points identified over mRNA dataset leads to lower
-%error for methylation data.
-
+\Tempselect selected $0.5$, $5$, $15$, $26$ out of $8$ time points
+over temporal methylation data when we consider each gene locus
+independently. 
 
 \section{Conclusion}
 
@@ -496,10 +494,29 @@ benchmark to reduce the experimental cost.
 \bibliographystyle{plain}
 \bibliography{expressbib}
 
+\newpage
 
 \appendix
 
+
 \section{Supplementary Information}
+
+\begin{figure}
+\centering
+\includegraphics[scale=0.2]{{../newdata/performRL2}.png}
+\caption{Performance of \Tempselect by increasing number of selected points}
+\label{fig:sup1}
+\end{figure}
+
+\begin{figure}
+\begin{minipage}{1.0\textwidth}
+\subfloat[6 stable clusters]{\includegraphics[scale=0.15]{{../newdata/centplotlimit}.png}}
+\hfill
+\subfloat[Centroids]{\includegraphics[scale=0.15]{{../newdata/centplot}.png}}
+\end{minipage}
+\caption{}
+\label{fig:sup2}
+\end{figure}
 
 \begin{table}
 \begin{tabular}{|c|c|c|c|c|}
@@ -524,17 +541,6 @@ Akt1 & 11 & & &  \\
 \caption{Summary of methylation dataset}
 \label{tab:sup1}
 \end{table}
-
-\begin{figure}
-\begin{minipage}{1.0\textwidth}
-\subfloat[6 stable clusters]{\includegraphics[scale=0.15]{{../newdata/centplotlimit}.png}}
-\hfill
-\subfloat[Centroids]{\includegraphics[scale=0.15]{{../newdata/centplot}.png}}
-\end{minipage}
-\caption{}
-\label{fig:sup1}
-\end{figure}
-
 
 
 \end{document}
