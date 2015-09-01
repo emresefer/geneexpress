@@ -1,0 +1,322 @@
+\documentclass{article}
+\usepackage{amsmath}
+
+\title{Theoretical Analysis of Gene Expression Reconstruction}
+\date{}
+
+\begin{document}
+\maketitle
+
+\section{Single Transition Case}
+
+\subsection{Exact Bounds for Dense Sampling}
+
+Let $p(s_{d} = t_{i} | s_{g}, \sigma^{2})$ be the probability of selecting the $i$'th time point conditioned on the actual step time
+and the noise in the measured data, and let $L(t_{i})$ denote the
+likelihood of the observed data for a specific time point $t_{i}$. In
+order to select $t_{i}$ as the step point, we need the likelihood
+defined by this point to be higher than any other point. Thus;
+%
+\begin{equation}\label{eq:pgen}
+p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) = p\big( L_i >L_{j}, \,
+i \neq j \big ) 
+\end{equation}
+%
+Let $\hat{L}_i = \log(L_i)$, and This can also be interpreted as follows. Let $M = L(i)$, then this can
+be written as follows:
+%
+\begin{equation}\label{eq:pgen2}
+p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) =
+\int_{-\infty}^{\infty} p(\hat{L}_{i} = m) p\big(\hat{L}_{j} \le m, \,i \neq j \big) dm
+\end{equation}
+%
+where $p(\hat{L}_{i} = m)$ is chi-squared distribution, and $p\big(\hat{L}_{j} \le m, \,i \neq j \big)$ is the probability
+likelihoods of all other time points is smaller than $m$. Let $S_{i} =
+\{t_{1}, t_{2}, \ldots, t_{i-1} \}$ be the set of sorted time points
+that are smaller than $t_{i}$, and $M_{i} = \{t_{i+1}, t_{i+2},
+\ldots, t_{T} \}$ be the set of time points larger than $t_{i}$. For $t_{j} \in S_{i}$, $p(\hat{L_{i}} \ge \hat{L_{j}})$ is:
+%
+\begin{equation}\label{eq:pgen4}
+p(\hat{L_{i}} \ge \hat{L_{j}}) = \frac{1}{2\sigma^{2}} \left(
+  \sum_{m=j}^{i-1} -(d_{m})^{2} - \sum_{m=j}^{i-1} -(d_{m}-1)^{2}
+\right) = \sum_{m=j}^{i-1} d_{m} \le \frac{s}{2} 
+\end{equation}
+%
+due to gaussian assumption where $s$ is the number of points between
+$t_{j}$ and $t_{i-1}$ including both time points. Similar inequalities for all points in $S_{i}$ return the following dependent equations:
+%
+\begin{align}
+& d_{i-1} \le 0.5 \\
+& d_{i-1} + d_{i-2} \le 1 \\
+& d_{i-1} + d_{i-2} + d_{i-3} \le 1.5 \\
+& \ldots \\
+& d_{i-1} + \ldots + d_{1} \le \frac{i-1}{2} 
+\end{align}
+%
+Similar analysis for points in $M_{i}$ return the following dependent equations:
+%
+\begin{align}
+& d_{i} \ge 0.5 \\
+& d_{i} + d_{i+1} \ge 1 \\
+& d_{i} + d_{i+1} + d_{i+2} \ge 1.5 \\
+& \ldots \\
+& d_{i} + \ldots + d_{T-1} \ge \frac{T-i}{2} 
+\end{align}
+%
+These joint integrals are independent of each other, so overall
+expression becomes:
+%
+\begin{equation}\label{eq:pgenall}
+p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) =
+\int_{-\infty}^{\infty} p(\hat{L}_{i} = m) \, p\big(\hat{L}_{j} \le m,
+\,j \in S_{i}\big)\,p\big(\hat{L}_{j} \le m, \,j \in M_i \big) dm
+\end{equation}
+%
+where $p\big(\hat{L}_{j} \le m, \,j \in S_{i}\big)$ and
+$p\big(\hat{L}_{j} \le m, \,j \in M_i \big)$ are probabilities of
+satisfying the equations for $S_{i}$ and $M_{i}$
+above. $p\big(\hat{L}_{j} \le m, \,j \in S_{i}\big)$ can be expressed
+by the following nested integral:
+%
+\begin{equation}\label{eq:nested}
+p\big(\hat{L}_{j} \le m, \,j \in S_{i}\big) = \int_{-\infty}^{0.5}
+p(x_{i-1}) \int_{-\infty}^{1-x_{i-1}} p(x_{i-2}) \ldots
+\int_{-\infty}^{\frac{i-1}{2}-\sum_{t=2}^{i-1}x_{t}} p(x_{1})
+d_{x_{1}} d_{x_{i-2}} d_{x_{i-1}}
+\end{equation}
+%
+where $p(x)$ is gaussian probability distribution function. Since
+$p(x)$ is same for all time points, we can estimate the area by
+visualization. Let $x=cdf(0.5)$, and $D(n)$ be the area by using only
+topmost $n$ equations. Then, integral can be estimated recursively by:
+%
+\begin{equation}\label{eq:recur}
+D(n+1) = D(n) (1 - \frac{1}{n+1}(1-x))
+\end{equation}
+%
+with base case $D(1) = x$, and resulting integral is equal to
+$D(i-1)$. Similarly, $p\big(\hat{L}_{j} \le m, \,j \in M_{i}\big)$ can
+be estimated by the following recursive equation:
+%
+\begin{equation}\label{eq:recur}
+U(n+1) = U(n) (1 - \frac{x}{n+1})
+\end{equation}
+%
+where $U(n)$ is the area by using only topmost $n$ equations and base
+case is $T(1) = 1-x$. $p\big(\hat{L}_{j} \le m, \,j \in M_{i}\big) =
+U(T-i)$. 
+
+In main equation~\ref{eq:pgen2}, $p(m)$ is same for all time
+points and independent of other parts, so it integrates out to $1$. As
+a result, Eq.~\ref{eq:pgen2} becomes:
+%
+\begin{equation}\label{eq:newpgen2}
+p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) = U(T-i)\,D(i-1)
+\end{equation}
+
+
+% When estimating $p\big( L(i) >L(j) \big)$;
+% %
+% \begin{equation}\label{eq:pgen}
+% p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) = p\big( L(i) >L(j), \,
+% i \neq j \big ) 
+% \end{equation}
+% %
+% Let $I$ be number of sampled time points, Since $i$ is fixed, there
+% will be $(I-1)!$ orderings. Equation~\ref{eq:pgen} can be expressed
+% more explicitly as in:
+% %
+% \begin{equation}\label{eq:pgen2}
+% p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) = \sum_{(j_{1}, j_{2},
+%   \ldots, j_{I-1}) \atop \in \textit{all orderings}}\,p\big( L(i) > L(j_{1})\big)\,p\big( L(j_{1}) >
+% L(j_{2})\big) \ldots p\big( L(j_{I-2}) > L(j_{i-1})\big) 
+% \end{equation}
+% %
+% Each pairwise likelihood comparison $p\big( L(t_{x}) > L(t_{y})\big)$ can be written more explicitly as in:
+% %
+% \[ p\big( L(t_{x}) > L(t_{y})\big) = \begin{cases} 
+%       err(\frac{s}{2}) & t_{y} > t_{x} \\
+%       1 - err(\frac{s}{2}) & else
+%    \end{cases}
+% \]
+% %
+% where $err$ is error function~(cdf of gaussian distribution) and $s =
+% \sum_{t_{x}}^{t_{y} - \epsilon} 1 $. The derivation is similar to the
+% derivation from the previous draft.
+
+% The summation in~\eqref{eq:pgen2} cannot be expressed by a simpler
+% expression mainly since:
+% %
+% \begin{itemize}
+% \item Cdf of gaussian distribution~(error function) cannot be
+%   expressed by summation of multiplication of simpler terms.
+% \end{itemize}
+
+% For instance, when there are only 3 points, expression~\eqref{eq:pgen2} becomes:
+% %
+% \begin{equation}\label{eq:3points}
+% p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) = err(0.5) err(0.5) + err(1) (1-err(0.5))
+% \end{equation}
+% %
+% Even this expression cannot be reduced to single case. As a result, we
+% need to use the independence assumption below:
+% %
+% \begin{equation}\label{eq:indep}
+% p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) = \prod_{j \neq
+%   i}\,p\big( L(i) >L(j) \big)
+% \end{equation}
+% %
+% One possible solution is expressing error function in terms of Taylor
+% expansion which is:
+% %
+% \begin{equation}
+% p\big(s_{d} = t_{i} | s_{q}, \sigma^{2} \big) = \frac{2}{\sqrt(\pi)}
+% \left( x - \frac{x^{3}}{3} + \frac{x^{5}}{30} - \frac{x^{7}}{42} + \frac{x^{9}}{216} \right)
+% \end{equation}
+% %
+% Then, multiplication becomes a higher-order polynomial.
+
+% \section{Multiple Transition Points}
+
+% We make the following additional assumptions about the data:
+% \begin{itemize}
+% \item Time series data starts with $0$
+% \vspace{0.1cm}
+% \item Data can take only two values $0, 1$. Transition happens
+%   at either $1$ or $0$. However, it can be extended to multiple points
+%   such as $-1, 0, 1$.
+% \vspace{0.1cm}
+% \item Number of transition points $k$ is known.
+% \end{itemize}
+
+% Lower bound can still be estimated for each order $k$-tuple instead of
+% each time point. Let's consider an example for two transition points
+% such as $s_{d} = (t_{i}, t_{j})$ where the signal is $0$ except all time
+% points between $t_{i}$ and $t_{j}$. Now $s_{d} = (t_{i}, t_{j})$, and
+% the expression becomes:
+% %
+% \begin{equation}\label{eq:multi1}
+% p\big(s_{d} = (t_{i}, t_{j}) | s_{q}, \sigma^{2} \big) = p\bigg(
+% L((t_{i}, t_{j})) >L( (t_{a}, t_{b}), \, (t_{a}, t_{b}) \neq (t_{i}, t_{j})) \bigg )
+% \end{equation}
+% %
+% This can be used to approximate the lower bound as follows:
+% %
+% \begin{equation}\label{eq:multi2}
+% p\big(s_{d} = (t_{i}, t_{j}) | s_{q}, \sigma^{2} \big) =
+% \prod_{(t_{a}, t_{b}) \neq  (t_{i}, t_{j})}  \,p\bigg(
+% L( (t_{i}, t_{j})) >L( (t_{a}, t_{b})) \bigg)
+% \end{equation}
+
+% $p\bigg( L( (t_{i}, t_{j})) >L( (t_{a}, t_{b})) \bigg)$ can be expressed as:
+% %
+% \footnotesize
+% \begin{equation}
+% p\bigg( L( (t_{i}, t_{j})) >L( (t_{a}, t_{b})) \bigg) =
+% \frac{1}{2\sigma^{2}} \begin{array}{cc}
+%   \{ & 
+%     \begin{array}{cc}
+%      \sum_{t_{i} \le t \le t_{j} \, \cup \, t_{a} \le t \le t_{b}} (d_{t}^{2} - (d_{t}-1)^{2})  & t_{j} < t_{a} \\
+%       \sum_{t_{i} \le t \le t_{a}-\epsilon \, \cup \, t_{b}+\epsilon \le t \le t_{j}} (d_{t}^{2} - (d_{t}-1)^{2}) & t_{i} < t_{a} < t_{j} < t_{b} \\
+%       \sum_{t_{i} \le t \le t_{a}-\epsilon \, \cup \, t_{b}+\epsilon \le t \le t_{j}} (d_{t}^{2} - (d_{t}-1)^{2}) & t_{i} < t_{a} < t_{b}  < t_{j} \\
+%       \sum_{t_{i} \le t \le t_{j} \, \cup \, t_{a} \le t \le t_{b}} (d_{t}^{2} - (d_{t}-1)^{2} & t_{b} < t_{i} \\
+%        \sum_{t_{a}-\epsilon \le t \le t_{i} \, \cup \, t_{b}+\epsilon
+%       \le t \le t_{j}} (d_{t}^{2} - (d_{t}-1)^{2}) & t_{a} < t_{i} < t_{b} < t_{j}  \\
+%       \sum_{t_{a}-\epsilon \le t \le t_{i} \, \cup \, t_{j} \le t \le t_{b}+\epsilon} (d_{t}^{2} - (d_{t}-1)^{2})  & t_{a} < t_{i} < t_{j} < t_{b}  
+%     \end{array}
+% \end{array}
+% \end{equation}
+% \normalsize
+
+% Let $D$ be the number of time points that unmatch between true signal and the considered signal. These expressions can be expressed in terms of error function as follows:
+% %
+% \begin{equation}
+% p\bigg(
+% L( (t_{i}, t_{j})) >L( (t_{a}, t_{b})) \bigg) =
+% \frac{1}{2\sigma^{2}}\,\sum_{t \in D} \left(2d_{t} - 1\right) = err \bigg(\frac{|D|}{2}\bigg)
+% \end{equation}
+
+% For multiple $k$ transition points, number of unique cases/orderings will be
+% $\frac{(2k)!}{k!k!}$ since we are interested in all possible
+% permutations that respect partial orderings. 
+
+% which then becomes:
+% %
+% \begin{equation}
+% p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg) =
+% \frac{1}{2\sigma^{2}}\,\sum_{t \in D} \left(2d_{t} - 1\right) = err \bigg(\frac{|D|}{2}\bigg)
+% \end{equation}
+
+% Let $D$ be number of time points that unmatch between true signal and the considered signal. Then, $,p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg)$ becomes:
+% %
+% \begin{equation}
+% p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg) =
+% \frac{1}{2\sigma^{2}}\,\sum_{t \in D} \left(d_{t}^{2} - (d_{t}-1)^{2} \right)
+% \end{equation}
+% %
+% which is also:
+% %
+% \begin{equation}
+% p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg) =
+% \frac{1}{2\sigma^{2}}\,\sum_{t \in D} \left(2d_{t} - 1\right) = err \bigg(\frac{|D|}{2}\bigg)
+% \end{equation}
+
+
+
+% Now $s_{d} = (t_{i}, t_{j}, t_{k})$, and expression
+% becomes:
+% %
+% \begin{equation}\label{eq:multi1}
+% p\big(s_{d} = (t_{i}, t_{j}, t_{k}) | s_{q}, \sigma^{2} \big) = p\bigg(
+% L((t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c}), \, (t_{a}, t_{b},
+% t_{c}) \neq (t_{i}, t_{j}, t_{k})) \bigg )
+% \end{equation}
+% %
+% This can be used to approximate the lower bound as follows:
+% %
+% \begin{equation}\label{eq:multi2}
+% p\big(s_{d} = (t_{i}, t_{j}, t_{k}) | s_{q}, \sigma^{2} \big) =
+% \prod_{(t_{a}, t_{b}, t_{c}) \neq  (t_{i}, t_{j}, t_{k})}  \,p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg)
+% \end{equation}
+
+% Let $D$ be number of time points that unmatch between true signal and
+% the considered signal. Then, $,p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg)$ becomes:
+% %
+% \begin{equation}
+% p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg) =
+% \frac{1}{2\sigma^{2}}\,\sum_{t \in D} \left(d_{t}^{2} - (d_{t}-1)^{2} \right)
+% \end{equation}
+% %
+% which then becomes:
+% %
+% \begin{equation}
+% p\bigg(
+% L( (t_{i}, t_{j}, t_{k})) >L( (t_{a}, t_{b}, t_{c})) \bigg) =
+% \frac{1}{2\sigma^{2}}\,\sum_{t \in D} \left(2d_{t} - 1\right) = err \bigg(\frac{|D|}{2}\bigg)
+% \end{equation}
+
+% \subsection{MAP Formulation}
+
+% We can also extend our analysis to Maximum a posteriori analysis where number of
+% transition points $k$ is not fixed. In this case, there is a prior on $k$. We can use two types of prior on $k$:
+% %
+% \begin{itemize} 
+% \item Laplace prior: L1 norm
+% \vspace{0.1cm}
+% \item Gaussian prior: L2 norm
+% \end{itemize}
+% %
+% We will be maximizing the multiplication of likelihood and
+% prior. Either priors won't make the derivation of the lower bound more
+% complicated. 
+
+%\section{Multiple Repeats}
+
+\end{document}
