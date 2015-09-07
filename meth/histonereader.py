@@ -256,7 +256,7 @@ def makeData(data,ind2gene,ind2name,name2time):
                continue 
             ttime = float(timestr.replace("P","").replace("a","").replace("b","").replace("c",""))
             curdata.setdefault(ttime,[])
-            curdata[ttime].append(round(data[tind][gind]/100.0,5))
+            curdata[ttime].append(round(data[tind][gind],5))
         medval = np.median(curdata[0.5])
         curdata = {ttime: [round(item-medval,5) for item in curdata[ttime]] for ttime in curdata.keys()}
         moddata.append(deepcopy(curdata))   
@@ -344,7 +344,7 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
         
     fixedpoints = [0.5,26.0]
      
-    reglambda = 0.0001
+    reglambda = 0.01
     if True:
        avgyvallist = []
        for cind,cdata in enumerate(usedata):
@@ -731,6 +731,128 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
     return sumval,sumval/float(len(yvallist)*(len(times)-len(points))),points,yvals,y2knots,outsplines       
 
 
+def readExpText(fname):
+    """
+    """
+    count = 0
+    time2key,key2time = {}, {}
+    with open(fname,"r") as infile:
+        for line in infile:
+            line = line.rstrip()
+            if count != 0:
+               keystr, time = line.split("\t")
+               time = float(time)
+               time2key.setdefault(time,set())
+               time2key[time].add(keystr)
+               key2time[keystr] = time
+            else:
+               count += 1
+    return time2key,key2time           
+
+def readMultiSampleData(fname,key2time):
+    """reads multi sample data
+    Args:
+       fname:
+       key2time:
+    Returns:
+       data:
+    """
+    gene2id, data = [], []
+    ind2time = {}
+    with open(fname,"r") as infile:
+        for line in infile:
+            uselines = line.split("\r")        
+            for kind,keystr in enumerate(uselines[0].split("\t")[1:]):
+                ind2time[kind+1] = key2time[keystr]
+
+            for uind,useline in enumerate(uselines[1:]):
+                splitted = uselines[uind+1].split("\t")
+                gene = splitted[0]
+                gene2id.append(gene)
+                curvals = {}
+                for ind,item in enumerate(splitted[1:]):
+                    curtime = ind2time[ind+1]
+                    curvals.setdefault(curtime,[])
+                    curvals[curtime].append(float(item))
+                data.append(deepcopy(curvals))
+    return data,ind2time,gene2id
+
+
+def readExpression():
+    """read expression datas
+    """
+    expfname = "../geneexpress/newdata/expdes.txt"     
+    time2key,key2time = readExpText(expfname)
+    fname = "../geneexpress/newdata/127 LCM time course Quantile Normalized logbased 2 transformed.txt"
+    data,ind2time,gene2ind = readMultiSampleData(fname,key2time)
+    expgene2data = {}
+    for rind,rowdata in enumerate(data):
+        tgene = gene2ind[rind]
+        tgene = tgene.lower()
+        outdict = {}
+        for ttime in rowdata.keys():
+            outdict[ttime] = [np.median(rowdata[ttime])]
+        del outdict[-4.5]
+        begval = outdict[0.5][0]
+        outdict = {ttime:[outdict[ttime][0]-begval] for ttime in outdict.keys()}
+        expgene2data[tgene] = deepcopy(outdict)
+    return expgene2data
+
+
+def makeJointPlot(histarr,exparr,plotpath):
+    """make joint plot
+    Args:
+       histarr:
+       exparr:
+       fpath:
+    Returns:
+    """
+    plt.clf()
+    plt.rc('font', family='serif', size=20)
+    fig = matplotlib.pyplot.gcf()
+    fig.set_size_inches(13,10)
+    FSIZE = 20
+    YFSIZE = 20
+    LEGENDSIZE = 25 
+    MARKERSIZE = 20
+    DPI = 300
+
+    histyvals = [vlist[0] for vlist in histarr.values()]
+    expyvals = [vlist[0] for vlist in exparr.values()]
+    allyvals = histyvals + expyvals
+
+    histxvals = histarr.keys()
+    expxvals = exparr.keys()
+    xvals = sorted(list(set(histxvals + expxvals)))
+
+    fig, ax1 = plt.subplots()
+    ymax,ymin = max(allyvals), min(allyvals)
+    #plt.ylim(ymin-0.2,ymax+0.2)
+    plt.xlim(0.0,max(xvals)+0.5)
+    locpos = 4
+    xlabel = "Days"
+    ylabel = ""
+    plt.xlabel(xlabel,fontsize=FSIZE)
+    plt.ylabel(ylabel,fontsize=YFSIZE)
+
+    expoutx = sorted(exparr.keys())
+    expouty = [exparr[ttime][0] for ttime in expoutx]
+    ax1.plot(expoutx,expouty,marker="p",markersize=MARKERSIZE,linestyle='None',color="r",label="Expression")
+    expoutx = sorted(histarr.keys())
+    expouty = [histarr[ttime][0] for ttime in expoutx]
+    ax2 = ax1.twinx()
+    ax2.plot(expoutx,expouty,marker="*",markersize=MARKERSIZE,linestyle='None',color="g",label="Methylation")
+    #plt.plot(usetimes,outspl(usetimes),symmap["colors"]["spline"],lw=3,label=symmap["labels"]["spline"])
+    for tl in ax2.get_yticklabels():
+        tl.set_color('g')
+    for tl in ax1.get_yticklabels():
+        tl.set_color('r')    
+    
+    #ax = plt.axes()        
+    #ax.xaxis.grid()          
+    #plt.legend(loc=locpos,prop={'size':LEGENDSIZE})
+    plt.subplots_adjust(left=0.11, right=0.88, top=0.93, bottom=0.15) 
+    plt.savefig(plotpath, dpi=DPI)
 
 
 plotfolder = "splineplots"
@@ -741,7 +863,6 @@ weightmode = "uni"
 fname = "featureDataforCommonsites.csv"
 gene2pos,pos2gene = featureData(fname)
 
-print gene2pos.keys()
 count = 0
 for gene in gene2pos.keys():
     print gene,len(gene2pos[gene])
@@ -758,10 +879,45 @@ data,ind2name,ind2gene = readData(fname)
 
 moddata = makeData(data,ind2gene,ind2name,name2time)
 
+gene2datadict = {}
+for tgene in gene2pos.keys():
+    lowtgene = tgene.lower()
+    gene2datadict.setdefault(lowtgene,{})
+    for tpos in gene2pos[tgene]:
+        outpos = "{0}.{1}".format(tpos[0],tpos[1])
+        tind = ind2gene.index(outpos)
+        for ttime in moddata[tind].keys():
+            gene2datadict[lowtgene].setdefault(ttime,[])
+            gene2datadict[lowtgene][ttime].extend(moddata[tind][ttime])      
+
+usegenes = gene2datadict.keys()
+histgene2data = {}
+for usegene in usegenes:
+    outdict = {ttime: [round(np.median(gene2datadict[usegene][ttime]),5)] for ttime in gene2datadict[usegene].keys()}
+    histgene2data[usegene] = deepcopy(outdict)
+  
+expgene2data = readExpression()
+
+ofolder = "jointfigures"
+if not os.path.exists(ofolder):
+   os.makedirs(ofolder)
+for tgene in histgene2data.keys():
+    if tgene == "zfp536":
+       continue
+    elif tgene == "akt1":
+       tgene2 = "akt"
+    elif tgene == "vegfa":
+       tgene2 = "vegf"
+    else:
+       tgene2 = tgene
+    fpath = "{0}/{1}.png".format(ofolder,tgene)
+    makeJointPlot(histgene2data[tgene],expgene2data[tgene2],fpath)
+exit(1)
+
 yvallist = deepcopy(moddata)
 x2val = [{tval:np.median(yvallist[yind][tval]) for tind,tval in enumerate(usetimes)} for yind in xrange(len(yvallist))]
 weights = [1.0]*len(yvallist)
-sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(times,moddata,yvallist,4,weights)
+sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(times,moddata,yvallist,5,weights)
 
 if True:
     rempoints = list(set(usetimes) - set(points))
@@ -785,7 +941,8 @@ if True:
         knotarr.append(len(knots))
         
     #regs = [5.0,10.0,20.0,7.5,8.0,9.0,6.0,12.5,15.0,17.5,4.5,4.0,3.5,3.0,2.75,2.5,2.0,2.25,1.5,1.75,1.0,1.25,0.75,0.5,0.25]
-    regs = [0.0001,0.01,0.1]
+    #regs = [0.0001,0.01,0.1]
+    regs = [0.01]
     mapval = {tval:tind for tind,tval in enumerate(usetimes)}
     allyvals = [[avgyvallist[yind][mapval[tpoint]] for tpoint in usetimes] for yind in xrange(len(yvallist))]
 
