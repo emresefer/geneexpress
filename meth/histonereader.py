@@ -5,6 +5,7 @@ import scipy
 from copy import deepcopy
 import numpy as np
 import scipy as sp
+import scipy.stats
 from scipy.interpolate import interp1d
 import matplotlib
 import random
@@ -15,7 +16,6 @@ import matplotlib.cm as cm
 import cPickle as cpickle
 import gzip
 import scipy.cluster
-
 
 
 def makeplotMainAll(xvals,yvaldictout,points,knots,gene,outspl,rempoints,remyvals,plotpath,allknot,allspline,usetimes,trixvals,triyvals):    
@@ -781,9 +781,9 @@ def readMultiSampleData(fname,key2time):
 def readExpression():
     """read expression datas
     """
-    expfname = "../geneexpress/newdata/expdes.txt"     
+    expfname = "../newdata/expdes.txt"     
     time2key,key2time = readExpText(expfname)
-    fname = "../geneexpress/newdata/127 LCM time course Quantile Normalized logbased 2 transformed.txt"
+    fname = "../newdata/127 LCM time course Quantile Normalized logbased 2 transformed.txt"
     data,ind2time,gene2ind = readMultiSampleData(fname,key2time)
     expgene2data = {}
     for rind,rowdata in enumerate(data):
@@ -826,7 +826,7 @@ def makeJointPlot(histarr,exparr,plotpath):
     xvals = sorted(list(set(histxvals + expxvals)))
 
     fig, ax1 = plt.subplots()
-    ymax,ymin = max(allyvals), min(allyvals)
+    ymax,ymin = max(allyvals)*1.1, min(allyvals)*1.1 if min(allyvals) < 0 else min(allyvals)*0.9
     #plt.ylim(ymin-0.2,ymax+0.2)
     plt.xlim(0.0,max(xvals)+0.5)
     locpos = 4
@@ -855,6 +855,73 @@ def makeJointPlot(histarr,exparr,plotpath):
     plt.savefig(plotpath, dpi=DPI)
 
 
+def mapHistoneData(moddata,gene2pos):
+    """maps histone data to gene
+    Args:
+       moddata:
+       gene2pos:  
+    Returns:
+       histgene2data:
+    """
+    gene2datadict = {}
+    for tgene in gene2pos.keys():
+        lowtgene = tgene.lower()
+        gene2datadict.setdefault(lowtgene,[])
+        for tpos in gene2pos[tgene]:
+            outpos = "{0}.{1}".format(tpos[0],tpos[1])
+            tind = ind2gene.index(outpos)
+            gene2datadict[lowtgene].append(deepcopy(moddata[tind]))   
+
+    usegenes = gene2datadict.keys()
+    histgene2data = {}
+    for usegene in usegenes:
+        histgene2data[usegene] = []
+        for tind,tdict in enumerate(gene2datadict[usegene]):
+            outdict = {ttime: [round(np.median(tdict[ttime]),5)] for ttime in tdict.keys()}
+            histgene2data[usegene].append(deepcopy(outdict))
+    return histgene2data
+
+
+def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times):
+    """best match for each gene
+    Args:
+       moddata,expgene2data:
+       gene2pos:
+       ofolder:
+       times:
+    Returns:
+    """
+    histgene2data = mapHistoneData(moddata,gene2pos)
+    gene2corr = {}     
+    for tgene in histgene2data.keys():
+        if tgene == "zfp536":
+           continue
+        elif tgene == "akt1":
+           tgene2 = "akt"
+        elif tgene == "vegfa":
+           tgene2 = "vegf"
+        else:
+           tgene2 = tgene   
+        maxsim = -5.0
+        maxind = None
+        globtout = [round(np.median(expgene2data[tgene2][ttime]),5) for ttime in times]
+        for tind,tdict in enumerate(histgene2data[tgene]):
+            tout = [tdict[ttime][0] for ttime in times]
+            locsim = scipy.stats.pearsonr(tout,globtout)[0]
+            if locsim >= maxsim:
+               maxsim = locsim 
+               maxind = tind
+        print tgene, maxsim         
+        fpath = "{0}/{1}.png".format(ofolder,tgene)
+        makeJointPlot(histgene2data[tgene][maxind],expgene2data[tgene2],fpath)
+        gene2corr[tgene] = maxsim
+    
+    pearsonpath = "{0}/genepearson.txt".format(ofolder)
+    with open(pearsonpath,"w") as outfile:
+        for tgene,maxsim in gene2corr.items():   
+            outfile.write("{0}\t{1}\n".format(tgene,maxsim))
+
+
 plotfolder = "splineplots"
 if not os.path.exists(plotfolder):
    os.makedirs(plotfolder)
@@ -879,6 +946,14 @@ data,ind2name,ind2gene = readData(fname)
 
 moddata = makeData(data,ind2gene,ind2name,name2time)
 
+expgene2data = readExpression()
+ofolder = "jointfigures_best"
+if not os.path.exists(ofolder):
+   os.makedirs(ofolder)
+plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times)
+exit(1)
+     
+#Average figures
 gene2datadict = {}
 for tgene in gene2pos.keys():
     lowtgene = tgene.lower()
@@ -896,9 +971,8 @@ for usegene in usegenes:
     outdict = {ttime: [round(np.median(gene2datadict[usegene][ttime]),5)] for ttime in gene2datadict[usegene].keys()}
     histgene2data[usegene] = deepcopy(outdict)
   
-expgene2data = readExpression()
-
-ofolder = "jointfigures"
+allgene2corr = {}
+ofolder = "jointfigures_average"
 if not os.path.exists(ofolder):
    os.makedirs(ofolder)
 for tgene in histgene2data.keys():
@@ -910,8 +984,16 @@ for tgene in histgene2data.keys():
        tgene2 = "vegf"
     else:
        tgene2 = tgene
-    fpath = "{0}/{1}.png".format(ofolder,tgene)
+    globtout = [round(np.median(expgene2data[tgene2][ttime]),5) for ttime in times]
+    tout = [histgene2data[tgene][ttime][0] for ttime in times]
+    simil = scipy.stats.pearsonr(tout,globtout)[0]
+    print tgene, simil
+    fpath = "{0}/{1}.png".format(ofolder,tgene)  
+    allgene2corr[tgene] = maxsim
     makeJointPlot(histgene2data[tgene],expgene2data[tgene2],fpath)
+    
+print allgene2corr
+print gene2corr
 exit(1)
 
 yvallist = deepcopy(moddata)
