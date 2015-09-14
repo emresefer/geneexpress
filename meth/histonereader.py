@@ -799,21 +799,21 @@ def readExpression():
     return expgene2data
 
 
-def makeJointPlot(histarr,exparr,plotpath):
+def makeJointPlot(histarr,exparr,genespl,geneknots,genetimes,plotpath):
     """make joint plot
     Args:
-       histarr:
-       exparr:
+       histarr,exparr:
+       genespl,geneknots,genetimes:
        fpath:
     Returns:
-    """
+    """    
     plt.clf()
     plt.rc('font', family='serif', size=20)
     fig = matplotlib.pyplot.gcf()
     fig.set_size_inches(13,10)
     FSIZE = 20
     YFSIZE = 20
-    LEGENDSIZE = 25 
+    LEGENDSIZE = 16
     MARKERSIZE = 20
     DPI = 300
 
@@ -826,9 +826,11 @@ def makeJointPlot(histarr,exparr,plotpath):
     xvals = sorted(list(set(histxvals + expxvals)))
 
     fig, ax1 = plt.subplots()
-    ymax,ymin = max(allyvals)*1.1, min(allyvals)*1.1 if min(allyvals) < 0 else min(allyvals)*0.9
-    #plt.ylim(ymin-0.2,ymax+0.2)
+    #ymax,ymin = max(allyvals)*1.1, min(allyvals)*1.3 if min(allyvals) < 0 else min(allyvals)*0.8
+    expymax,expymin = max(expyvals)*1.2, min(expyvals)*1.1
+    histymax,histymin = max(histyvals)+1.0, min(histyvals)*1.1
     plt.xlim(0.0,max(xvals)+0.5)
+    
     locpos = 4
     xlabel = "Days"
     ylabel = ""
@@ -837,20 +839,26 @@ def makeJointPlot(histarr,exparr,plotpath):
 
     expoutx = sorted(exparr.keys())
     expouty = [exparr[ttime][0] for ttime in expoutx]
-    ax1.plot(expoutx,expouty,marker="p",markersize=MARKERSIZE,linestyle='None',color="r",label="Expression")
+    ln1 = ax1.plot(genetimes,genespl(genetimes),color="r",markersize=MARKERSIZE,marker="p",lw=3,label="Expression")
+    assert sorted(geneknots) == geneknots
+    knotvals = [scipy.interpolate.splev(knot,genespl._eval_args, der=0, ext=0) for knot in geneknots]
+    ln2 = ax1.plot(geneknots,knotvals,marker="+",markersize=MARKERSIZE,linestyle='None',color="k",label="Knots")
+    #ax1.plot(expoutx,expouty,marker="p",markersize=MARKERSIZE,linestyle='None',color="r",label="Expression")
     expoutx = sorted(histarr.keys())
     expouty = [histarr[ttime][0] for ttime in expoutx]
     ax2 = ax1.twinx()
-    ax2.plot(expoutx,expouty,marker="*",markersize=MARKERSIZE,linestyle='None',color="g",label="Methylation")
-    #plt.plot(usetimes,outspl(usetimes),symmap["colors"]["spline"],lw=3,label=symmap["labels"]["spline"])
+    ln3 = ax2.plot(expoutx,expouty,marker="*",markersize=MARKERSIZE,linestyle='None',color="g",label="Methylation")
+    ax1.set_ylim(expymin,expymax)
+    ax2.set_ylim(histymin,histymax)
+    
     for tl in ax2.get_yticklabels():
         tl.set_color('g')
     for tl in ax1.get_yticklabels():
         tl.set_color('r')    
-    
-    #ax = plt.axes()        
-    #ax.xaxis.grid()          
-    #plt.legend(loc=locpos,prop={'size':LEGENDSIZE})
+
+    lns = ln1+ln2+ln3
+    labs = [l.get_label() for l in lns]
+    plt.legend(lns, labs, loc=0,prop={'size':LEGENDSIZE})
     plt.subplots_adjust(left=0.11, right=0.88, top=0.93, bottom=0.15) 
     plt.savefig(plotpath, dpi=DPI)
 
@@ -882,13 +890,34 @@ def mapHistoneData(moddata,gene2pos):
     return histgene2data
 
 
-def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times):
+def fitSpline(linedata,fixedpoints):
+    """fit spline to given points
+    Args:
+       linedata:
+       fitpoints:
+    Returns:
+       inspl:
+       curknots:
+    """
+    reglambda = 5.0
+    allpoints = sorted(linedata.keys())
+    usepoints = sorted(fixedpoints)
+    userempoints = list(set(allpoints) - set(usepoints))
+    inyvals = [linedata[rpoint][0] for rpoint in usepoints]
+    inspl = scipy.interpolate.UnivariateSpline(usepoints, inyvals, s=reglambda, k=3)
+    curknots = list(inspl.get_knots())
+    print "num knots: ",len(curknots)
+    return inspl,curknots
+
+
+def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times,genetimepoints):
     """best match for each gene
     Args:
        moddata,expgene2data:
        gene2pos:
        ofolder:
        times:
+       genetimepoints: time points for gene expression
     Returns:
     """
     histgene2data = mapHistoneData(moddata,gene2pos)
@@ -911,9 +940,10 @@ def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times):
             if locsim >= maxsim:
                maxsim = locsim 
                maxind = tind
-        print tgene, maxsim         
+        print tgene, maxsim
+        inspl,curknots = fitSpline(expgene2data[tgene2],genetimepoints)
         fpath = "{0}/{1}.png".format(ofolder,tgene)
-        makeJointPlot(histgene2data[tgene][maxind],expgene2data[tgene2],fpath)
+        makeJointPlot(histgene2data[tgene][maxind],expgene2data[tgene2],inspl,curknots,genetimepoints,fpath)
         gene2corr[tgene] = maxsim
     
     pearsonpath = "{0}/genepearson.txt".format(ofolder)
@@ -936,6 +966,7 @@ for gene in gene2pos.keys():
     count += len(gene2pos[gene])
 print count    
 
+usetimepoints = [0.5, 1.0, 1.5, 2.5, 4, 5, 7, 10, 13.5, 15, 19, 23, 28]   
 fname = "pDataaug24.csv"            
 name2time,time2name = readSampleTarget(fname)
 times = sorted(list(set([float(item.replace("P","").replace("a","").replace("b","").replace("c","")) for item in time2name.keys() if item.startswith("P")])))
@@ -947,11 +978,11 @@ data,ind2name,ind2gene = readData(fname)
 moddata = makeData(data,ind2gene,ind2name,name2time)
 
 expgene2data = readExpression()
+
 ofolder = "jointfigures_best"
 if not os.path.exists(ofolder):
    os.makedirs(ofolder)
-plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times)
-exit(1)
+plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times,usetimepoints)
      
 #Average figures
 gene2datadict = {}
@@ -970,7 +1001,7 @@ histgene2data = {}
 for usegene in usegenes:
     outdict = {ttime: [round(np.median(gene2datadict[usegene][ttime]),5)] for ttime in gene2datadict[usegene].keys()}
     histgene2data[usegene] = deepcopy(outdict)
-  
+ 
 allgene2corr = {}
 ofolder = "jointfigures_average"
 if not os.path.exists(ofolder):
@@ -988,12 +1019,11 @@ for tgene in histgene2data.keys():
     tout = [histgene2data[tgene][ttime][0] for ttime in times]
     simil = scipy.stats.pearsonr(tout,globtout)[0]
     print tgene, simil
+    inspl,curknots = fitSpline(expgene2data[tgene2],usetimepoints)
     fpath = "{0}/{1}.png".format(ofolder,tgene)  
-    allgene2corr[tgene] = maxsim
-    makeJointPlot(histgene2data[tgene],expgene2data[tgene2],fpath)
-    
+    allgene2corr[tgene] = simil
+    makeJointPlot(histgene2data[tgene],expgene2data[tgene2],inspl,curknots,usetimepoints,fpath)
 print allgene2corr
-print gene2corr
 exit(1)
 
 yvallist = deepcopy(moddata)
