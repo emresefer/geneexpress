@@ -476,11 +476,29 @@ metabolic process, etc~(See Supplementary Results for details).
 \label{fig:clustmirna}
 \end{figure}
 
-\subsection{Identified Time Points Over Temporal Methylation Data}
+\subsection{Comparison of Temporal Methylation Data With Expression Data}\label{sec:compareboth}
+%Identified Time Points Over Temporal Methylation Data}
 
-\Tempselect selected $0.5$, $5$, $15$, $26$ out of $8$ time points
-over temporal methylation data when we consider each gene locus
-independently. 
+\Tempselect selected $0.5$, $5$, $15$, $26$ out of $8$ time points over temporal methylation data when we consider each gene locus
+independently. We identified high similarity between methylation and gene expression datasets showing the
+possibility of using the identified subset of time points over gene
+expression also in methylation experiments. We plot both datasets jointly as in Figure~\ref{fig:methgene} for Dnmt3a, Src,
+and Lox genes. Among the multiple methylation locus belonging to a gene, we select
+the most similar one in terms of pearson correlation~(See Supplementary Table for detailed correlation analysis).
+
+\begin{figure}
+\centering
+\begin{minipage}{1.0\textwidth}
+\subfloat[Dnmt3a]{\includegraphics[scale=0.19]{{../meth/jointfigures_best/dnmt3a}.png}}
+\hfill
+\subfloat[Src]{\includegraphics[scale=0.19]{{../meth/jointfigures_best/src}.png}}
+\hfill
+\subfloat[Lox]{\includegraphics[scale=0.19]{{../meth/jointfigures_best/lox}.png}}
+\end{minipage}
+\caption{Comparison of gene expression and methylation data for genes a) Dnmt3a, b) Src, c) Lox.}
+\label{fig:methgene}
+\end{figure}
+
 
 \section{Conclusion}
 
