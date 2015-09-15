@@ -281,7 +281,7 @@ development in mice. We implemented \Tempselect in Python. Its implementation, c
 on~\url{https://github.com/emresefer/geneexpress}. 
 
 We have used mRNA and miRNA expression datasets as well as temporal histone
-methylation dataset over Mus Musculus in our analysis. mRNA dataset is obtained by profiling the expression of $134$ selected
+methylation dataset over Mus Musculus in our analysis. mRNA dataset is obtained by profiling the expression of $126$ selected
 genes that are determined to be effective in lung development via NanoString array at a
 high sampling rate. On the other hand, larger miRNA dataset
 profiles the expression of $599$ microRNAs. Both mRNA and
@@ -328,21 +328,23 @@ approaches: a random selection of points and uniform sampling which is
 often used in such experiments~\cite{bar2012}. We have also compared the performance of the
 different strategies to initialize the set of points~(sort by absolute
 differences, equal partition) and to perform the search~(simulated
-annealing, weighting genes by cluster size). Finally, the figure includes a comparison between the
+annealing, weighting genes by cluster size, and adding/removing multiple
+time points per iteration). Finally, the figure includes a comparison between the
 performance of each of these strategies and the noise in the data (computed based on the repeat
 information) which is the theoretical limit for the performance of
-any profile reconstruction method. As can be seen in the Figure, we
+any profile reconstruction method. As can be seen in Figure~\ref{fig:errplots}, we
 find significant performance improvement over randomly selected
 points in terms of mean squared error. Sorting initial points by absolute values further improves
 the performance highlighting the importance of initialization when
-searching large combinatorial spaces. As the number of
-points used by the method increases, it leads to results that are very close to the error represented by
+searching large combinatorial spaces. Simulated annealing, weighting, and multiple point selection increases
+the performance only in a limited way~(Multiple point modification results are not presented due
+to space limitations). As the number of points used by the method increases, it leads to results that are very close to the error represented by
 noise in the data~($0.108$) even when only using half the points~(Supplementary Figure~\ref{fig:sup1} for noise in each time point). Relative order of the methods do not change if we also use
 additional anchor points E16.5 and E18.5 in our analysis~(Supplementary Figure~\ref{fig:sup2}).
 
-\begin{figure}
+\begin{figure}[ht]
 \centering
-\includegraphics[scale=0.2]{{plots/newdata/perform}.png}
+\includegraphics[scale=0.23]{{plots/newdata/perform}.png}
 \caption{Performance of \Tempselect by increasing number of selected points}
 \label{fig:errplots}
 \end{figure}
@@ -352,29 +354,32 @@ expression values for a few genes using $13$ time points~(in addition to the ini
 points). The figure plots median value for each time point as well as selected knots for spline
 reconstruction. Note that even though each of these genes had a different trajectory and
 different inflection points, the selected set of points enable \Tempselect to fit all of these quite accurately without
-overfitting~(See Supplementary Figure~\ref{fig:sup3} for figures of
-other genes).
+overfitting~(See Supplementary Figures~\eqref{fig:sup3}--\eqref{fig:sup4} for figures of
+several other genes and for figures reconstructed by using $8$ time
+points respectively). 
 
-\begin{figure}
+To understand whether gene-expression profiles over time has a simple
+trend, we also compare the reconstruction performance of \Tempselect
+with fitting piecewise linear curves between initial and middle time points
+and between middle and last time points. The reconstruction error by
+\Tempselect is significantly better than the piecewise linear reconstruction for $102$ genes out of $126$ genes~(See Supplementary
+Information for details). Distribution of error difference between
+these methods looks significantly different than normal
+distribution~($p < 0.0001$ by Shapiro-Wilk test. See Supplementary
+Figure~\ref{fig:sup5} for reconstruction comparison over several genes).
+
+\begin{figure}[h]
 \begin{minipage}{1.0\textwidth}
-\subfloat[PDGFRA]{\includegraphics[scale=0.12]{{plots/newdata/PDGFRA_15_all}.png}}
+\subfloat[PDGFRA]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/PDGFRA_15_all}.png}}
 \hfill
 \subfloat[ELN]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/Eln_15_all}.png}}
 \hfill
 \subfloat[INMT]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/INMT_15_all}.png}}
 \hfill
 \end{minipage}
-\caption{Expression profiles over several genes a) PDGFRA, b) ELN, c) INMT}
+\caption{Reconstructed expression profiles over genes a) PDGFRA, b) ELN, c) INMT}
 \label{fig:centplots}
 \end{figure}
-
-%spline vs linear curves
-We also compare the reconstruction performance of \Tempselect with fitting piecewise linear curves between initial and middle time points and between middle and
-last time points. \Tempselect performs significantly better than this
-reconstruction for $xxx$ genes out of $xxx$ genes~(See Supplementary
-Information for $p$ value generation). We find average error
-improvement to be $xxx$~(See Supplementary Figure~\ref{fig:supxxx} for
-detailed plots).
 
 
 \subsection{Identified time points over mRNA are predictive of miRNA profiles}\label{sec:mirnaexp}
@@ -428,7 +433,7 @@ mmu-miR-136 targets Tgfb2. Similarly, mmu-miR-152 targets Meox2,
 Robo1, Fbn1, Nfya. Lastly, mmu-miR-219 targets PDGFRA, Eya2, Esr1,
 Esr2, Efnb2 and Robo1 some of which are associated with BPD in preterm infants~\cite{popova2014}.
 
-\begin{figure}
+\begin{figure}[ht]
 \centering
 \begin{minipage}{1.0\textwidth}
 \subfloat[mmu-miR-100]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-100_13}.png}}
@@ -454,7 +459,7 @@ of miRNAs as in Figure~\ref{fig:clustmirna}. We identified $8$ stable miRNA
 clusters by k-means algorithm~\cite{kmeans} where number of clusters is selected by
 Bayesian Information Criteria~\cite{bic}. We find clusters to change more frequently
 than mRNA data as miRNA is noisier than mRNA data~(See Supplementary
-Figure~\ref{fig:sup4} for mRNA clusters). After mapping each miRNA to
+Figure~\ref{fig:sup6} for mRNA clusters). After mapping each miRNA to
 corresponding genes by TargetScan~\cite{agarwal2015}, we run
 gene-enrichment analysis by FuncAssociate~\cite{berriz2003}. We find clusters to be enriched
 for several Gene Ontology biological processes~\cite{go}. For
@@ -469,8 +474,7 @@ metabolic process, etc~(See Supplementary Results for details).
 \label{fig:clustmirna}
 \end{figure}
 
-\subsection{Comparison of Temporal Methylation Data With Expression Data}\label{sec:compareboth}
-%Identified Time Points Over Temporal Methylation Data}
+\subsection{Comparison of Temporal Methylation Data With The Expression Data}\label{sec:compareboth}
 
 \Tempselect selected $0.5$, $5$, $15$, $26$ out of $8$ time points over temporal methylation data when we consider each gene locus
 independently. We identified high similarity between methylation and gene expression datasets showing the
@@ -540,15 +544,42 @@ benchmark to reduce the experimental cost.
 
 \begin{figure}
 \begin{minipage}{1.0\textwidth}
-\subfloat[xxx]{\includegraphics[scale=0.12]{{../newdata/PDGFRA_15_all}.png}}
+\subfloat[ERB]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/ERB_15_all}.png}}
 \hfill
-\subfloat[yyy]{\includegraphics[scale=0.12]{{../newdata/splineplots15/Eln_15_all}.png}}
+\subfloat[NME3]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/NME3_15_all}.png}}
 \hfill
-\subfloat[zzz]{\includegraphics[scale=0.12]{{../newdata/splineplots15/INMT_15_all}.png}}
+\subfloat[POL2RA]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/polr2a_15_all}.png}}
 \hfill
 \end{minipage}
-\caption{Expression profiles over several genes a) xxx, b) yyy, c) zzz}
+\caption{Expression profiles over several genes a) ERB, b) NME3, c) POL2RA}
 \label{fig:sup3}
+\end{figure}
+
+\begin{figure}
+\begin{minipage}{1.0\textwidth}
+\subfloat[PDGFRA]{\includegraphics[scale=0.12]{{plots/newdata/splineplots8/PDGFRA_8_all}.png}}
+\hfill
+\subfloat[ELN]{\includegraphics[scale=0.12]{{plots/newdata/splineplots8/Eln_8_all}.png}}
+\hfill
+\subfloat[INMT]{\includegraphics[scale=0.12]{{plots/newdata/splineplots8/INMT_8_all}.png}}
+\hfill
+\end{minipage}
+\caption{Reconstructed expression profiles by $8$ points over genes a) PDGFRA, b) ELN, c) INMT}
+\label{fig:sup4}
+\end{figure}
+
+\begin{figure}
+\begin{minipage}{1.0\textwidth}
+\subfloat[PDGFRA]{\includegraphics[scale=0.12]{{plots/newdata/splineAndLinear/17_PDGFRA_13_all}.png}}
+\hfill
+\subfloat[ELN]{\includegraphics[scale=0.12]{{plots/newdata/splineAndLinear/14_Eln_13_all}.png}}
+\hfill
+\subfloat[LRAT]{\includegraphics[scale=0.12]{{plots/newdata/splineAndLinear/1_LRAT_13_all}.png}}
+\hfill
+\end{minipage}
+\caption{Comparison of \Tempselect and piecewise linear fitting over
+  genes a) PDGFRA, b) ELN, c) LRAT}
+\label{fig:sup5}
 \end{figure}
 
 \begin{figure}
@@ -558,7 +589,7 @@ benchmark to reduce the experimental cost.
 \subfloat[Centroids]{\includegraphics[scale=0.15]{{plots/newdata/centplot}.png}}
 \end{minipage}
 \caption{}
-\label{fig:sup4}
+\label{fig:sup6}
 \end{figure}
 
 \begin{table}
