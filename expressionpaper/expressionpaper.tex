@@ -290,7 +290,7 @@ $28$'th days in mouse development. mRNA dataset has between $2$ and
 $4$ repeats for each time point whereas miRNA dataset has between $3$
 and $4$ repeats for each time point. We normalized mRNA dataset by
 quantile normalization followed by $\log 2$ transformation whereas
-miRNA values are normalized by variance mean normalization~\cite{peltier2008}. Methylation data has $3$ repeats for time
+miRNA values are normalized by variance mean normalization~\cite{bolstad2003}. Methylation data has $3$ repeats for time
 points $0.5$, $1.5$, $2.5$, $5$, $10$, $15$, $19$, $26$ for $266$ loci
 belonging to $13$ genes. Among these genes all of them except Zfp536 also exist in
 mRNA dataset. Supplementary Table~\ref{tab:sup1} summarizes the number of loci for each gene in methylation
@@ -305,7 +305,7 @@ While our method can be used to select any number of time points, to demonstrate
 in the following setting. First we fixed a set of points in advance (first~($0.5$'th day) and
 last~($28$'th day), which are required for any setting and day $7$ which was
 previously determined to be of importance to lung development, see
-Supporting Results for other settings). In addition, we have asked
+Supplementary Results for other settings). In addition, we have asked
 \Tempselect to further select $10$ more points (for a total of $13$). For
 this setting, the method selected the following points: $0.5$,
 $1.0$, $1.5$, $2.5$, $4$, $5$, $7$, $10$, $13.5$, $15$, $19$, $23$,
@@ -317,18 +317,7 @@ uniformly sampled by our method. This highlights the usefulness of
 an unbiased approach to sampling time points rather than just
 uniformly sampling through the time window.
 
-%extra supporting
-% We find that best informed guess is to initialize using points that are sorted by increasing absolute
-% differences. Using additional anchor points such as E16.5 and E18.5
-% for analyses leads to similar results. We also enumerated top $10$ optimal solutions by running \Tempselect
-% across many initial conditions. We find selected points and errors of
-% these solutions to be quite similar to our solution above~(See
-% Supplementary Table~\ref{tab:xxx}). This trend is also observed when
-% we select fewer points, we find similar results when we enumerate all
-% possible solutions of size $6$ to examine the optimality structure of the solution space. 
-
-%{\em can you add uniform here?} 
-%noise line
+%comparison
 We tested the performance of our method by using it to select
 subsets of size $3$ to $25$ time points. To determine the accuracy of the reconstructed profiles
 using the selected points, we computed the average mean squared error for points
@@ -348,40 +337,45 @@ points in terms of mean squared error. Sorting initial points by absolute values
 the performance highlighting the importance of initialization when
 searching large combinatorial spaces. As the number of
 points used by the method increases, it leads to results that are very close to the error represented by
-noise in the data~($0.098$) even when only using half the points. Relative order of the methods do not change if we also use
-additional anchor points E16.5 and E18.5 in our analysis~(Supplementary Figure~\ref{fig:sup1}).
-%Overall, prediction error becomes almost as good as the noise of the data~($xxx$) if we use
-%carefully selected $10$ points out of $40$ points. 
+noise in the data~($0.108$) even when only using half the points~(Supplementary Figure~\ref{fig:sup1} for noise in each time point). Relative order of the methods do not change if we also use
+additional anchor points E16.5 and E18.5 in our analysis~(Supplementary Figure~\ref{fig:sup2}).
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.2]{{../newdata/perform}.png}
+\includegraphics[scale=0.2]{{plots/newdata/perform}.png}
 \caption{Performance of \Tempselect by increasing number of selected points}
 \label{fig:errplots}
 \end{figure}
 
 Figure~\ref{fig:centplots} presents the reconstructed and measured
 expression values for a few genes using $13$ time points~(in addition to the initial and last time
-points). Figure plots median value for each time point as well as selected knots for spline
+points). The figure plots median value for each time point as well as selected knots for spline
 reconstruction. Note that even though each of these genes had a different trajectory and
-different inflection points, the selected set of points enables our
-method to fit all of these pretty well without overfitting.
+different inflection points, the selected set of points enable \Tempselect to fit all of these quite accurately without
+overfitting~(See Supplementary Figure~\ref{fig:sup3} for figures of
+other genes).
 
 \begin{figure}
 \begin{minipage}{1.0\textwidth}
-\subfloat[PDGFRA]{\includegraphics[scale=0.12]{{../newdata/PDGFRA_15_all}.png}}
+\subfloat[PDGFRA]{\includegraphics[scale=0.12]{{plots/newdata/PDGFRA_15_all}.png}}
 \hfill
-\subfloat[ELN]{\includegraphics[scale=0.12]{{../newdata/splineplots15/Eln_15_all}.png}}
+\subfloat[ELN]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/Eln_15_all}.png}}
 \hfill
-\subfloat[INMT]{\includegraphics[scale=0.12]{{../newdata/splineplots15/INMT_15_all}.png}}
+\subfloat[INMT]{\includegraphics[scale=0.12]{{plots/newdata/splineplots15/INMT_15_all}.png}}
 \hfill
 \end{minipage}
 \caption{Expression profiles over several genes a) PDGFRA, b) ELN, c) INMT}
 \label{fig:centplots}
 \end{figure}
 
-%We also compare the fitting performance with respect to simpler linear
-%method. Average error improvement is $xxx$. Relative error is as follows:
+%spline vs linear curves
+We also compare the reconstruction performance of \Tempselect with fitting piecewise linear curves between initial and middle time points and between middle and
+last time points. \Tempselect performs significantly better than this
+reconstruction for $xxx$ genes out of $xxx$ genes~(See Supplementary
+Information for $p$ value generation). We find average error
+improvement to be $xxx$~(See Supplementary Figure~\ref{fig:supxxx} for
+detailed plots).
+
 
 \subsection{Identified time points over mRNA are predictive of miRNA profiles}\label{sec:mirnaexp}
 
@@ -460,7 +454,7 @@ of miRNAs as in Figure~\ref{fig:clustmirna}. We identified $8$ stable miRNA
 clusters by k-means algorithm~\cite{kmeans} where number of clusters is selected by
 Bayesian Information Criteria~\cite{bic}. We find clusters to change more frequently
 than mRNA data as miRNA is noisier than mRNA data~(See Supplementary
-Figure~\ref{fig:sup2} for mRNA clusters). After mapping each miRNA to
+Figure~\ref{fig:sup4} for mRNA clusters). After mapping each miRNA to
 corresponding genes by TargetScan~\cite{agarwal2015}, we run
 gene-enrichment analysis by FuncAssociate~\cite{berriz2003}. We find clusters to be enriched
 for several Gene Ontology biological processes~\cite{go}. For
@@ -518,22 +512,53 @@ benchmark to reduce the experimental cost.
 
 \section{Supplementary Information}
 
+
+%extra supporting
+% We find that best informed guess is to initialize using points that are sorted by increasing absolute
+% differences. Using additional anchor points such as E16.5 and E18.5
+% for analyses leads to similar results. We also enumerated top $10$ optimal solutions by running \Tempselect
+% across many initial conditions. We find selected points and errors of
+% these solutions to be quite similar to our solution above~(See
+% Supplementary Table~\ref{tab:xxx}). This trend is also observed when
+% we select fewer points, we find similar results when we enumerate all
+% possible solutions of size $6$ to examine the optimality structure of the solution space. 
+
 \setcounter{figure}{0}   
 \begin{figure}
 \centering
-\includegraphics[scale=0.2]{{../newdata/performRL2}.png}
-\caption{Performance of \Tempselect by increasing number of selected points}
+\includegraphics[scale=0.2]{{plots/newdata/timeerror}.png}
+\caption{Average noise in each time point}
 \label{fig:sup1}
 \end{figure}
 
 \begin{figure}
+\centering
+\includegraphics[scale=0.2]{{plots/newdata/performRL2}.png}
+\caption{Performance of \Tempselect by increasing number of selected points}
+\label{fig:sup2}
+\end{figure}
+
+\begin{figure}
 \begin{minipage}{1.0\textwidth}
-\subfloat[6 stable clusters]{\includegraphics[scale=0.15]{{../newdata/centplotlimit}.png}}
+\subfloat[xxx]{\includegraphics[scale=0.12]{{../newdata/PDGFRA_15_all}.png}}
 \hfill
-\subfloat[Centroids]{\includegraphics[scale=0.15]{{../newdata/centplot}.png}}
+\subfloat[yyy]{\includegraphics[scale=0.12]{{../newdata/splineplots15/Eln_15_all}.png}}
+\hfill
+\subfloat[zzz]{\includegraphics[scale=0.12]{{../newdata/splineplots15/INMT_15_all}.png}}
+\hfill
+\end{minipage}
+\caption{Expression profiles over several genes a) xxx, b) yyy, c) zzz}
+\label{fig:sup3}
+\end{figure}
+
+\begin{figure}
+\begin{minipage}{1.0\textwidth}
+\subfloat[6 stable clusters]{\includegraphics[scale=0.15]{{plots/newdata/centplotlimit}.png}}
+\hfill
+\subfloat[Centroids]{\includegraphics[scale=0.15]{{plots/newdata/centplot}.png}}
 \end{minipage}
 \caption{}
-\label{fig:sup2}
+\label{fig:sup4}
 \end{figure}
 
 \begin{table}

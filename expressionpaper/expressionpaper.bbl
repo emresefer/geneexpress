@@ -35,6 +35,13 @@ Christopher~M Bishop.
 \newblock {\em Pattern recognition and machine learning}.
 \newblock springer, 2006.
 
+\bibitem{bolstad2003}
+Benjamin~M Bolstad, Rafael~A Irizarry, Magnus {\AA}strand, and Terence~P.
+  Speed.
+\newblock A comparison of normalization methods for high density
+  oligonucleotide array data based on variance and bias.
+\newblock {\em Bioinformatics}, 19(2):185--193, 2003.
+
 \bibitem{deboor}
 Carl De~Boor.
 \newblock A practical guide to splines.
@@ -70,13 +77,6 @@ Madhu~S Kumar, Stefan~J Erkeland, Ryan~E Pester, Cindy~Y Chen, Margaret~S
 Geoffrey McLachlan and David Peel.
 \newblock {\em Finite mixture models}.
 \newblock John Wiley \& Sons, 2004.
-
-\bibitem{peltier2008}
-Heidi~J Peltier and Gary~J Latham.
-\newblock Normalization of microrna expression levels in quantitative rt-pcr
-  assays: identification of suitable reference rna targets in normal and
-  cancerous human solid tissues.
-\newblock {\em Rna}, 14(5):844--852, 2008.
 
 \bibitem{popova2014}
 Antonia~P Popova, J~Kelley Bentley, Tracy~X Cui, Michelle~N Richardson,
