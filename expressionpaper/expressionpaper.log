@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.19)  14 SEP 2015 09:33
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.19)  15 SEP 2015 09:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -831,22 +831,18 @@ LaTeX Warning: No \author given.
 [1
 
 {/usr/local/texlive/2015/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2] [3] [4]
-
-Package natbib Warning: Citation `xxx' on page 5 undefined on input line 294.
-
-[5] <../newdata/perform.png, id=40, 939.51pt x 722.7pt>
+[2] [3] [4] [5] <../newdata/perform.png, id=40, 939.51pt x 722.7pt>
 File: ../newdata/perform.png Graphic file (type png)
 
 <use ../newdata/perform.png>
-Package pdftex.def Info: ../newdata/perform.png used on input line 359.
+Package pdftex.def Info: ../newdata/perform.png used on input line 358.
 (pdftex.def)             Requested size: 187.89867pt x 144.53743pt.
  [6 <../newdata/perform.png>]
 <../newdata/PDGFRA_15_all.png, id=46, 939.51pt x 722.7pt>
 File: ../newdata/PDGFRA_15_all.png Graphic file (type png)
 
 <use ../newdata/PDGFRA_15_all.png>
-Package pdftex.def Info: ../newdata/PDGFRA_15_all.png used on input line 373.
+Package pdftex.def Info: ../newdata/PDGFRA_15_all.png used on input line 372.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <../newdata/splineplots15/Eln_15_all.png, id=47, 939.51pt x 722.7pt>
@@ -854,7 +850,7 @@ File: ../newdata/splineplots15/Eln_15_all.png Graphic file (type png)
 
 <use ../newdata/splineplots15/Eln_15_all.png>
 Package pdftex.def Info: ../newdata/splineplots15/Eln_15_all.png used on input 
-line 375.
+line 374.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <../newdata/splineplots15/INMT_15_all.png, id=48, 939.51pt x 722.7pt>
@@ -862,14 +858,14 @@ File: ../newdata/splineplots15/INMT_15_all.png Graphic file (type png)
 
 <use ../newdata/splineplots15/INMT_15_all.png>
 Package pdftex.def Info: ../newdata/splineplots15/INMT_15_all.png used on input
- line 377.
+ line 376.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <../mirnadata/perform.png, id=49, 939.51pt x 722.7pt>
 File: ../mirnadata/perform.png Graphic file (type png)
 
 <use ../mirnadata/perform.png>
-Package pdftex.def Info: ../mirnadata/perform.png used on input line 423.
+Package pdftex.def Info: ../mirnadata/perform.png used on input line 422.
 (pdftex.def)             Requested size: 187.89867pt x 144.53743pt.
  [7 <../newdata/PDGFRA_15_all.png> <../newdata/splineplots15/Eln_15_all.png> <.
 ./newdata/splineplots15/INMT_15_all.png>]
@@ -879,7 +875,7 @@ File: ../mirnadata/splineplots13/uni/mmu-miR-100_13.png Graphic file (type png)
 
 <use ../mirnadata/splineplots13/uni/mmu-miR-100_13.png>
 Package pdftex.def Info: ../mirnadata/splineplots13/uni/mmu-miR-100_13.png used
- on input line 441.
+ on input line 440.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
 
 <../mirnadata/splineplots13/uni/mmu-miR-136_13.png, id=58, 939.51pt x 722.7pt>
@@ -888,7 +884,7 @@ File: ../mirnadata/splineplots13/uni/mmu-miR-136_13.png Graphic file (type png)
 
 <use ../mirnadata/splineplots13/uni/mmu-miR-136_13.png>
 Package pdftex.def Info: ../mirnadata/splineplots13/uni/mmu-miR-136_13.png used
- on input line 443.
+ on input line 442.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
 
 <../mirnadata/splineplots13/uni/mmu-miR-152_13.png, id=59, 939.51pt x 722.7pt>
@@ -897,7 +893,7 @@ File: ../mirnadata/splineplots13/uni/mmu-miR-152_13.png Graphic file (type png)
 
 <use ../mirnadata/splineplots13/uni/mmu-miR-152_13.png>
 Package pdftex.def Info: ../mirnadata/splineplots13/uni/mmu-miR-152_13.png used
- on input line 447.
+ on input line 446.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
 
 <../mirnadata/splineplots13/uni/mmu-miR-219_13.png, id=60, 939.51pt x 722.7pt>
@@ -906,14 +902,14 @@ File: ../mirnadata/splineplots13/uni/mmu-miR-219_13.png Graphic file (type png)
 
 <use ../mirnadata/splineplots13/uni/mmu-miR-219_13.png>
 Package pdftex.def Info: ../mirnadata/splineplots13/uni/mmu-miR-219_13.png used
- on input line 449.
+ on input line 448.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
 
 <../mirnadata/centplot.png, id=61, 939.51pt x 722.7pt>
 File: ../mirnadata/centplot.png Graphic file (type png)
 
 <use ../mirnadata/centplot.png>
-Package pdftex.def Info: ../mirnadata/centplot.png used on input line 474.
+Package pdftex.def Info: ../mirnadata/centplot.png used on input line 473.
 (pdftex.def)             Requested size: 187.89867pt x 144.53743pt.
  [8 <../mirnadata/perform.png>] [9 <../mirnadata/splineplots13/uni/mmu-miR-100_
 13.png> <../mirnadata/splineplots13/uni/mmu-miR-136_13.png> <../mirnadata/splin
@@ -924,7 +920,7 @@ File: ../meth/jointfigures_best/dnmt3a.png Graphic file (type png)
 
 <use ../meth/jointfigures_best/dnmt3a.png>
 Package pdftex.def Info: ../meth/jointfigures_best/dnmt3a.png used on input lin
-e 492.
+e 491.
 (pdftex.def)             Requested size: 109.85153pt x 82.38866pt.
 
 <../meth/jointfigures_best/src.png, id=75, 578.16pt x 433.62pt>
@@ -932,7 +928,7 @@ File: ../meth/jointfigures_best/src.png Graphic file (type png)
 
 <use ../meth/jointfigures_best/src.png>
 Package pdftex.def Info: ../meth/jointfigures_best/src.png used on input line 4
-94.
+93.
 (pdftex.def)             Requested size: 109.85153pt x 82.38866pt.
 
 <../meth/jointfigures_best/lox.png, id=76, 578.16pt x 433.62pt>
@@ -940,69 +936,65 @@ File: ../meth/jointfigures_best/lox.png Graphic file (type png)
 
 <use ../meth/jointfigures_best/lox.png>
 Package pdftex.def Info: ../meth/jointfigures_best/lox.png used on input line 4
-96.
+95.
 (pdftex.def)             Requested size: 109.85153pt x 82.38866pt.
  (./expressionpaper.bbl [10 <../meth/jointfigures_best/dnmt3a.png> <../meth/joi
-ntfigures_best/src.png> <../meth/jointfigures_best/lox.png>]) [11]
-<../newdata/performRL2.png, id=86, 939.51pt x 722.7pt>
+ntfigures_best/src.png> <../meth/jointfigures_best/lox.png>] [11]) [12]
+<../newdata/performRL2.png, id=89, 939.51pt x 722.7pt>
 File: ../newdata/performRL2.png Graphic file (type png)
 
 <use ../newdata/performRL2.png>
 Package pdftex.def Info: ../newdata/performRL2.png used on input line 524.
 (pdftex.def)             Requested size: 187.89867pt x 144.53743pt.
 
-<../newdata/centplotlimit.png, id=87, 939.51pt x 722.7pt>
+<../newdata/centplotlimit.png, id=90, 939.51pt x 722.7pt>
 File: ../newdata/centplotlimit.png Graphic file (type png)
 
 <use ../newdata/centplotlimit.png>
 Package pdftex.def Info: ../newdata/centplotlimit.png used on input line 531.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
 
-<../newdata/centplot.png, id=88, 939.51pt x 722.7pt>
+<../newdata/centplot.png, id=91, 939.51pt x 722.7pt>
 File: ../newdata/centplot.png Graphic file (type png)
 
 <use ../newdata/centplot.png>
 Package pdftex.def Info: ../newdata/centplot.png used on input line 533.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
-
-
-Package natbib Warning: There were undefined citations.
-
-[12 <../newdata/performRL2.png> <../newdata/centplotlimit.png> <../newdata/cent
-plot.png>] [13] (./expressionpaper.aux) ) 
+ [13 <../newdata/performRL2.png> <../newdata/centplotlimit.png> <../newdata/cen
+tplot.png>] [14] (./expressionpaper.aux) ) 
 Here is how much of TeX's memory you used:
- 16384 strings out of 493089
- 310096 string characters out of 6134842
- 351980 words of memory out of 5000000
- 19496 multiletter control sequences out of 15000+600000
+ 16386 strings out of 493089
+ 310148 string characters out of 6134842
+ 351996 words of memory out of 5000000
+ 19498 multiletter control sequences out of 15000+600000
  14400 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,12n,54p,423b,475s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/local/texlive/2015/texmf-dist/fo
-nts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2015/texmf-dist/fon
-ts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2015/texmf-dist/font
-s/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2015/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2015/texmf-dist/font
-s/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2015/texmf-dist/font
-s/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2015/texmf-dist/fonts
-/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2015/texmf-dist/fonts/ty
-pe1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type
-1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/
-public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/pu
-blic/amsfonts/cm/cmr5.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publi
-c/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/a
-msfonts/cm/cmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsf
-onts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfo
-nts/cm/cmsy5.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfont
-s/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/
-cm/cmti10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/c
-m/cmtt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/sf
-rm1000.pfb>
-Output written on expressionpaper.pdf (13 pages, 5645561 bytes).
+{/usr/local/texlive/2015/texmf-dist/f
+onts/enc/dvips/cm-super/cm-super-ts1.enc}</usr/local/texlive/2015/texmf-dist/fo
+nts/type1/public/amsfonts/cm/cmbx10.pfb></usr/local/texlive/2015/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmbx12.pfb></usr/local/texlive/2015/texmf-dist/font
+s/type1/public/amsfonts/cm/cmbxti10.pfb></usr/local/texlive/2015/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmcsc10.pfb></usr/local/texlive/2015/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmex10.pfb></usr/local/texlive/2015/texmf-dist/font
+s/type1/public/amsfonts/cm/cmmi10.pfb></usr/local/texlive/2015/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmmi5.pfb></usr/local/texlive/2015/texmf-dist/fonts/t
+ype1/public/amsfonts/cm/cmmi7.pfb></usr/local/texlive/2015/texmf-dist/fonts/typ
+e1/public/amsfonts/cm/cmr10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmr17.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmr5.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/publ
+ic/amsfonts/cm/cmr7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr8.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/ams
+fonts/cm/cmsy10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmsy5.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfon
+ts/cm/cmsy7.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts
+/cm/cmti10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/amsfonts/
+cm/cmtt10.pfb></usr/local/texlive/2015/texmf-dist/fonts/type1/public/cm-super/s
+frm1000.pfb>
+Output written on expressionpaper.pdf (14 pages, 5645862 bytes).
 PDF statistics:
- 160 PDF objects out of 1000 (max. 8388607)
- 93 compressed objects within 1 object stream
+ 163 PDF objects out of 1000 (max. 8388607)
+ 95 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  93 words of extra memory for PDF output out of 10000 (max. 10000000)
 

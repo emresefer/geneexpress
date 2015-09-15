@@ -86,7 +86,7 @@ objective~\ref{prob:prob1}:
 %
 \begin{problem}\label{prob:prob1}
 Given $D_{g}$ for genes $g \in G$, the number of desired time points
-$k$ identify a subset of $k-2$ time points in $T \setminus \{t_{1},
+$k$, identify a subset of $k-2$ time points in $T \setminus \{t_{1},
 t_{T}\}$ which minimizes the prediction error for the expression
 values of all genes in the remaining time points.
 \end{problem}
@@ -96,12 +96,12 @@ values of all genes in the remaining time points.
 
 Before discussing the actual procedure we use to select the set of
 time points, we discuss the method we use to assign splines based on
-a selected subset of point $k$ for each gene. There are two issues
+a selected subset of points for each gene. There are two issues
 that needs to be resolved when assigning such smoothing splines: 1.
 The number of knots (control points) and 2. their spacing. Past
 approaches for using splines to model time series gene expression
 data have usually used the same number of control points for all
-genes regardless of their trajectories~\cite{bar2012, singh2005} and mostly employed uniform
+genes regardless of their trajectories~\cite{bar2012, singh2005}, and mostly employed uniform
 knot placements. However, since our method needs to be able to adapt
 to any size of $k$ as defined above, we select them indirectly through
 regularization parameter of the fitted cubic smoothing spline where number
@@ -127,13 +127,13 @@ of methods for performing such initializations. The simplest method
 we tried is to uniformly select a subset of the points (so if
 $k=T/4$ we use each 4'th point). Another method we tested is to partition the set
 of all time points $T$ into $k-1$ intervals of almost equal size. This
-method determines these boundares by estimating the cumulative number of points until each time point and
+method determines these boundaries by estimating the cumulative number of points until each time point and
 selecting time points with cumulative values $\frac{T}{k-1}, 2\frac{T}{k-1},
 \ldots, (k-2)\frac{T}{k-1}$ respectively. Then, it uses $k$ interval
 boundaries including $t_{1}$ and $t_{T}$ as initial solution. Finally, we tested a
 method that relies on the changes between consecutive time points to
 select the most important ones for our initial set. Specifically, we sort all points except $t_{1}$ and $t_{T}$ by average
-absolute difference with respect to its predecessor time points by
+absolute difference with respect to its predecessor and successor time points by
 computing:
 %
 \begin{equation}
@@ -185,7 +185,7 @@ the number of time points is finite.
 \label{alg:algo}
 \begin{algorithmic}[1]
 \Procedure{Iterative\textendash Temporal\textendash Selection}{}
-\State $C_{0} = $ select initial $k$ time points by absolute value sorting
+\State $C_{0} = $ select initial $k$ time points by absolute difference sorting
 \State $e_{0} = $ error of remaining points by fitting splines to $C_{0}$
 \State $i=0$
 \Do 
@@ -221,8 +221,8 @@ $C^{*}$ where \par
 \end{equation}
 %
 where $\lambda$ is the regularization parameter which prevents
-overfitting. We have estimated regularization parameter by
-leave-one-out cross-validation (LOOCV) in our experiments. $\lambda$ also affects the number of knots selected. 
+overfitting by affecting the number of knots selected. We estimated regularization parameter by
+leave-one-out cross-validation (LOOCV) in our experiments.
 
 \end{itemize}
 
@@ -232,29 +232,28 @@ leave-one-out cross-validation (LOOCV) in our experiments. $\lambda$ also affect
 In section~\ref{sec:mainalgo}, we assume that error of each gene has
 same contribution to the overall error. However, this assumption
 ignores the fact that expression profiles of genes are correlated with the expression of other genes. To take the
-correlation between gene profiles into account, we have also performed cluster
+correlation between gene profiles into account, we also performed cluster
 based evaluation of genes where we analyzed the error by weighting each gene in terms of inverse of the numbers of
 genes in the cluster it belongs. This scheme ensures that each cluster
-contributes equally to the resulting error rather than each gene. We find clusters by k-means
-clustering algorithm over time series-data by treating each gene as a
+contributes equally to the resulting error rather than each gene. We
+find clusters by k-means algorithm over time series-data by treating each gene as a
 point in $R^{T}$ space as well as over a vector of
 randomly sampled $T$ time points on fitted spline~\cite{bishop2006}. We use Bayesian Information Criterion~(BIC) to
 determine the optimal number of clusters~\cite{bic}.
 
 \subsection{More Complex Iterative Improvement Procedures}\label{sec:complexiter}
 
-We also propose the following more complex iterative improvement procedures for
-\Tempselect:
+We also propose the following more complex iterative improvement procedures for \Tempselect:
 
 \begin{itemize}
 \item We add and remove $b$ time points in each iteration instead of a single point. This increases the complexity of each
-  iteration from $O(GT^{2}Q)$ to $O(GT^{2b}Q)$ where $Q$ is
+  iteration from $O(kGT^{2}Q)$ to $O(kGT^{2b}Q)$ where $Q$ is
   the complexity of fitting a smoothing spline.
 
 \item We run simulated annealing to escape from local
-  minima~\cite{kirkpatrick1983}. In this case, we do not try all
-  pairs of points and select the one with minimum error in each
-  iteration, but instead move to a neighbouring solution with probability $1$ if
+  minima~\cite{kirkpatrick1983}. In this case, we do not always move
+  to a pair of points with the minimum error in each iteration, but
+  instead move to a solution with random pair of points with probability $1$ if
   its error $e^{r}$ is lower than error of current solution $e^{i}$ whereas we move to a solution with probability
   $e^{-T(e^{r}-e^{i})}$ if $e^{r} \ge e^{i}$. Here, $T$ is the temperature that increases by
   increasing number of iterations and the probability of moving to a solution
@@ -262,7 +261,7 @@ We also propose the following more complex iterative improvement procedures for
 \end{itemize}
 
 Even though both approaches should escape from local minima theoretically better than
-the greedy approach we described above, they do not perform
+the greedy approach we described above, they do not perform significantly
 better in practical instances.
 
 \section{Results}
@@ -291,7 +290,7 @@ $28$'th days in mouse development. mRNA dataset has between $2$ and
 $4$ repeats for each time point whereas miRNA dataset has between $3$
 and $4$ repeats for each time point. We normalized mRNA dataset by
 quantile normalization followed by $\log 2$ transformation whereas
-miRNA values are normalized by variance mean normalization~\cite{xxx}. Methylation data has $3$ repeats for time
+miRNA values are normalized by variance mean normalization~\cite{peltier2008}. Methylation data has $3$ repeats for time
 points $0.5$, $1.5$, $2.5$, $5$, $10$, $15$, $19$, $26$ for $266$ loci
 belonging to $13$ genes. Among these genes all of them except Zfp536 also exist in
 mRNA dataset. Supplementary Table~\ref{tab:sup1} summarizes the number of loci for each gene in methylation
@@ -502,7 +501,7 @@ the most similar one in terms of pearson correlation~(See Supplementary Table fo
 
 \section{Conclusion}
 
-We develop \Tempselect to efficiently identify subset of important
+We develop a method \Tempselect to efficiently identify subset of important
 time points over densely sampled gene expression profiles. We show
 that these points can be used as candidates for high-throughput profiling
 experiments as well as other temporal experiments such as
@@ -519,6 +518,7 @@ benchmark to reduce the experimental cost.
 
 \section{Supplementary Information}
 
+\setcounter{figure}{0}   
 \begin{figure}
 \centering
 \includegraphics[scale=0.2]{{../newdata/performRL2}.png}
