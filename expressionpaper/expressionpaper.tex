@@ -465,7 +465,7 @@ gene-enrichment analysis by FuncAssociate~\cite{berriz2003}. We find clusters to
 for several Gene Ontology biological processes~\cite{go}. For
 instance, cluster $4$ is enriched for single-organism cellular
 process, positive regulation of biological process, regulation of
-metabolic process, etc~(See Supplementary Results for details).
+metabolic process, etc~(See Supplementary Table~\ref{tab:supxx}).
 
 \begin{figure}
 \centering
@@ -476,23 +476,31 @@ metabolic process, etc~(See Supplementary Results for details).
 
 \subsection{Comparison of Temporal Methylation Data With The Expression Data}\label{sec:compareboth}
 
-\Tempselect selected $0.5$, $5$, $15$, $26$ out of $8$ time points over temporal methylation data when we consider each gene locus
-independently. We identified high similarity between methylation and gene expression datasets showing the
-possibility of using the identified subset of time points over gene
-expression also in methylation experiments. We plot both datasets jointly as in Figure~\ref{fig:methgene} for Dnmt3a, Src,
-and Lox genes. Among the multiple methylation locus belonging to a gene, we select
-the most similar one in terms of pearson correlation~(See Supplementary Table for detailed correlation analysis).
+%These points look slightly more uniform than
+%the points identified over gene-expression dataset. 
+\Tempselect identified $0.5$, $5$, $15$, $26$ as candidate points out
+of $8$ time points over temporal methylation data when we consider
+each locus independently. When we only use the same $8$ time points over
+gene-expression dataset, we also identified $0.5$, $5$, $15$, $26$ by running
+\Tempselect over all subset of possible time points. We have also
+observed the similarity between both datasets by plotting them jointly as in Figure~\ref{fig:methgene} for DNMT3A, SRC,
+and LOX genes. Among the multiple methylation loci belonging to a gene, we select
+the most similar one in terms of pearson correlation~(See
+Supplementary Table~\ref{tab:sup2} for correlation analysis). Overall,
+similarity of the identified points when combined with comparison in
+the Figure suggest the possibility of global
+set of time points that are important for both genomic and epigenetic experiments.
 
 \begin{figure}
 \centering
 \begin{minipage}{1.0\textwidth}
-\subfloat[Dnmt3a]{\includegraphics[scale=0.19]{{../meth/jointfigures_best/dnmt3a}.png}}
+\subfloat[DNMT3A]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/dnmt3a}.png}}
 \hfill
-\subfloat[Src]{\includegraphics[scale=0.19]{{../meth/jointfigures_best/src}.png}}
+\subfloat[SRC]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/src}.png}}
 \hfill
-\subfloat[Lox]{\includegraphics[scale=0.19]{{../meth/jointfigures_best/lox}.png}}
+\subfloat[LOX]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/lox}.png}}
 \end{minipage}
-\caption{Comparison of gene expression and methylation data for genes a) Dnmt3a, b) Src, c) Lox.}
+\caption{Comparison of gene expression and methylation data for genes a) DNMT3A, b) SRC, c) LOX.}
 \label{fig:methgene}
 \end{figure}
 
@@ -528,7 +536,7 @@ benchmark to reduce the experimental cost.
 % possible solutions of size $6$ to examine the optimality structure of the solution space. 
 
 \setcounter{figure}{0}   
-\begin{figure}
+\begin{figure}[ht]
 \centering
 \includegraphics[scale=0.2]{{plots/newdata/timeerror}.png}
 \caption{Average noise in each time point}
@@ -592,7 +600,8 @@ benchmark to reduce the experimental cost.
 \label{fig:sup6}
 \end{figure}
 
-\begin{table}
+\begin{table}[ht]
+\centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 Gene & Number of loci  & & Gene & Number of loci  \\
@@ -614,6 +623,32 @@ Akt1 & 11 & & &  \\
 \end{tabular}
 \caption{Summary of methylation dataset}
 \label{tab:sup1}
+\end{table}
+
+\begin{table}
+\centering
+\begin{tabular}{|c|c|c|c|c|}
+\hline
+Gene & Number of loci  & & Gene & Number of loci  \\
+\hline
+Cdh11 & 14 & & Zfp536 & 16 \\
+\hline
+Src & 11 & & Igfbp3 & 34 \\
+\hline
+Sox9 & 16 & & Wif1 & 21 \\
+\hline
+Dnmt3a & 41 & & Vegfa & 20 \\
+\hline
+Eln & 20 & & Tnc & 4 \\
+\hline
+Foxf2 & 41 & & Lox & 17 \\
+\hline
+Akt1 & 11 & & &  \\
+\hline
+\end{tabular}
+\caption{Pearson correlation coefficient between expression and
+  methylation datasets for each gene.}
+\label{tab:sup2}
 \end{table}
 
 

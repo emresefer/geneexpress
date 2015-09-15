@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.19)  15 SEP 2015 15:13
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015) (preloaded format=pdflatex 2015.6.19)  15 SEP 2015 17:39
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -906,8 +906,12 @@ File: ../mirnadata/splineplots13/uni/mmu-miR-219_13.png Graphic file (type png)
 Package pdftex.def Info: ../mirnadata/splineplots13/uni/mmu-miR-219_13.png used
  on input line 447.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
- [8 <../mirnadata/perform.png>] <../mirnadata/centplot.png, id=65, 939.51pt x 7
-22.7pt>
+
+
+LaTeX Warning: Reference `tab:supxx' on page 8 undefined on input line 468.
+
+[8 <../mirnadata/perform.png>]
+<../mirnadata/centplot.png, id=65, 939.51pt x 722.7pt>
 File: ../mirnadata/centplot.png Graphic file (type png)
 
 <use ../mirnadata/centplot.png>
@@ -915,45 +919,45 @@ Package pdftex.def Info: ../mirnadata/centplot.png used on input line 472.
 (pdftex.def)             Requested size: 187.89867pt x 144.53743pt.
  [9 <../mirnadata/splineplots13/uni/mmu-miR-100_13.png> <../mirnadata/splineplo
 ts13/uni/mmu-miR-136_13.png> <../mirnadata/splineplots13/uni/mmu-miR-152_13.png
-> <../mirnadata/splineplots13/uni/mmu-miR-219_13.png>] <../meth/jointfigures_be
-st/dnmt3a.png, id=73, 578.16pt x 433.62pt>
-File: ../meth/jointfigures_best/dnmt3a.png Graphic file (type png)
+> <../mirnadata/splineplots13/uni/mmu-miR-219_13.png>] <plots/meth/jointfigures
+_best/dnmt3a.png, id=73, 578.16pt x 433.62pt>
+File: plots/meth/jointfigures_best/dnmt3a.png Graphic file (type png)
 
-<use ../meth/jointfigures_best/dnmt3a.png>
-Package pdftex.def Info: ../meth/jointfigures_best/dnmt3a.png used on input lin
-e 489.
+<use plots/meth/jointfigures_best/dnmt3a.png>
+Package pdftex.def Info: plots/meth/jointfigures_best/dnmt3a.png used on input 
+line 497.
 (pdftex.def)             Requested size: 109.85153pt x 82.38866pt.
 
-<../meth/jointfigures_best/src.png, id=74, 578.16pt x 433.62pt>
-File: ../meth/jointfigures_best/src.png Graphic file (type png)
+<plots/meth/jointfigures_best/src.png, id=74, 578.16pt x 433.62pt>
+File: plots/meth/jointfigures_best/src.png Graphic file (type png)
 
-<use ../meth/jointfigures_best/src.png>
-Package pdftex.def Info: ../meth/jointfigures_best/src.png used on input line 4
-91.
+<use plots/meth/jointfigures_best/src.png>
+Package pdftex.def Info: plots/meth/jointfigures_best/src.png used on input lin
+e 499.
 (pdftex.def)             Requested size: 109.85153pt x 82.38866pt.
 
-<../meth/jointfigures_best/lox.png, id=75, 578.16pt x 433.62pt>
-File: ../meth/jointfigures_best/lox.png Graphic file (type png)
+<plots/meth/jointfigures_best/lox.png, id=75, 578.16pt x 433.62pt>
+File: plots/meth/jointfigures_best/lox.png Graphic file (type png)
 
-<use ../meth/jointfigures_best/lox.png>
-Package pdftex.def Info: ../meth/jointfigures_best/lox.png used on input line 4
-93.
+<use plots/meth/jointfigures_best/lox.png>
+Package pdftex.def Info: plots/meth/jointfigures_best/lox.png used on input lin
+e 501.
 (pdftex.def)             Requested size: 109.85153pt x 82.38866pt.
- [10 <../mirnadata/centplot.png> <../meth/jointfigures_best/dnmt3a.png> <../met
-h/jointfigures_best/src.png> <../meth/jointfigures_best/lox.png>] (./expression
-paper.bbl [11]) [12]
-<plots/newdata/timeerror.png, id=89, 939.51pt x 722.7pt>
+ (./expressionpaper.bbl [10 <../mirnadata/centplot.png> <./plots/meth/jointfigu
+res_best/dnmt3a.png> <./plots/meth/jointfigures_best/src.png> <./plots/meth/joi
+ntfigures_best/lox.png>] [11])
+[12] <plots/newdata/timeerror.png, id=89, 939.51pt x 722.7pt>
 File: plots/newdata/timeerror.png Graphic file (type png)
 
 <use plots/newdata/timeerror.png>
-Package pdftex.def Info: plots/newdata/timeerror.png used on input line 533.
+Package pdftex.def Info: plots/newdata/timeerror.png used on input line 541.
 (pdftex.def)             Requested size: 187.89867pt x 144.53743pt.
 
 <plots/newdata/performRL2.png, id=90, 939.51pt x 722.7pt>
 File: plots/newdata/performRL2.png Graphic file (type png)
 
 <use plots/newdata/performRL2.png>
-Package pdftex.def Info: plots/newdata/performRL2.png used on input line 540.
+Package pdftex.def Info: plots/newdata/performRL2.png used on input line 548.
 (pdftex.def)             Requested size: 187.89867pt x 144.53743pt.
 
 <plots/newdata/splineplots15/ERB_15_all.png, id=91, 939.51pt x 722.7pt>
@@ -961,7 +965,7 @@ File: plots/newdata/splineplots15/ERB_15_all.png Graphic file (type png)
 
 <use plots/newdata/splineplots15/ERB_15_all.png>
 Package pdftex.def Info: plots/newdata/splineplots15/ERB_15_all.png used on inp
-ut line 547.
+ut line 555.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineplots15/NME3_15_all.png, id=92, 939.51pt x 722.7pt>
@@ -969,7 +973,7 @@ File: plots/newdata/splineplots15/NME3_15_all.png Graphic file (type png)
 
 <use plots/newdata/splineplots15/NME3_15_all.png>
 Package pdftex.def Info: plots/newdata/splineplots15/NME3_15_all.png used on in
-put line 549.
+put line 557.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineplots15/polr2a_15_all.png, id=93, 939.51pt x 722.7pt>
@@ -977,7 +981,7 @@ File: plots/newdata/splineplots15/polr2a_15_all.png Graphic file (type png)
 
 <use plots/newdata/splineplots15/polr2a_15_all.png>
 Package pdftex.def Info: plots/newdata/splineplots15/polr2a_15_all.png used on 
-input line 551.
+input line 559.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineplots8/PDGFRA_8_all.png, id=94, 939.51pt x 722.7pt>
@@ -985,7 +989,7 @@ File: plots/newdata/splineplots8/PDGFRA_8_all.png Graphic file (type png)
 
 <use plots/newdata/splineplots8/PDGFRA_8_all.png>
 Package pdftex.def Info: plots/newdata/splineplots8/PDGFRA_8_all.png used on in
-put line 560.
+put line 568.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineplots8/Eln_8_all.png, id=95, 939.51pt x 722.7pt>
@@ -993,7 +997,7 @@ File: plots/newdata/splineplots8/Eln_8_all.png Graphic file (type png)
 
 <use plots/newdata/splineplots8/Eln_8_all.png>
 Package pdftex.def Info: plots/newdata/splineplots8/Eln_8_all.png used on input
- line 562.
+ line 570.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineplots8/INMT_8_all.png, id=96, 939.51pt x 722.7pt>
@@ -1001,7 +1005,7 @@ File: plots/newdata/splineplots8/INMT_8_all.png Graphic file (type png)
 
 <use plots/newdata/splineplots8/INMT_8_all.png>
 Package pdftex.def Info: plots/newdata/splineplots8/INMT_8_all.png used on inpu
-t line 564.
+t line 572.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineAndLinear/17_PDGFRA_13_all.png, id=97, 939.51pt x 722.7pt>
@@ -1009,7 +1013,7 @@ File: plots/newdata/splineAndLinear/17_PDGFRA_13_all.png Graphic file (type png
 )
 <use plots/newdata/splineAndLinear/17_PDGFRA_13_all.png>
 Package pdftex.def Info: plots/newdata/splineAndLinear/17_PDGFRA_13_all.png use
-d on input line 573.
+d on input line 581.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineAndLinear/14_Eln_13_all.png, id=98, 939.51pt x 722.7pt>
@@ -1017,7 +1021,7 @@ File: plots/newdata/splineAndLinear/14_Eln_13_all.png Graphic file (type png)
 
 <use plots/newdata/splineAndLinear/14_Eln_13_all.png>
 Package pdftex.def Info: plots/newdata/splineAndLinear/14_Eln_13_all.png used o
-n input line 575.
+n input line 583.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/splineAndLinear/1_LRAT_13_all.png, id=99, 939.51pt x 722.7pt>
@@ -1025,14 +1029,14 @@ File: plots/newdata/splineAndLinear/1_LRAT_13_all.png Graphic file (type png)
 
 <use plots/newdata/splineAndLinear/1_LRAT_13_all.png>
 Package pdftex.def Info: plots/newdata/splineAndLinear/1_LRAT_13_all.png used o
-n input line 577.
+n input line 585.
 (pdftex.def)             Requested size: 112.73633pt x 86.72025pt.
 
 <plots/newdata/centplotlimit.png, id=100, 939.51pt x 722.7pt>
 File: plots/newdata/centplotlimit.png Graphic file (type png)
 
 <use plots/newdata/centplotlimit.png>
-Package pdftex.def Info: plots/newdata/centplotlimit.png used on input line 587
+Package pdftex.def Info: plots/newdata/centplotlimit.png used on input line 595
 .
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
 
@@ -1040,26 +1044,26 @@ Package pdftex.def Info: plots/newdata/centplotlimit.png used on input line 587
 File: plots/newdata/centplot.png Graphic file (type png)
 
 <use plots/newdata/centplot.png>
-Package pdftex.def Info: plots/newdata/centplot.png used on input line 589.
+Package pdftex.def Info: plots/newdata/centplot.png used on input line 597.
 (pdftex.def)             Requested size: 140.92041pt x 108.40031pt.
- [13 <./plots/newdata/timeerror.png> <./plots/newdata/performRL2.png>] [14 <./p
+ [13 <./plots/newdata/timeerror.png>] [14 <./plots/newdata/performRL2.png> <./p
 lots/newdata/splineplots15/ERB_15_all.png> <./plots/newdata/splineplots15/NME3_
 15_all.png> <./plots/newdata/splineplots15/polr2a_15_all.png> <./plots/newdata/
 splineplots8/PDGFRA_8_all.png> <./plots/newdata/splineplots8/Eln_8_all.png> <./
-plots/newdata/splineplots8/INMT_8_all.png> <./plots/newdata/splineAndLinear/17_
-PDGFRA_13_all.png> <./plots/newdata/splineAndLinear/14_Eln_13_all.png> <./plots
-/newdata/splineAndLinear/1_LRAT_13_all.png>]
-[15 <./plots/newdata/centplotlimit.png> <./plots/newdata/centplot.png>]
+plots/newdata/splineplots8/INMT_8_all.png>]
+[15 <./plots/newdata/splineAndLinear/17_PDGFRA_13_all.png> <./plots/newdata/spl
+ineAndLinear/14_Eln_13_all.png> <./plots/newdata/splineAndLinear/1_LRAT_13_all.
+png> <./plots/newdata/centplotlimit.png> <./plots/newdata/centplot.png>]
 (./expressionpaper.aux)
 
-LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 16442 strings out of 493089
- 312437 string characters out of 6134842
- 353035 words of memory out of 5000000
- 19542 multiletter control sequences out of 15000+600000
+ 16444 strings out of 493089
+ 312497 string characters out of 6134842
+ 356042 words of memory out of 5000000
+ 19544 multiletter control sequences out of 15000+600000
  14400 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  55i,12n,54p,423b,475s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -1083,7 +1087,7 @@ ive/2015/texmf-dist/fonts/type1/public/amsfonts/cm/cmr8.pfb></usr/local/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmti10.pfb></usr/local/texlive/2015/
 texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/local/texlive/2015/t
 exmf-dist/fonts/type1/public/cm-super/sfrm1000.pfb>
-Output written on expressionpaper.pdf (15 pages, 9023753 bytes).
+Output written on expressionpaper.pdf (15 pages, 9025111 bytes).
 PDF statistics:
  186 PDF objects out of 1000 (max. 8388607)
  97 compressed objects within 1 object stream
