@@ -425,11 +425,10 @@ selecting time points.
 
 Figure~\ref{fig:mirnaplots_spec} presents the reconstructed and measured
 expression values for a few miRNAs using time points identified over
-mRNA dataset. Spline-based reconstruction performs
-better than linear reconstruction similar to mRNA dataset. Accurate
+mRNA dataset. Spline-based reconstruction performs better than linear reconstruction similar to mRNA dataset. Accurate
 prediction of different miRNA profiles show the importance of
-identified points over mRNA dataset. Among these miRNAs, mmu-miR-100 targets Fgfr3 and Igf1r,
-mmu-miR-136 targets Tgfb2. Similarly, mmu-miR-152 targets Meox2,
+identified points over mRNA dataset. Among these miRNAs, mmu-miR-100
+targets Fgfr3 and Igf1r, mmu-miR-136 targets Tgfb2. Similarly, mmu-miR-152 targets Meox2,
 Robo1, Fbn1, Nfya. Lastly, mmu-miR-219 targets PDGFRA, Eya2, Esr1,
 Esr2, Efnb2 and Robo1 some of which are associated with BPD in preterm infants~\cite{popova2014}.
 
@@ -456,16 +455,16 @@ Esr2, Efnb2 and Robo1 some of which are associated with BPD in preterm infants~\
 
 Detailed analysis of miRNA dataset shows clustered expression profiles
 of miRNAs as in Figure~\ref{fig:clustmirna}. We identified $8$ stable miRNA
-clusters by k-means algorithm~\cite{kmeans} where number of clusters is selected by
+clusters by k-means algorithm~\cite{kmeans} where the number of clusters is selected by
 Bayesian Information Criteria~\cite{bic}. We find clusters to change more frequently
 than mRNA data as miRNA is noisier than mRNA data~(See Supplementary
 Figure~\ref{fig:sup6} for mRNA clusters). After mapping each miRNA to
-corresponding genes by TargetScan~\cite{agarwal2015}, we run
+the set of corresponding genes by TargetScan~\cite{agarwal2015}, we run
 gene-enrichment analysis by FuncAssociate~\cite{berriz2003}. We find clusters to be enriched
 for several Gene Ontology biological processes~\cite{go}. For
 instance, cluster $4$ is enriched for single-organism cellular
 process, positive regulation of biological process, regulation of
-metabolic process, etc~(See Supplementary Table~\ref{tab:supxx}).
+metabolic process, etc.
 
 \begin{figure}
 \centering
@@ -476,20 +475,20 @@ metabolic process, etc~(See Supplementary Table~\ref{tab:supxx}).
 
 \subsection{Comparison of Temporal Methylation Data With The Expression Data}\label{sec:compareboth}
 
-%These points look slightly more uniform than
-%the points identified over gene-expression dataset. 
+%These points look more uniform than
+%the $13$ points identified over gene-expression dataset which can be due
+%to its lower sampling rate than expression profiles.
 \Tempselect identified $0.5$, $5$, $15$, $26$ as candidate points out
 of $8$ time points over temporal methylation data when we consider
 each locus independently. When we only use the same $8$ time points over
 gene-expression dataset, we also identified $0.5$, $5$, $15$, $26$ by running
 \Tempselect over all subset of possible time points. We have also
-observed the similarity between both datasets by plotting them jointly as in Figure~\ref{fig:methgene} for DNMT3A, SRC,
+observed similarity between both datasets by plotting them jointly as in Figure~\ref{fig:methgene} for DNMT3A, SRC,
 and LOX genes. Among the multiple methylation loci belonging to a gene, we select
 the most similar one in terms of pearson correlation~(See
 Supplementary Table~\ref{tab:sup2} for correlation analysis). Overall,
-similarity of the identified points when combined with comparison in
-the Figure suggest the possibility of global
-set of time points that are important for both genomic and epigenetic experiments.
+similarity of the identified points when combined with the similarity
+of the curves in the Figure suggest the possibility of global set of time points that are important for both genomic and epigenetic experiments.
 
 \begin{figure}
 \centering
@@ -629,25 +628,25 @@ Akt1 & 11 & & &  \\
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
-Gene & Number of loci  & & Gene & Number of loci  \\
+Gene & $r$  & & Gene & $r$ \\
 \hline
-Cdh11 & 14 & & Zfp536 & 16 \\
+Cdh11 & $0.60$ & & Lox & $0.88$ \\
 \hline
-Src & 11 & & Igfbp3 & 34 \\
+Src & $0.77$ & & Igfbp3 & $0.55$ \\
 \hline
-Sox9 & 16 & & Wif1 & 21 \\
+Sox9 & $0.45$ & & Wif1 & $0.54$ \\
 \hline
-Dnmt3a & 41 & & Vegfa & 20 \\
+Dnmt3a & $0.82$ & & Vegfa & $0.60$ \\
 \hline
-Eln & 20 & & Tnc & 4 \\
+Eln & $0.72$ & & Tnc & $-0.36$ \\
 \hline
-Foxf2 & 41 & & Lox & 17 \\
+Foxf2 & $0.62$ & & & \\
 \hline
-Akt1 & 11 & & &  \\
+Akt1 & $0.13$ & & &  \\
 \hline
 \end{tabular}
-\caption{Pearson correlation coefficient between expression and
-  methylation datasets for each gene.}
+\caption{Pearson correlation $r$  between expression and
+  methylation datasets over $8$ time points for each gene.}
 \label{tab:sup2}
 \end{table}
 
