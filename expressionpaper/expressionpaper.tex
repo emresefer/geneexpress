@@ -402,48 +402,51 @@ expression values for the time points determined by the mRNA analysis to reconst
 The results are presented in Figure~\ref{fig:mirnaerrplots}. In
 addition to the comparison included in the mRNA figure, the miRNA
 figure includes the optimal results for using miRNA data (as opposed
-to mRNA data) to select the points. As can be seen, the points selected by the mRNA analysis leads to
+to mRNA data) to select the points. Even though the noise of miRNA data is
+higher than mRNA dataset, relative ordering of the methods are almost
+similar to Figure~\ref{fig:errplots}. As can be seen, the points selected by the mRNA analysis leads to
 reconstruction that is much better than when using random points~($p <
 0.01$) highlighting the relationship between the two datasets and the
 ability to use one to determine points for the other. Further,
 performance using the mRNA set is very similar to the performance
 using the miRNA data itself. For example, when using the $13$
-selected mRNA points the average mean squared error is $0.3312$ whereas when
+selected mRNA points, the average mean squared error is $0.4312$ whereas when
 using the optimal points based on the miRNA data itself the error
- is $0.3042$. This serves as a strong indication that mRNAs can serve as a general proxy for
+ is $0.4042$. This serves as a strong indication that mRNAs can serve as a general proxy for
 selecting time points.
-
 %We also analyze the similarity of miRNA optimal points to mRNA optimal
 %points as in Figure~\ref{xxx}.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.2]{{../mirnadata/perform}.png}
-\caption{Performance analysis over miRNA dataset}
+\includegraphics[scale=0.25]{{plots/mirnadata/perform}.png}
+\caption{Performance of \Tempselect by increasing number of selected
+  points over miRNA dataset}
 \label{fig:mirnaerrplots}
 \end{figure}
 
 Figure~\ref{fig:mirnaplots_spec} presents the reconstructed and measured
 expression values for a few miRNAs using time points identified over
-mRNA dataset. Spline-based reconstruction performs better than linear reconstruction similar to mRNA dataset. Accurate
-prediction of different miRNA profiles show the importance of
+mRNA dataset. Accurate prediction of different miRNA profiles show the importance of
 identified points over mRNA dataset. Among these miRNAs, mmu-miR-100
 targets Fgfr3 and Igf1r, mmu-miR-136 targets Tgfb2. Similarly, mmu-miR-152 targets Meox2,
 Robo1, Fbn1, Nfya. Lastly, mmu-miR-219 targets PDGFRA, Eya2, Esr1,
-Esr2, Efnb2 and Robo1 some of which are associated with BPD in preterm infants~\cite{popova2014}.
+Esr2, Efnb2 and Robo1 some of which are associated with BPD in preterm
+infants~\cite{popova2014}. 
+%Spline-based reconstruction performs better than linear reconstruction similar to mRNA dataset.
 
 \begin{figure}[ht]
 \centering
 \begin{minipage}{1.0\textwidth}
-\subfloat[mmu-miR-100]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-100_13}.png}}
+\subfloat[mmu-miR-100]{\includegraphics[scale=0.15]{{plots/mirnadata/splineplots13/uni/mmu-miR-100_13}.png}}
 \hfill
-\subfloat[mmu-miR-136]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-136_13}.png}}
+\subfloat[mmu-miR-136]{\includegraphics[scale=0.15]{{plots/mirnadata/splineplots13/uni/mmu-miR-136_13}.png}}
 \\
 \centering
 \hfill
-\subfloat[mmu-miR-152]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-152_13}.png}}
+\subfloat[mmu-miR-152]{\includegraphics[scale=0.15]{{plots/mirnadata/splineplots13/uni/mmu-miR-152_13}.png}}
 \hfill
-\subfloat[mmu-miR-219]{\includegraphics[scale=0.15]{{../mirnadata/splineplots13/uni/mmu-miR-219_13}.png}}
+\subfloat[mmu-miR-219]{\includegraphics[scale=0.15]{{plots/mirnadata/splineplots13/uni/mmu-miR-219_13}.png}}
 \end{minipage}
 \caption{Predicted expression profiles of miRNAs a) mmu-miR-100, b)
   mmu-miR-136, c) mmu-miR-152, d) mmu-miR-219.}
@@ -468,7 +471,7 @@ metabolic process, etc.
 
 \begin{figure}
 \centering
-\includegraphics[scale=0.2]{{../mirnadata/centplot}.png}
+\includegraphics[scale=0.2]{{plots/mirnadata/centplot}.png}
 \caption{$8$ stable clusters}
 \label{fig:clustmirna}
 \end{figure}
