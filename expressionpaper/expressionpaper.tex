@@ -339,13 +339,21 @@ the performance highlighting the importance of initialization when
 searching large combinatorial spaces. Simulated annealing, weighting, and multiple point selection increases
 the performance only in a limited way~(Multiple point modification results are not presented due
 to space limitations). As the number of points used by the method increases, it leads to results that are very close to the error represented by
-noise in the data~($0.108$) even when only using half the points~(Supplementary Figure~\ref{fig:sup1} for noise in each time point). Relative order of the methods do not change if we also use
-additional anchor points E16.5 and E18.5 in our analysis~(Supplementary Figure~\ref{fig:sup2}).
+noise in the data~($0.108$) even when only using half the
+points~(Supplementary Figure~\ref{fig:sup1} for noise in each time
+point). Relative order of the methods do not change if we also use additional anchor points E16.5 and E18.5 in our analysis~(Supplementary Figure~\ref{fig:sup2}).
 
 \begin{figure}[ht]
 \centering
-\includegraphics[scale=0.23]{{plots/newdata/perform}.png}
-\caption{Performance of \Tempselect by increasing number of selected points}
+\begin{minipage}{1.0\textwidth}
+\subfloat[]{\includegraphics[scale=0.19]{{plots/newdata/performsub}.png}}
+\hfill
+\subfloat[]{\includegraphics[scale=0.19]{{plots/newdata/performsub2}.png}}
+\end{minipage}
+\caption{Performance of \Tempselect by increasing number of selected
+  points, a) \Tempselect with absolute difference heuristic vs Random
+  selection, b) Comparison of \Tempselect variations with the noise
+  in the data.}
 \label{fig:errplots}
 \end{figure}
 
@@ -486,21 +494,27 @@ of $8$ time points over temporal methylation data when we consider
 each locus independently. When we only use the same $8$ time points over
 gene-expression dataset, we also identified $0.5$, $5$, $15$, $26$ by running
 \Tempselect over all subset of possible time points. We have also
-observed similarity between both datasets by plotting them jointly as in Figure~\ref{fig:methgene} for DNMT3A, SRC,
-and LOX genes. Among the multiple methylation loci belonging to a gene, we select
-the most similar one in terms of pearson correlation~(See
-Supplementary Table~\ref{tab:sup2} for correlation analysis). Overall,
+found either high positive or high negative correlation between both
+datasets by plotting them jointly as in Figure~\ref{fig:methgene} for
+DNMT3A, SRC, and LOX genes. Among the multiple methylation loci belonging to a gene, we select
+the most correlated one in terms of absolute value of pearson correlation~(See
+Supplementary Table~\ref{tab:sup2} for correlation of all genes and
+Supplementary Fig.~\ref{fig:sup7} for distribution of correlation for loci of each gene). Overall,
 similarity of the identified points when combined with the similarity
-of the curves in the Figure suggest the possibility of global set of time points that are important for both genomic and epigenetic experiments.
+of the curves in the Figure suggest the possibility of global set of
+time points that are important for both genomic and epigenetic
+experiments. 
+%We also run significance analysis by shuffling the expression values of
+%genes. See Supplementary Figure~\ref{xxx} for analysis.
 
 \begin{figure}
 \centering
 \begin{minipage}{1.0\textwidth}
-\subfloat[DNMT3A]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/dnmt3a}.png}}
+\subfloat[DNMT3A]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/abs/dnmt3a}.png}}
 \hfill
-\subfloat[SRC]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/src}.png}}
+\subfloat[SRC]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/abs/src}.png}}
 \hfill
-\subfloat[LOX]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/lox}.png}}
+\subfloat[LOX]{\includegraphics[scale=0.19]{{plots/meth/jointfigures_best/abs/lox}.png}}
 \end{minipage}
 \caption{Comparison of gene expression and methylation data for genes a) DNMT3A, b) SRC, c) LOX.}
 \label{fig:methgene}
@@ -602,6 +616,13 @@ benchmark to reduce the experimental cost.
 \label{fig:sup6}
 \end{figure}
 
+\begin{figure}
+\centering
+\includegraphics[scale=0.25]{{plots/meth/jointfigures_best/abs/valdist}.png}
+\caption{Distribution of gene expression correlation for loci of each gene}
+\label{fig:sup7}
+\end{figure}
+
 \begin{table}[ht]
 \centering
 \begin{tabular}{|c|c|c|c|c|}
@@ -627,25 +648,52 @@ Akt1 & 11 & & &  \\
 \label{tab:sup1}
 \end{table}
 
+
+% \begin{table}
+% \centering
+% \begin{tabular}{|c|c|c|c|c|}
+% \hline
+% Gene & $r$  & & Gene & $r$ \\
+% \hline
+% Cdh11 & $0.60$ & & Lox & $0.88$ \\
+% \hline
+% Src & $0.77$ & & Igfbp3 & $0.55$ \\
+% \hline
+% Sox9 & $0.45$ & & Wif1 & $0.54$ \\
+% \hline
+% Dnmt3a & $0.82$ & & Vegfa & $0.60$ \\
+% \hline
+% Eln & $0.72$ & & Tnc & $-0.36$ \\
+% \hline
+% Foxf2 & $0.62$ & & & \\
+% \hline
+% Akt1 & $0.13$ & & &  \\
+% \hline
+% \end{tabular}
+% \caption{Pearson correlation $r$  between expression and
+%   methylation datasets over $8$ time points for each gene.}
+% \label{tab:sup2}
+% \end{table}
+
 \begin{table}
 \centering
 \begin{tabular}{|c|c|c|c|c|}
 \hline
 Gene & $r$  & & Gene & $r$ \\
 \hline
-Cdh11 & $0.60$ & & Lox & $0.88$ \\
+Cdh11 & $-0.65$ & & Lox & $0.88$ \\
 \hline
-Src & $0.77$ & & Igfbp3 & $0.55$ \\
+Src & $-0.92$ & & Igfbp3 & $-0.75$ \\
 \hline
-Sox9 & $0.45$ & & Wif1 & $0.54$ \\
+Sox9 & $-0.74$ & & Wif1 & $0.54$ \\
 \hline
-Dnmt3a & $0.82$ & & Vegfa & $0.60$ \\
+Dnmt3a & $-0.876$ & & Vegfa & $-0.81$ \\
 \hline
-Eln & $0.72$ & & Tnc & $-0.36$ \\
+Eln & $0.72$ & & Tnc & $-0.70$ \\
 \hline
-Foxf2 & $0.62$ & & & \\
+Foxf2 & $-0.84$ & & & \\
 \hline
-Akt1 & $0.13$ & & &  \\
+Akt1 & $-0.91$ & & &  \\
 \hline
 \end{tabular}
 \caption{Pearson correlation $r$  between expression and
