@@ -310,11 +310,12 @@ def estQual(tusespl,x2val,points,rempoints):
     return sumval                  
 
             
-def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
+def runGreedy(times,usedata,yvallist,count,weights,reglambda,initmode="change"):
     """runs greedy method
     Args:
        times,usedata:
        count,weights:
+       reglambda: regularization lambda
     Returns:   
     """
     def convertForm(curtimes,usedata):
@@ -344,7 +345,6 @@ def runGreedy(times,usedata,yvallist,count,weights,initmode="change"):
         
     fixedpoints = [0.5,26.0]
      
-    reglambda = 0.01
     if True:
        avgyvallist = []
        for cind,cdata in enumerate(usedata):
@@ -799,12 +799,46 @@ def readExpression():
     return expgene2data
 
 
-def makeJointPlot(histarr,exparr,genespl,geneknots,genetimes,plotpath):
+def makeDistPlot(gene2corrs,plotpath):
+    """make dist. plot
+    Args:
+       gene2corrs:
+       plotpath:
+    Returns:
+    """    
+    plt.clf()
+    plt.rc('font', family='serif', size=20)
+    fig = matplotlib.pyplot.gcf()
+    fig.set_size_inches(13,10)
+    FSIZE = 30
+    YFSIZE = 30
+    LEGENDSIZE = 16
+    MARKERSIZE = 20
+    DPI = 300
+
+    colors = ["g","k","r","b","y","c","m","g","k","r","b","y","c","m"]
+    markers = ["o"] * 20
+    usegenes = gene2corrs.keys()    
+    for tind,tgene in enumerate(usegenes):
+        plt.plot([tind+1]*len(gene2corrs[tgene]), gene2corrs[tgene], marker=markers[tind],markersize=MARKERSIZE,linestyle='None',color=colors[tind])   
+    plt.xlim(0.5,len(usegenes)+0.5)
+    plt.xticks(range(1,len(usegenes)+1), [tgene.upper() for tgene in usegenes], rotation='vertical')
+    [i.set_color(colors[tind]) for tind,i in enumerate(plt.gca().get_xticklabels())]
+    xlabel = "Genes"
+    plt.xlabel(xlabel,fontsize=FSIZE)
+    ylabel = "Pearson correlation r"
+    plt.ylabel(ylabel,fontsize=FSIZE)
+    plt.subplots_adjust(left=0.11, right=0.93, top=0.98, bottom=0.18) 
+    plt.savefig(plotpath, dpi=DPI)
+    
+
+def makeJointPlot(histarr,exparr,genespl,geneknots,genetimes,plotpath,simval):
     """make joint plot
     Args:
        histarr,exparr:
        genespl,geneknots,genetimes:
        fpath:
+       simval: simil value
     Returns:
     """    
     plt.clf()
@@ -826,16 +860,13 @@ def makeJointPlot(histarr,exparr,genespl,geneknots,genetimes,plotpath):
     xvals = sorted(list(set(histxvals + expxvals)))
 
     fig, ax1 = plt.subplots()
-    #ymax,ymin = max(allyvals)*1.1, min(allyvals)*1.3 if min(allyvals) < 0 else min(allyvals)*0.8
-    expymax,expymin = max(expyvals)*1.2, min(expyvals)*1.1
-    histymax,histymin = max(histyvals)+1.0, min(histyvals)*1.1
+    expymax,expymin = max(expyvals)*1.2, min(expyvals)-1.0
+    histymax,histymin = max(histyvals)+5.0, min(histyvals)-1.0
     plt.xlim(0.0,max(xvals)+0.5)
     
-    locpos = 4
+    locpos = 1
     xlabel = "Days"
-    ylabel = ""
     plt.xlabel(xlabel,fontsize=FSIZE)
-    plt.ylabel(ylabel,fontsize=YFSIZE)
 
     expoutx = sorted(exparr.keys())
     expouty = [exparr[ttime][0] for ttime in expoutx]
@@ -843,14 +874,16 @@ def makeJointPlot(histarr,exparr,genespl,geneknots,genetimes,plotpath):
     assert sorted(geneknots) == geneknots
     knotvals = [scipy.interpolate.splev(knot,genespl._eval_args, der=0, ext=0) for knot in geneknots]
     ln2 = ax1.plot(geneknots,knotvals,marker="+",markersize=MARKERSIZE,linestyle='None',color="k",label="Knots")
-    #ax1.plot(expoutx,expouty,marker="p",markersize=MARKERSIZE,linestyle='None',color="r",label="Expression")
     expoutx = sorted(histarr.keys())
     expouty = [histarr[ttime][0] for ttime in expoutx]
     ax2 = ax1.twinx()
     ln3 = ax2.plot(expoutx,expouty,marker="*",markersize=MARKERSIZE,linestyle='None',color="g",label="Methylation")
     ax1.set_ylim(expymin,expymax)
     ax2.set_ylim(histymin,histymax)
-    
+
+    ax1.set_ylabel("Relative Expression",fontsize=YFSIZE)
+    ax2.set_ylabel("Relative Methylation percent.",fontsize=YFSIZE)
+      
     for tl in ax2.get_yticklabels():
         tl.set_color('g')
     for tl in ax1.get_yticklabels():
@@ -858,8 +891,9 @@ def makeJointPlot(histarr,exparr,genespl,geneknots,genetimes,plotpath):
 
     lns = ln1+ln2+ln3
     labs = [l.get_label() for l in lns]
-    plt.legend(lns, labs, loc=0,prop={'size':LEGENDSIZE})
-    plt.subplots_adjust(left=0.11, right=0.88, top=0.93, bottom=0.15) 
+    plt.title(r"r = {0}".format(round(simval,3)))
+    plt.legend(lns, labs, loc=locpos,prop={'size':LEGENDSIZE})
+    plt.subplots_adjust(left=0.13, right=0.87, top=0.93, bottom=0.12) 
     plt.savefig(plotpath, dpi=DPI)
 
 
@@ -910,7 +944,141 @@ def fitSpline(linedata,fixedpoints):
     return inspl,curknots
 
 
-def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times,genetimepoints):
+def fitMethSpline(moddata,usetimes):
+    """fit spline meth data
+    Args:
+       moddata:
+       usetimes:
+    Returns:
+    """
+    yvallist = deepcopy(moddata)
+    x2val = [{tval:np.median(yvallist[yind][tval]) for tind,tval in enumerate(usetimes)} for yind in xrange(len(yvallist))]
+    weights = [1.0]*len(yvallist)
+    reglambda = 0.1
+    count = 5
+    sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(usetimes,moddata,yvallist,count,weights,reglambda)
+    print points
+    
+    rempoints = list(set(usetimes) - set(points))
+    print "selected points are: ",points
+    avgyvallist = []
+    for cind,cdata in enumerate(moddata):
+        cavgdata = [np.median(list(moddata[cind][ttime])) for tind,ttime in enumerate(usetimes)]
+        avgyvallist.append(list(cavgdata))
+    print "out: ",count,sumval,avgsumval            
+    
+    knotlens = {}
+    knotarr = []
+    for knots in y2knots:
+        assert sorted(knots) == knots
+        knotlens.setdefault(len(knots),0)
+        knotlens[len(knots)] += 1
+        knotarr.append(len(knots))
+    print knotlens
+          
+    regs = [0.01]
+    mapval = {tval:tind for tind,tval in enumerate(usetimes)}
+    allyvals = [[avgyvallist[yind][mapval[tpoint]] for tpoint in usetimes] for yind in xrange(len(yvallist))]
+
+    avgdist = 0.0
+    knotlens = {}
+    for knots in y2knots:
+        assert sorted(knots) == knots
+        curavgdist = 0.0
+        for ind1 in xrange(len(knots)-1):
+            curavgdist += abs(knots[ind1+1]-knots[ind1])
+        avgdist += curavgdist/float(len(knots)-1)
+        knotlens.setdefault(len(knots),0)
+        knotlens[len(knots)] += 1
+    print "knot len distribution"
+    print knotlens
+    
+    if True:
+     collects = []
+     for gind,youts in enumerate(yvals):
+         outspl = outsplines[gind]
+         tyvals = [item for item in youts] + [scipy.interpolate.splev(knot,outspl._eval_args, der=0, ext=0) for knot in y2knots[gind]] + [x2val[gind][rpoint] for rpoint in rempoints] #+ [scipy.interpolate.splev(ttime,outspl._eval_args, der=0, ext=0) for ttime in times]
+         collects.extend(tyvals)
+     print min(collects), max(collects)
+     #exit(1)
+         
+     for gind,youts in enumerate(yvals):
+        foundlambda, foundknots,foundspl = None, None, None
+        mindifval = 1000.0
+        minrealval = None
+        for treglambda in regs:
+            allspl = scipy.interpolate.UnivariateSpline(usetimes, allyvals[gind], s=treglambda, k=3)
+            inferknots = allspl.get_knots()
+            if len(inferknots) == knotarr[gind]:
+               foundlambda = treglambda
+               foundknots = list(inferknots)
+               foundspl = deepcopy(allspl)
+               break
+            difval = abs(len(inferknots)-knotarr[gind])
+            if difval < mindifval:
+               mindifval = difval
+               minrealval = len(inferknots)
+        if foundlambda != None:
+           print ind2gene[gind], len(foundknots),foundlambda
+        else:
+           print ind2gene[gind], knotarr[gind], mindifval, minrealval
+
+        yvaldictout = {"SplineFit": list(youts)}
+        remyvals = [x2val[gind][rpoint] for rpoint in rempoints]
+        gene = ind2gene[gind]
+        plotpath = "{0}/{1}/{2}_{3}".format(plotfolder,weightmode,gene.replace("/",","),len(points))
+        print plotpath
+        if os.path.exists(plotpath+".png"):
+           print "not writing" 
+           continue
+
+        trixvals = []
+        triyvals = []
+        #trixvals = [0.5,7.0,28.0]
+        #triyvals = [avgyvallist[gind][mapval[trixval]] for trixval in trixvals]
+
+        if len(y2knots[gind]) > 4:
+           continue 
+        makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,trixvals,triyvals)
+        #makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,(min(collects),max(collects)))
+           
+        allplotpath = "{0}/{1}_{2}_all".format(plotfolder,gene.replace("/",","),len(points))
+        if os.path.exists(allplotpath+".png"):
+           continue 
+        if foundlambda != None:
+           makeplotMainAll(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,allplotpath,foundknots,foundspl,usetimes,trixvals,triyvals)
+
+
+def pvalue():
+    """estimate p value
+    """  
+    for globgene in histgene2data.keys():
+        print globgene
+        for tgene in histgene2data.keys():
+            if tgene == globgene:
+               continue 
+            if tgene == "zfp536":
+               continue
+            elif tgene == "akt1":
+               tgene2 = "akt"
+            elif tgene == "vegfa":
+               tgene2 = "vegf"
+            else:
+               tgene2 = tgene
+            gene2corrs[tgene] = []   
+            maxsim = 5.0 if corrmode == "normal" else 0.0
+            globtout = [round(np.median(expgene2data[tgene2][ttime]),5) for ttime in times]
+            for tind,tdict in enumerate(histgene2data[globgene]):
+                tout = [tdict[ttime][0] for ttime in times]
+                locsim = scipy.stats.pearsonr(tout,globtout)[0]
+                if not math.isnan(locsim):
+                   gene2corrs[tgene].append(locsim)
+            maxsim,maxind = getMax(gene2corrs[tgene])        
+            print tgene, maxsim, corrmode
+        exit(1)           
+           
+
+def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times,genetimepoints,corrmode="abs"):
     """best match for each gene
     Args:
        moddata,expgene2data:
@@ -918,10 +1086,26 @@ def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times,genetimepoints):
        ofolder:
        times:
        genetimepoints: time points for gene expression
+       corrmode: correlation mode
     Returns:
     """
+    def compare(val1,val2):
+        """compare values
+        """
+        return abs(val1) >= abs(val2) if corrmode == "abs" else val1 >= val2
+    def getMax(simvals): 
+        maxsim = max([abs(item) for item in simvals])
+        if maxsim in simvals:
+           maxind = simvals.index(maxsim)
+        else:
+           maxind = simvals.index(-1.0*maxsim)
+           maxsim = -1.0*maxsim
+        return maxsim,maxind
+    if not os.path.exists("{0}/{1}".format(ofolder,corrmode)):
+       os.makedirs("{0}/{1}".format(ofolder,corrmode)) 
+    assert corrmode in ["abs","normal"]
     histgene2data = mapHistoneData(moddata,gene2pos)
-    gene2corr = {}     
+    gene2corrs = {}
     for tgene in histgene2data.keys():
         if tgene == "zfp536":
            continue
@@ -930,27 +1114,42 @@ def plotBestMatch(moddata,expgene2data,gene2pos,ofolder,times,genetimepoints):
         elif tgene == "vegfa":
            tgene2 = "vegf"
         else:
-           tgene2 = tgene   
-        maxsim = -5.0
-        maxind = None
+           tgene2 = tgene
+        gene2corrs[tgene] = []   
+        maxsim = 5.0 if corrmode == "normal" else 0.0
+       
         globtout = [round(np.median(expgene2data[tgene2][ttime]),5) for ttime in times]
         for tind,tdict in enumerate(histgene2data[tgene]):
             tout = [tdict[ttime][0] for ttime in times]
             locsim = scipy.stats.pearsonr(tout,globtout)[0]
-            if locsim >= maxsim:
-               maxsim = locsim 
-               maxind = tind
-        print tgene, maxsim
+            if not math.isnan(locsim):
+               gene2corrs[tgene].append(locsim)
+        maxsim,maxind = getMax(gene2corrs[tgene])        
+        print tgene, maxsim, corrmode
         inspl,curknots = fitSpline(expgene2data[tgene2],genetimepoints)
-        fpath = "{0}/{1}.png".format(ofolder,tgene)
-        makeJointPlot(histgene2data[tgene][maxind],expgene2data[tgene2],inspl,curknots,genetimepoints,fpath)
-        gene2corr[tgene] = maxsim
-    
-    pearsonpath = "{0}/genepearson.txt".format(ofolder)
-    with open(pearsonpath,"w") as outfile:
-        for tgene,maxsim in gene2corr.items():   
-            outfile.write("{0}\t{1}\n".format(tgene,maxsim))
+        fpath = "{0}/{1}/{2}.png".format(ofolder,corrmode,tgene)
+        if os.path.exists(fpath):
+           continue 
+        makeJointPlot(histgene2data[tgene][maxind],expgene2data[tgene2],inspl,curknots,genetimepoints,fpath,maxsim)
 
+    #distribution plots
+    fpath = "{0}/{1}/valdist.png".format(ofolder,corrmode,tgene)
+    if not os.path.exists(fpath):
+       makeDistPlot(gene2corrs,fpath)
+    exit(1)    
+    #p value analysis
+    #pvalues()
+            
+    pearsonpath = "{0}/{1}/genepearson.txt".format(ofolder,corrmode)
+    pearsonpathall = "{0}/{1}/genepearsonall.txt".format(ofolder,corrmode)
+    if True: #not os.path.exists(pearsonpath) or not os.path.exists(pearsonpathall):  
+       with open(pearsonpath,"w") as outfile:
+          with open(pearsonpathall,"w") as outfile2:
+             for tgene,simvals in gene2corrs.items():
+                 maxsim,maxind = getMax(simvals)
+                 outfile.write("{0}\t{1}\n".format(tgene,round(maxsim,5)))
+                 outfile2.write("{0}\t{1}\n".format(tgene,"\t".join([str(round(item,5)) for item in simvals])))
+    exit(1) 
 
 plotfolder = "splineplots"
 if not os.path.exists(plotfolder):
@@ -1020,117 +1219,16 @@ for tgene in histgene2data.keys():
     simil = scipy.stats.pearsonr(tout,globtout)[0]
     print tgene, simil
     inspl,curknots = fitSpline(expgene2data[tgene2],usetimepoints)
-    fpath = "{0}/{1}.png".format(ofolder,tgene)  
+    fpath = "{0}/{1}.png".format(ofolder,tgene)
+    if os.path.exists(fpath):
+       continue
     allgene2corr[tgene] = simil
     makeJointPlot(histgene2data[tgene],expgene2data[tgene2],inspl,curknots,usetimepoints,fpath)
 print allgene2corr
+
+fitMethSpline(moddata,usetimes)
 exit(1)
 
-yvallist = deepcopy(moddata)
-x2val = [{tval:np.median(yvallist[yind][tval]) for tind,tval in enumerate(usetimes)} for yind in xrange(len(yvallist))]
-weights = [1.0]*len(yvallist)
-sumval, avgsumval, points, yvals, y2knots, outsplines = runGreedy(times,moddata,yvallist,5,weights)
-
-if True:
-    rempoints = list(set(usetimes) - set(points))
-     
-    print "selected points are: "       
-    print points
-
-    avgyvallist = []
-    for cind,cdata in enumerate(moddata):
-        cavgdata = [np.median(list(moddata[cind][ttime])) for tind,ttime in enumerate(times)]
-        avgyvallist.append(list(cavgdata))
-           
-    print "out: ",count,sumval,avgsumval            
-    
-    knotlens = {}
-    knotarr = []
-    for knots in y2knots:
-        assert sorted(knots) == knots
-        knotlens.setdefault(len(knots),0)
-        knotlens[len(knots)] += 1
-        knotarr.append(len(knots))
-        
-    #regs = [5.0,10.0,20.0,7.5,8.0,9.0,6.0,12.5,15.0,17.5,4.5,4.0,3.5,3.0,2.75,2.5,2.0,2.25,1.5,1.75,1.0,1.25,0.75,0.5,0.25]
-    #regs = [0.0001,0.01,0.1]
-    regs = [0.01]
-    mapval = {tval:tind for tind,tval in enumerate(usetimes)}
-    allyvals = [[avgyvallist[yind][mapval[tpoint]] for tpoint in usetimes] for yind in xrange(len(yvallist))]
-
-    avgdist = 0.0
-    knotlens = {}
-    for knots in y2knots:
-        assert sorted(knots) == knots
-        curavgdist = 0.0
-        for ind1 in xrange(len(knots)-1):
-            curavgdist += abs(knots[ind1+1]-knots[ind1])
-        avgdist += curavgdist/float(len(knots)-1)
-        knotlens.setdefault(len(knots),0)
-        knotlens[len(knots)] += 1
-    print "knot len distribution"
-    print knotlens
-    
-    if True:
-     print "plotting starts"
-
-     collects = []
-     for gind,youts in enumerate(yvals):
-         outspl = outsplines[gind]
-         tyvals = [item for item in youts] + [scipy.interpolate.splev(knot,outspl._eval_args, der=0, ext=0) for knot in y2knots[gind]] + [x2val[gind][rpoint] for rpoint in rempoints] #+ [scipy.interpolate.splev(ttime,outspl._eval_args, der=0, ext=0) for ttime in times]
-         collects.extend(tyvals)
-     print min(collects), max(collects)
-     #exit(1)
-         
-     for gind,youts in enumerate(yvals):
-        foundlambda, foundknots,foundspl = None, None, None
-        mindifval = 1000.0
-        minrealval = None
-        for treglambda in regs:
-            allspl = scipy.interpolate.UnivariateSpline(usetimes, allyvals[gind], s=treglambda, k=3)
-            inferknots = allspl.get_knots()
-            if len(inferknots) == knotarr[gind]:
-               foundlambda = treglambda
-               foundknots = list(inferknots)
-               foundspl = deepcopy(allspl)
-               break
-            difval = abs(len(inferknots)-knotarr[gind])
-            if difval < mindifval:
-               mindifval = difval
-               minrealval = len(inferknots)
-        if foundlambda != None:
-           print ind2gene[gind], len(foundknots),foundlambda
-        else:
-           print ind2gene[gind], knotarr[gind], mindifval, minrealval
-
-        yvaldictout = {"SplineFit": list(youts)}
-        remyvals = [x2val[gind][rpoint] for rpoint in rempoints]
-        gene = ind2gene[gind]
-        plotpath = "{0}/{1}/{2}_{3}".format(plotfolder,weightmode,gene.replace("/",","),len(points))
-        print plotpath
-        if os.path.exists(plotpath+".png"):
-           print "not writing" 
-           continue
-
-
-        trixvals = []
-        triyvals = []
-        #trixvals = [0.5,7.0,28.0]
-        #triyvals = [avgyvallist[gind][mapval[trixval]] for trixval in trixvals]
-
-        if len(y2knots[gind]) > 4:
-           continue 
-        makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,trixvals,triyvals)
-        #makeplotMain(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,plotpath,usetimes,(min(collects),max(collects)))
-           
-        allplotpath = "{0}/{1}_{2}_all".format(plotfolder,gene.replace("/",","),len(points))
-        if os.path.exists(allplotpath+".png"):
-           continue 
-        if foundlambda != None:
-           makeplotMainAll(usetimes,yvaldictout,points,y2knots[gind],gene,outsplines[gind],rempoints,remyvals,allplotpath,foundknots,foundspl,usetimes,trixvals,triyvals)
-
-
-exit(1)
 
 
 
